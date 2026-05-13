@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Estado de Solicitudes - Solicitante</title>
+
+    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        /* --- ESTILO ACTUALIZADO: MORADO VIBRANTE --- */
+        :root {
+            --clan-purple: #7000cc; 
+        }
+
+        .bg-clan-sidebar {
+            background-color: var(--clan-purple) !important;
+            background-image: none !important;
+        }
+
+        .text-clan-purple {
+            color: var(--clan-purple) !important;
+        }
+
+        /* --- TÍTULO PRINCIPAL (Gris y fino) --- */
+        .page-title {
+            font-size: 2.8rem;
+            color: #5a5c69; 
+            font-weight: 300; 
+            margin-bottom: 0;
+        }
+        
+        /* --- BOTÓN DE FLECHA MORADO --- */
+        .btn-back-purple {
+            background-color: var(--clan-purple);
+            border-color: var(--clan-purple);
+            color: white;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn-back-purple:hover {
+            background-color: #5a00a3; /* Un poco más oscuro al pasar el cursor */
+            border-color: #5a00a3;
+            color: white;
+        }
+        /* ---------------------------------------------- */
+
+        .custom-card-border {
+            border: 1px solid #b3b3b3;
+            border-radius: 15px;
+        }
+        .btn-status {
+            border-radius: 20px;
+            font-weight: bold;
+            color: #000;
+            padding: 5px 25px;
+            font-size: 0.9rem;
+        }
+        .bg-rechazada {
+            background-color: #ff6b6b;
+        }
+        .bg-aprobada {
+            background-color: #2ed573;
+        }
+        .search-bar-custom {
+            border: 1px solid #999;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .search-bar-custom input {
+            border: none;
+            box-shadow: none !important;
+        }
+        .search-bar-custom .input-group-text {
+            background: #fff;
+            border: none;
+        }
+        
+        /* Efecto hover para las filas unificadas */
+        .card-row-hover:hover {
+            background-color: #f8f9fc;
+        }
+    </style>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <ul class="navbar-nav bg-clan-sidebar sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <a class="sidebar-brand d-flex align-items-center justify-content-center my-0 px-3" href="paginaprincipal.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">CLAN INVENTORY</div>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item">
+                <a class="nav-link" href="paginaprincipal.html">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>INICIO</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                <a class="nav-link" href="Pagina de productos 1.html">
+                    <i class="fas fa-fw fa-box"></i>
+                    <span>CATÁLOGO</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <li class="nav-item active">
+                <a class="nav-link" href="Estado de solicitudes.html">
+                    <i class="fas fa-fw fa-list-alt"></i>
+                    <span>ESTADO DE SOLICITUDES</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                <a class="nav-link" href="notificaciones.html">
+                    <i class="fas fa-fw fa-bell"></i>
+                    <span>NOTIFICACIONES</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <li class="nav-item">
+                <a class="nav-link" href="perfil.html">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>MI PERFIL</span></a>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <div class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100">
+                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold" id="page-title">ESTADO DE SOLICITUDES</h1>
+                    </div>
+
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <ul class="navbar-nav ml-auto">
+
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="notificaciones.html" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Centro de Notificaciones
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-check text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">13 de Abril, 2026</div>
+                                        <span class="font-weight-bold">Tu solicitud fue aprobada.</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">12 de Abril, 2026</div>
+                                        Tu solicitud est&aacute; en proceso.
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar todas</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="perfil.html" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Luis Quillas</span>
+                                <img class="img-profile rounded-circle" src="../../img/undraw_profile.svg">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="perfil.html">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar Sesi&oacute;n
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1 class="page-title">Estado de solicitudes:</h1>
+                        <a href="paginaprincipal.html" class="btn btn-back-purple text-white d-flex justify-content-center align-items-center" style="width: 70px; height: 70px; border-radius: 50%;">
+                            <i class="fas fa-arrow-left fa-3x"></i>
+                        </a>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-4 pb-2">
+                        <h3 class="font-weight-normal mr-3 mb-0 text-clan-purple">Mis solicitudes activas:</h3>
+                        <div class="input-group search-bar-custom" style="width: 350px;">
+                            <input type="text" class="form-control" placeholder="Buscar solicitud por ID......" aria-label="Search">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search text-dark" style="font-size: 1.2rem;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-xl-10">
+
+                            <div class="custom-card-border bg-white shadow-sm mb-4" style="overflow: hidden;">
+                                
+                                <div class="card border-0 rounded-0 shadow-none card-row-hover" style="border-bottom: 1px solid #e3e6f0 !important;">
+                                    <div class="card-body d-flex justify-content-between align-items-center p-4">
+                                        <div class="text-dark" style="font-size: 1.1rem; line-height: 1.6;">
+                                            <div>Solicitud ID: #783</div>
+                                            <div>Fecha: 03/03/26</div>
+                                            <div>Cantidad de art&iacute;culos solicitados: 4</div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-rechazada btn-status mr-3 text-center">
+                                                Rechazada
+                                            </div>
+                                            <div class="bg-rechazada text-white rounded-circle d-flex justify-content-center align-items-center border border-dark" style="width: 45px; height: 45px;">
+                                                <i class="fas fa-exclamation" style="font-size: 1.5rem;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card border-0 rounded-0 shadow-none card-row-hover">
+                                    <div class="card-body d-flex justify-content-between align-items-center p-4">
+                                        <div class="text-dark" style="font-size: 1.1rem; line-height: 1.6;">
+                                            <div>Solicitud ID: #784</div>
+                                            <div>Fecha: 15/03/26</div>
+                                            <div>Cantidad de art&iacute;culos solicitados: 4</div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-aprobada btn-status mr-3 text-center text-white">
+                                                Aprobada
+                                            </div>
+                                            <div class="bg-aprobada text-white rounded-circle d-flex justify-content-center align-items-center border border-dark" style="width: 45px; height: 45px;">
+                                                <i class="fas fa-check" style="font-size: 1.5rem;"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Clan Inventory 2026</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">&iquest;Listo para salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Selecciona "Cerrar Sesi&oacute;n" si est&aacute;s listo para terminar tu sesi&oacute;n actual.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="../../auth/login.html">Cerrar Sesi&oacute;n</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../../js/sb-admin-2.min.js"></script>
+    <script>
+    document.querySelectorAll('.card').forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+            if (this.querySelector('.bg-rechazada')) {
+                window.location.href = 'Solicitud Rechazada.html';
+            } else if (this.querySelector('.bg-aprobada')) {
+                window.location.href = 'Solicitud Aprobada.html';
+            }
+        });
+    });
+    </script>
+</body>
+</html>

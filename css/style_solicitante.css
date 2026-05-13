@@ -1,0 +1,202 @@
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+    list-style: none !important;
+}
+
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.menu{
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+.menu .navbar ul li{
+    position: relative;
+    float: left;
+
+}
+
+.menu .navbar ul li a {
+    font-size: 18px;
+    padding: 20px;
+    font-weight: 600;
+    color: #1D1D1B;
+    display: block;
+}
+
+.menu .navbar ul li a:hover{
+    color: #7203c1;
+}
+
+#menu{
+    display: none;
+}
+
+.menu-icono{
+    width: 25px;
+}
+
+.menu label{
+    cursor: pointer;
+    display: none;
+}
+
+.submenu{
+    position: relative !important;
+}
+
+.menu {
+    position: relative;
+    z-index: 9999 !important; 
+}
+
+/* Ocultamos la cajita por defecto */
+.submenu #cajita {
+    display: none;
+}
+
+/* Diseño de la cajita flotante */
+.submenu:hover #cajita {
+    display: block; /* Muestra la cajita al pasar el mouse */
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 9999 !important; /* Capa máxima para que nada se le sobreponga */
+    background-color: #ebd4f7; /* Tu morado claro */
+    padding: 25px;
+    min-width: 450px;
+    border-radius: 12px;
+    /* Una sombra fuerte para dar el efecto visual de que está "flotando" por encima */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); 
+}
+
+/* Quitamos los puntos raros (viñetas) que aparecen en la tabla */
+#lista-carrito * {
+    list-style: none !important;
+}
+
+table{
+    width: 100%;
+}
+
+th, td{
+    color: #FFFFFF;
+}
+
+.borrar{
+    background-color: #7203c1;
+    border-radius: 50%;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #FFFFFF;
+    font: 800;
+
+}
+
+.products{
+    padding: 0 0 50px 0;
+    text-align: center;
+}
+
+.box-container{
+    margin-top: 55px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.box{
+    border-top: 5px solid #7203c1;
+    padding: 20px;
+    border-radius: 15px;
+    z-index: 1000;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.box:nth-child(1),
+.box:nth-child(2),
+.box:nth-child(3),
+.box:nth-child(4) {
+    display: inline-block;
+}
+
+.box img {
+    width: 120px;
+}
+
+.product-txt{
+    font-size: 20px;
+    color: #1D1D1B;
+    margin-bottom: 10px;
+}
+
+.product-txt p{
+    margin-bottom: 25px;
+}
+
+/* Color de categoria de la BOX */
+.categoria{
+    font-size: 15px;
+    color: #7203c1;
+}
+
+.btn-2{
+    background-color: #7203c1;
+    margin-top: 50px;
+    display: inline-block;
+    padding: 13px 35px;
+    border-radius: 25px;
+    color: #FFFFFF;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-2:hover{
+    background-color: #5a0299;
+}
+
+.btn-3{
+    display: inline-block;
+    padding: 5px 25px;
+    background-color: #7203c1;
+    color: #FFFFFF;
+    border-radius: 10px;
+}
+
+.btn-3:hover{
+    background-color: #5a0299;
+}
+
+@media(max-width:991px) {
+    .submenu:hover #cajita{
+        width: 100%;
+    }
+
+    .bg{
+        display: none;
+    }
+
+    .products{
+        padding: 30px;
+    }
+    
+    .box-container{
+        margin-top: 25px;
+    }
+    
+
+}

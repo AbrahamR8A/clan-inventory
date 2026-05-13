@@ -1,0 +1,19 @@
+# Dependencias
+node_modules/
+
+# Archivos de registro de errores de Node
+npm-debug.log
+yarn-error.log
+
+# Archivos del sistema operativo Windows / macOS (Basura de carpetas)
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Archivos de configuración local de editores (VS Code)
+.vscode/
+
+# Archivos temporales o carpetas de compilación
+dist/
+build/
+*.log
