@@ -191,3 +191,50 @@
     border-radius: 15px;
     text-align: center;
 }
+
+
+/* =======================================================
+   PARA SIDEBAR Y TOPBAR ESTATICAS
+   ======================================================= */
+
+/* FIJAR LA BARRA LATERAL (SIDEBAR) */
+#accordionSidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1030;
+    overflow-y: auto; /* Permite scrolear dentro del menú si hay muchas opciones */
+}
+
+/* EVITAR QUE EL CONTENIDO QUEDE DEBAJO DE LA SIDEBAR */
+#content-wrapper {
+    margin-left: 224px !important;
+}
+
+/* FIJAR LA BARRA SUPERIOR (TOPBAR) */
+/* Usamos 'fixed' en vez de 'sticky' para ignorar los bloqueos nativos de la plantilla */
+nav.topbar {
+    position: fixed;
+    top: 0;
+    left: 224px; 
+    right: 0;    
+    z-index: 1020;
+}
+
+/* EVITAR QUE EL CONTENIDO QUEDE DEBAJO DE LA TOPBAR */
+/* Al fijar la Topbar, esta deja un hueco. Empujamos el contenido principal hacia abajo para que no lo tape */
+#content {
+    padding-top: 95px; /* ~70px de la barra + 25px de margen nativo */
+}
+
+/* --- AJUSTE AUTOMÁTICO PARA PANTALLAS PEQUEÑAS (MÓVILES) --- */
+@media (max-width: 767.98px) {
+    /* En celulares la Sidebar se oculta sola, así que reiniciamos los empujones */
+    #content-wrapper {
+        margin-left: 0 !important;
+    }
+    nav.topbar {
+        left: 0;
+    }
+}

@@ -30,6 +30,15 @@ body {
 }
 
 /* ============================================
+   ESTILOS DE IMAGEN
+============================================ */
+
+/* Pequeño efecto de escala al pasar el cursor */
+.navbar-brand:hover .navbar-logo {
+    transform: scale(1.05);
+}
+
+/* ============================================
    PARTÍCULAS DE FONDO
 ============================================ */
 #tsparticles {

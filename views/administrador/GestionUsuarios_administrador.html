@@ -205,10 +205,11 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <div id="actionToast" class="alert alert-success alert-dismissible fade show shadow mb-4" role="alert" style="display: none;">
+                    <div id="actionToast" class="alert alert-success alert-dismissible shadow mb-4" role="alert" style="display: none;">
                         <i class="fas fa-check-circle mr-2"></i>
-                        <strong>¡Éxito!</strong> <span id="toastMessage">La solicitud ha sido procesada.</span>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <strong>¡Éxito!</strong> <span id="toastMessage">El usuario se ha registrado correctamente.</span>
+                        
+                        <button type="button" class="close" onclick="$('#actionToast').fadeOut();">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -223,9 +224,9 @@
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-admin">Tabla de administración de personal</h6>
                                 
-                                <a href="NuevoUsuario_administrador.html" class="btn btn-admin shadow-sm">
+                                <button type="button" class="btn btn-admin shadow-sm" data-toggle="modal" data-target="#modalCrearUsuario">
                                     <i class="fas fa-plus fa-sm text-white-50"></i> Nuevo Usuario
-                                </a>
+                                </button>
 
                             </div>
                             <div class="card-body">
@@ -539,6 +540,113 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalCrearUsuario" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow-lg rounded-lg">
+                <div class="modal-header bg-white">
+                    <h5 class="m-0 font-weight-bold text-admin">Registrar Nuevo Integrante</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <form id="formNuevoUsuario" class="text-left">
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold text-dark small">Nombre/s</label>
+                                    <input type="text" class="form-control" id="inputNombre" placeholder="Ingrese nombres..." required>
+                                </div>
+                                
+                                <div class="form-row mb-2">
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold text-dark small">Apellido Paterno</label>
+                                        <input type="text" class="form-control" id="inputApePaterno" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold text-dark small">Apellido Materno</label>
+                                        <input type="text" class="form-control" id="inputApeMaterno" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold text-dark small">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="inputCorreo" placeholder="ejemplo@correo.com" required>
+                                </div>
+
+                                <div class="form-row mb-2">
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold text-dark small">Crear contraseña</label>
+                                        <input type="password" class="form-control" id="inputPass" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold text-dark small">Confirmar contraseña</label>
+                                        <input type="password" class="form-control" id="inputPassConf" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <button type="button" class="btn btn-admin btn-sm px-3">Generar Contraseña</button>
+                                </div>
+
+                                <div class="form-group mb-0">
+                                    <label class="font-weight-bold text-dark small">Asignar Rol</label>
+                                    <select id="inputRol" class="form-control border-left-success">
+                                        <option value="Solicitante">Solicitante</option>
+                                        <option value="Coordinador">Coordinador</option>
+                                        <option value="Encargado de Deposito">Encargado de Depósito</option>
+                                        <option value="Administrador">Administrador</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-lg-5 d-flex flex-column align-items-center justify-content-between border-left">
+                            <div class="foto-container text-center w-100 mb-3">
+                                <div class="foto-placeholder mb-2 p-4 bg-light rounded-circle d-inline-block border">
+                                    <i class="fas fa-user-plus fa-3x text-gray-300"></i>
+                                </div>
+                                <br>
+                                <button type="button" class="btn btn-outline-secondary btn-sm px-3">Subir Imagen</button>
+                            </div>
+
+                            <div class="w-100 text-center mt-auto">
+                                <button type="button" class="btn btn-admin btn-block shadow-sm" id="btnRegistrarUsuario" disabled>
+                                    Finalizar Registro
+                                </button>
+                                <button type="button" class="btn btn-light btn-block btn-sm mt-2" data-dismiss="modal">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalConfirmarRegistro" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-bottom-admin">
+                <div class="modal-body text-center p-5">
+                    <h4 class="text-dark font-weight-bold">¿Registrar Usuario?</h4>
+                    <p class="mb-4 text-left">
+                        ¿Estás seguro de que deseas registrar al usuario con los siguientes datos?<br><br>
+                        - <strong>Nombre:</strong> <span id="resumenNombre" class="font-weight-bold"></span><br>
+                        - <strong>Correo:</strong> <span id="resumenCorreo" class="font-weight-bold"></span><br>
+                        - <strong>Rol:</strong> <span id="resumenRol" class="font-weight-bold"></span><br><br>
+                        Si le da a registrar se le enviará un correo al nuevo usuario.
+                    </p>
+                    
+                    <button type="button" class="btn btn-secondary rounded-pill px-4 mr-2" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnConfirmarAccionFinal" class="btn btn-admin px-4">Sí, registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="../../vendor/jquery/jquery.min.js"></script>
     <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -556,20 +664,16 @@
     <!-- Page level custom scripts -->
     <script src="../../js/demo/datatables-GestUsuaraiosAdmin.js"></script>
 
-    <!-- Script para el filtro -->
     <script>
     $(document).ready(function() {
-        
         // 1. Inicializar Select2 con el tema de Bootstrap 4
         $('.select2').select2({
             theme: 'bootstrap4', 
             width: '100%'
         });
 
-        // 2. Conectar los filtros a tu tabla
-        // Usamos la variable 'dataTable' que ya creaste en datatables-demo.js
-
-        // Filtro de Usuario (Busca en la columna 0: Nombre)
+        // 2. Conectar los filtros a la tabla
+        // Filtro de Usuario (Busca en la columna 0: Usuario)
         $('#filtroUsuario').on('change', function() {
             dataTable.column(0).search(this.value).draw();
         });
@@ -583,37 +687,76 @@
         $('#filtroEstado').on('change', function() {
             dataTable.column(3).search(this.value).draw();
         });
-
     });
     </script>
 
     <script>
-        window.onload = function() {
-        // 1. Capturamos los parámetros de la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const registroStatus = urlParams.get('registro'); // Busca la palabra 'registro'
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. Capturamos los campos del modal de creación
+        const Nombre = document.getElementById("inputNombre");
+        const ApellidoP = document.getElementById("inputApePaterno");
+        const ApellidoM = document.getElementById("inputApeMaterno");
+        const Correo = document.getElementById("inputCorreo");
+        const Pass = document.getElementById("inputPass");
+        const PassConf = document.getElementById("inputPassConf");
+        const inputRol = document.getElementById("inputRol");
+        const btnRegistrarUsuari = document.getElementById("btnRegistrarUsuario");
 
-        // 2. Si la URL dice que hubo un éxito, mostramos la alerta
-        if (registroStatus === 'exito') {
-            const toast = document.getElementById('actionToast');
-            const toastMessage = document.getElementById('toastMessage');
+        // 2. Función que evalúa si el botón de "Finalizar Registro" debe habilitarse
+        function evaluarBoton() {
+            if (Nombre.value.trim() !== "" && 
+                ApellidoP.value.trim() !== "" &&
+                ApellidoM.value.trim() !== "" &&
+                Correo.value.trim() !== "" &&
+                Pass.value.trim() !== "" &&
+                PassConf.value.trim() !== "" &&
+                inputRol.value !== "") {
 
-            toastMessage.innerText = 'El usuario se ha registrado correctamente.'; 
-            toast.classList.add('alert-success');
-
-            // Mostramos la alerta
-            toast.style.display = 'block';
-
-            // Cierre automático después de 5 segundos
-            setTimeout(() => {
-                $(toast).alert('close'); // Asegúrate de que tu toast soporte esta función de Bootstrap
-            }, 5000);
-            
-            // Opcional: Limpiar la URL para que si recarga la página no vuelva a salir la alerta
-            window.history.replaceState(null, null, window.location.pathname);
+                btnRegistrarUsuari.disabled = false;
+            } else {
+                btnRegistrarUsuari.disabled = true;
             }
-        };
+        }
+
+        // 3. Escuchamos el ingreso de datos en tiempo real
+        [Nombre, ApellidoP, ApellidoM, Correo, Pass, PassConf].forEach(el => el.addEventListener("input", evaluarBoton));
+        inputRol.addEventListener("change", evaluarBoton);
+
+        // 4. Al hacer clic en "Finalizar Registro", ocultamos el primer modal y abrimos el resumen
+        $('#btnRegistrarUsuario').on('click', function() {
+            let nombreCompleto = Nombre.value.trim() + " " + ApellidoP.value.trim() + " " + ApellidoM.value.trim();
+            
+            // Inyectamos los datos en el segundo modal
+            $('#resumenNombre').text(nombreCompleto);
+            $('#resumenCorreo').text(Correo.value.trim());
+            $('#resumenRol').text(inputRol.value);
+
+            // Ocultamos uno antes de abrir el otro para evitar superposición de capas oscuras
+            $('#modalCrearUsuario').modal('hide');
+            $('#modalConfirmarRegistro').modal('show');
+        });
+
+        // 5. Al hacer clic en "Sí, registrar", disparamos el mensaje de éxito reutilizable
+        $('#btnConfirmarAccionFinal').on('click', function() {
+            // Cerramos la ventana de confirmación final
+            $('#modalConfirmarRegistro').modal('hide');
+
+            // Limpiamos los datos del formulario
+            document.getElementById("formNuevoUsuario").reset();
+            evaluarBoton(); // Vuelve a deshabilitar el botón de envío
+
+            // Cambiamos el texto y mostramos la alerta con un efecto suave (fadeIn)
+            $('#toastMessage').text('El usuario se ha registrado correctamente.');
+            $('#actionToast').fadeIn();
+
+            // Ocultamos la alerta suavemente (fadeOut) después de 5 segundos en lugar de destruirla
+            setTimeout(() => {
+                $('#actionToast').fadeOut();
+            }, 5000);
+        });
+    });
     </script>
+
 
 </body>
 
