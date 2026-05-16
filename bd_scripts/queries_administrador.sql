@@ -45,11 +45,10 @@ WHERE id_usuarios = @id_admin
   AND leido = 0;
 
 -- Tabla: Actividad reciente del sistema
--- Muestra movimientos de inventario, registro de solicitudes y revisiones de solicitudes.
 SELECT *
 FROM (
     SELECT
-        CONCAT(u.nombres, ' ', u.apellidos) AS Usuario,
+        CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS Usuario,
         u.rol AS Rol,
         CASE
             WHEN m.tipo = 'entrada' THEN 'Stock Añadido'
@@ -68,7 +67,7 @@ FROM (
     UNION ALL
 
     SELECT
-        CONCAT(u.nombres, ' ', u.apellidos) AS Usuario,
+        CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS Usuario,
         u.rol AS Rol,
         'Registro de solicitud' AS Accion,
         CONCAT('Registró una nueva solicitud #', s.id_solicitudes) AS Detalle,
@@ -80,7 +79,7 @@ FROM (
     UNION ALL
 
     SELECT
-        CONCAT(u.nombres, ' ', u.apellidos) AS Usuario,
+        CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS Usuario,
         u.rol AS Rol,
         CASE
             WHEN s.estado = 'aprobada' THEN 'Solicitud Aprobada'
@@ -132,10 +131,10 @@ LIMIT 10;
 -- Combo: filtrar por usuario
 SELECT
     id_usuarios,
-    CONCAT(nombres, ' ', apellidos) AS usuario
+    CONCAT(nombres, ' ', apellido_paterno, ' ', apellido_materno) AS usuario
 FROM clan_db.usuarios
 WHERE activo = 1
-ORDER BY nombres, apellidos;
+ORDER BY nombres, apellido_paterno, apellido_materno;
 
 -- Combo: filtrar por rol
 SELECT DISTINCT rol
@@ -148,16 +147,14 @@ UNION ALL
 SELECT 0 AS valor, 'Inactivo' AS estado;
 
 -- Tabla de administración de personal
--- Cambiar los SET según los filtros del frontend.
--- Si un filtro no se usa, dejarlo en NULL.
-SET @filtro_usuario = NULL;       -- Ejemplo: 3
-SET @filtro_rol = NULL;           -- Ejemplo: 'solicitante'
-SET @filtro_estado = NULL;        -- Ejemplo: 1 activo, 0 inactivo
-SET @buscar = NULL;               -- Ejemplo: 'ana'
+SET @filtro_usuario = NULL;       
+SET @filtro_rol = NULL;           
+SET @filtro_estado = NULL;        
+SET @buscar = NULL;               
 
 SELECT
     u.id_usuarios AS id,
-    CONCAT(u.nombres, ' ', u.apellidos) AS Usuario,
+    CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS Usuario,
     u.correo AS Correo,
     u.rol AS Roles,
     CASE
@@ -171,7 +168,7 @@ WHERE (@filtro_usuario IS NULL OR u.id_usuarios = @filtro_usuario)
   AND (@filtro_estado IS NULL OR u.activo = @filtro_estado)
   AND (
         @buscar IS NULL
-        OR CONCAT(u.nombres, ' ', u.apellidos) LIKE CONCAT('%', @buscar, '%')
+        OR CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) LIKE CONCAT('%', @buscar, '%')
         OR u.correo LIKE CONCAT('%', @buscar, '%')
         OR u.rol LIKE CONCAT('%', @buscar, '%')
       )
@@ -186,7 +183,7 @@ WHERE (@filtro_usuario IS NULL OR u.id_usuarios = @filtro_usuario)
   AND (@filtro_estado IS NULL OR u.activo = @filtro_estado)
   AND (
         @buscar IS NULL
-        OR CONCAT(u.nombres, ' ', u.apellidos) LIKE CONCAT('%', @buscar, '%')
+        OR CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) LIKE CONCAT('%', @buscar, '%')
         OR u.correo LIKE CONCAT('%', @buscar, '%')
         OR u.rol LIKE CONCAT('%', @buscar, '%')
       );
@@ -197,7 +194,8 @@ SET @id_usuario = 2;
 SELECT
     u.id_usuarios,
     u.nombres,
-    u.apellidos,
+    u.apellido_paterno,
+    u.apellido_materno,
     u.correo,
     u.rol,
     CASE
@@ -205,12 +203,10 @@ SELECT
         ELSE 'Inactivo'
     END AS estado,
     u.foto_perfil,
-    CONCAT(creador.nombres, ' ', creador.apellidos) AS creado_por
+    CONCAT(creador.nombres, ' ', creador.apellido_paterno, ' ', creador.apellido_materno) AS creado_por
 FROM clan_db.usuarios u
 LEFT JOIN clan_db.usuarios creador ON u.id_creador = creador.id_usuarios
 WHERE u.id_usuarios = @id_usuario;
-
-
 
 
 -- 3. REGISTRAR NUEVO INTEGRANTE
@@ -223,8 +219,6 @@ FROM clan_db.usuarios
 WHERE correo = @correo_nuevo;
 
 -- Registrar nuevo integrante
--- La contraseña debe llegar hasheada desde el backend.
--- La pantalla separa apellido paterno y materno, pero la BD actual guarda un solo campo apellidos.
 SET @id_admin_creador = 2;
 SET @nombres = 'Nuevo';
 SET @apellido_paterno = 'Usuario';
@@ -235,11 +229,12 @@ SET @contrasenia_hash = 'hash_generado_en_backend';
 SET @foto_perfil = NULL;
 
 INSERT INTO clan_db.usuarios
-(nombres, apellidos, rol, correo, contrasenia, foto_perfil, activo, id_creador)
+(nombres, apellido_paterno, apellido_materno, rol, correo, contrasenia, foto_perfil, activo, id_creador)
 VALUES
 (
     @nombres,
-    TRIM(CONCAT(@apellido_paterno, ' ', @apellido_materno)),
+    @apellido_paterno,
+    @apellido_materno,
     @rol,
     @correo,
     @contrasenia_hash,
@@ -251,7 +246,8 @@ VALUES
 -- Editar usuario existente
 SET @id_usuario_editar = 3;
 SET @nombres_editar = 'Lucía';
-SET @apellidos_editar = 'Bocchio';
+SET @apellido_paterno_editar = 'Incio';
+SET @apellido_materno_editar = 'Bocchio';
 SET @rol_editar = 'encargado_deposito';
 SET @correo_editar = 'lucia.bocchio@clan.com';
 SET @foto_editar = NULL;
@@ -259,7 +255,8 @@ SET @activo_editar = 1;
 
 UPDATE clan_db.usuarios
 SET nombres = @nombres_editar,
-    apellidos = @apellidos_editar,
+    apellido_paterno = @apellido_paterno_editar,
+    apellido_materno = @apellido_materno_editar,
     rol = @rol_editar,
     correo = @correo_editar,
     foto_perfil = @foto_editar,
@@ -299,10 +296,9 @@ UNION ALL
 SELECT 'optimo' AS valor, 'Óptimo' AS estado;
 
 -- Tabla de inventario actual
--- Si no se usa un filtro, dejarlo en NULL.
-SET @filtro_categoria = NULL;     -- Ejemplo: 3
-SET @filtro_stock = NULL;         -- Ejemplo: 'critico', 'bajo', 'optimo'
-SET @buscar_producto = NULL;      -- Ejemplo: 'polo'
+SET @filtro_categoria = NULL;     
+SET @filtro_stock = NULL;         
+SET @buscar_producto = NULL;      
 
 SELECT
     p.id_productos AS id,
@@ -379,7 +375,7 @@ SELECT
         ELSE 'Óptimo'
     END AS estado,
     p.imagen,
-    CONCAT(u.nombres, ' ', u.apellidos) AS registrado_por
+    CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS registrado_por
 FROM clan_db.productos p
 JOIN clan_db.categorias c ON p.id_categorias = c.id_categorias
 JOIN clan_db.usuarios u ON p.id_usuarios = u.id_usuarios
@@ -398,8 +394,6 @@ WHERE codigo = @codigo_producto
   AND id_categorias = @id_categoria_producto;
 
 -- Registrar producto nuevo y guardar movimiento inicial de entrada
--- La pantalla muestra estado con regla: crítico 0-5, bajo 6-10, óptimo 11 a más.
--- Por eso se usan stock_critico = 5 y stock_bajo = 10.
 SET @id_admin_producto = 2;
 SET @codigo = '0201';
 SET @producto = 'Nuevo producto';

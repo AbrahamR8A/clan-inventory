@@ -34,16 +34,18 @@ INSERT INTO `clan_db`.`categorias` (nombre, sigla) VALUES
 SELECT * FROM categorias;
 
 -- -----------------------------------------------------
--- Populamos tabla de usuarios
+-- Populamos tabla de usuarios (Actualizado para Apellido Paterno y Apellido Materno)
 -- -----------------------------------------------------
-INSERT INTO `clan_db`.`usuarios` (`nombres`, `apellidos`, `rol`, `correo`, `contrasenia`, `foto_perfil`, `activo`, `id_creador`) VALUES 
-('Super', 'Admin', 'superadmin', 'superadmin@clan.com', 'hash_password_seguro', NULL, 1, NULL),
-('Carlos André', 'Sánchez Silva', 'administrador', 'carlos.sanchezsilva@quintaola.com', 'hash456', NULL, 1, 1),
-('Ana Lucía', 'Incio Bocchio', 'encargado_deposito', 'ana.inciobocchio@quintaola.com', 'hash789', NULL, 1, 2),
-('Roberto José', 'Flores Ayala', 'solicitante', 'roberto.floresayala@quintaola.com', 'hash456', NULL, 1, 2),
-('Giovanna Carla', 'Gauna Loayza', 'solicitante', 'giovanna.gaunaloayza@quintaola.com', 'hash422', NULL, 1, 2),
-('Fernando Enrique', 'Fernández Del Río', 'coordinador', 'fernando.fernandezdelrio@quintaola.com', 'hash456', NULL, 1, 2),
-('Jorge Santiago', 'Cárdenas Monte', 'coordinador', 'jorge.cardenasmonte@quintaola.com', 'hash156', NULL, 1, 2);
+INSERT INTO `clan_db`.`usuarios` 
+(`nombres`, `apellido_paterno`, `apellido_materno`, `rol`, `correo`, `contrasenia`, `foto_perfil`, `activo`, `id_creador`) 
+VALUES 
+('Super', 'Admin', '', 'superadmin', 'superadmin@clan.com', 'hash_password_seguro', NULL, 1, NULL),
+('Carlos André', 'Sánchez', 'Silva', 'administrador', 'carlos.sanchezsilva@quintaola.com', 'hash456', NULL, 1, 1),
+('Ana Lucía', 'Incio', 'Bocchio', 'encargado_deposito', 'ana.inciobocchio@quintaola.com', 'hash789', NULL, 1, 2),
+('Roberto José', 'Flores', 'Ayala', 'solicitante', 'roberto.floresayala@quintaola.com', 'hash456', NULL, 1, 2),
+('Giovanna Carla', 'Gauna', 'Loayza', 'solicitante', 'giovanna.gaunaloayza@quintaola.com', 'hash422', NULL, 1, 2),
+('Fernando Enrique', 'Fernández', 'Del Río', 'coordinador', 'fernando.fernandezdelrio@quintaola.com', 'hash456', NULL, 1, 2),
+('Jorge Santiago', 'Cárdenas', 'Monte', 'coordinador', 'jorge.cardenasmonte@quintaola.com', 'hash156', NULL, 1, 2);
 
 SELECT * FROM usuarios;
 
