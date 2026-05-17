@@ -1,6 +1,6 @@
-package org.example.administrador.daos;
+package com.example.claninventory.daos;
 
-import org.example.administrador.beans.Usuarios;
+import com.example.claninventory.beans.Usuarios;
 import java.sql.*;
 import java.util.ArrayList;
 

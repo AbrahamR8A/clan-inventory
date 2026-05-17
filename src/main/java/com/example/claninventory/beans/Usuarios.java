@@ -1,4 +1,4 @@
-package org.example.administrador.beans;
+package com.example.claninventory.beans;
 
 public class Usuarios {
     private int idUsuarios;

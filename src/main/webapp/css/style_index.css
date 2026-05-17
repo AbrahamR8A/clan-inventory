@@ -11,6 +11,8 @@
     --gradient-main: linear-gradient(135deg, #7203c1 0%, #23b1be 100%); /* Morado a Turquesa */
     --gradient-accent: linear-gradient(135deg, #ff2a9e 0%, #7203c1 100%); /* Rosado a Morado */
     
+    --gradient-yellow: linear-gradient(135deg, #f6cf0b 0%, #ff9a00 100%); /* Amarillo Solicitante */
+    
     --dark: #1a1a1a;
     --gray: #6c757d;
     --light: #f8f9fa;
@@ -260,9 +262,11 @@ body {
 }
 
 .btn-hero-secondary:hover {
-    background: white;
-    color: var(--color-admin);
+    background: var(--gradient-yellow);
+    border-color: transparent;
+    color: var(--dark);
     transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(246, 207, 11, 0.4);
 }
 
 /* ============================================

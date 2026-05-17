@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,7 +17,7 @@
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <link href="css/style_index.css" rel="stylesheet">
+    <link href="<%= request.getContextPath() %>/css/style_index.css" rel="stylesheet">
 </head>
 
 <body>
@@ -24,7 +25,7 @@
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="img/quintaola_logo.png" alt="Logo Quinta Ola" class="navbar-logo">
+                <img src="<%= request.getContextPath() %>/img/quintaola_logo.png" alt="Logo Quinta Ola" class="navbar-logo">
             </a>
             
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +40,7 @@
                     <li class="nav-item"><a class="nav-link nav-link-custom" href="#caracteristicas">Características</a></li>
                     <li class="nav-item"><a class="nav-link nav-link-custom" href="#beneficios">Ventajas</a></li>
                 </ul>
-                <a href="login.html" class="btn btn-login-custom mt-3 mt-lg-0">Ingresar</a>
+                <a href="<%= request.getContextPath() %>/login.jsp" class="btn btn-login-custom mt-3 mt-lg-0">Ingresar</a>
             </div>
         </div>
     </nav>
@@ -148,7 +149,7 @@
             <div class="cta-content" data-aos="zoom-in">
                 <h2 class="cta-title">¿Listo para Organizar tu Clan?</h2>
                 <div class="hero-buttons mt-4">
-                    <a href="<%= request.getContextPath() %>/acceso/login" class="btn btn-hero-primary">
+                    <a href="<%= request.getContextPath() %>/login.jsp" class="btn btn-hero-primary">
                         <i class="fas fa-sign-in-alt mr-2"></i>Ir al Dashboard
                     </a>
                 </div>
@@ -159,7 +160,7 @@
     <footer class="footer-modern">
         <div class="container text-center">
             <div class="footer-brand mb-3">
-                <img src="img/quintaola_logo.png" alt="Logo Quinta Ola" class="navbar-logo">
+                <img src="<%= request.getContextPath() %>/img/quintaola_logo.png" alt="Logo Quinta Ola" class="navbar-logo">
             </div>
             <p class="footer-description mx-auto" style="max-width: 500px;">
                 Proyecto desarrollado para la gestión eficiente de inventarios y roles de usuarios mediante un entorno web estructurado.
@@ -178,7 +179,7 @@
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
-    <script src="js/demo/scrip_index.js"></script>
+    <script src="<%= request.getContextPath() %>/js/demo/scrip_index.js"></script>
 
     </body>
 </html>

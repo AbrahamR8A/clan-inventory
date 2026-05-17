@@ -1,7 +1,7 @@
-package org.example.administrador.servlets;
+package com.example.claninventory.servlets;
 
-import org.example.administrador.beans.Usuarios;
-import org.example.administrador.daos.UsuariosDao;
+import com.example.claninventory.beans.Usuarios;
+import com.example.claninventory.daos.UsuariosDao;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

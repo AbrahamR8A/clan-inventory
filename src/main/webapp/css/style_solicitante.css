@@ -67,19 +67,53 @@
     display: none;
 }
 
-/* Diseño de la cajita flotante */
-.submenu:hover #cajita {
-    display: block; /* Muestra la cajita al pasar el mouse */
+/* Ocultamos la cajita interna si no se usa más o se deja para modal futuro */
+.submenu.active #cajita {
+    display: block;
     position: absolute;
     right: 0;
     top: 100%;
-    z-index: 9999 !important; /* Capa máxima para que nada se le sobreponga */
-    background-color: #ebd4f7; /* Tu morado claro */
+    z-index: 9999 !important;
+    background-color: #ebd4f7;
     padding: 25px;
     min-width: 450px;
     border-radius: 12px;
-    /* Una sombra fuerte para dar el efecto visual de que está "flotando" por encima */
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); 
+}
+
+.disponible-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+.disponible-badge .circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+}
+.circle.green { background-color: #28a745; }
+.circle.orange { background-color: #fd7e14; }
+
+.btn-filtro {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.btn-filtro.active {
+    background-color: #f6cf0b; /* Amarillo Solicitante */
+    color: #1a1a1a;
+    border-color: #f6cf0b;
+    font-weight: bold;
 }
 
 /* Quitamos los puntos raros (viñetas) que aparecen en la tabla */
@@ -87,13 +121,6 @@
     list-style: none !important;
 }
 
-table{
-    width: 100%;
-}
-
-th, td{
-    color: #FFFFFF;
-}
 
 .borrar{
     background-color: #7203c1;
@@ -199,4 +226,42 @@ th, td{
     }
     
 
+}
+
+/* Cards de productos */
+.card-solicitante {
+    border-top: 5px solid #7203c1 !important;
+    border-radius: 15px !important;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2) !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-solicitante:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Paginacion morada */
+.pagination .page-item.active .page-link {
+    background-color: #7203c1 !important;
+    border-color: #7203c1 !important;
+}
+
+.pagination .page-link {
+    color: #7203c1;
+}
+
+.pagination .page-link:hover {
+    color: #5a0299;
+}
+
+/* Ocultar flechas de los input number */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
 }

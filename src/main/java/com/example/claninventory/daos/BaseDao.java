@@ -1,4 +1,4 @@
-package org.example.administrador.daos;
+package com.example.claninventory.daos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

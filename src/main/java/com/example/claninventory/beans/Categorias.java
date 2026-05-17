@@ -1,4 +1,4 @@
-package org.example.administrador.beans;
+package com.example.claninventory.beans;
 
 public class Categorias {
     private int idCategorias;

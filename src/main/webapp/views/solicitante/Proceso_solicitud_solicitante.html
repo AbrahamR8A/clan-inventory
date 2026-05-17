@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Inicio-Solicitante</title>
+    <title>Proceso de Solicitud - Solicitante</title>
 
     <!-- fonts -->
     <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,6 +19,9 @@
 
     <!-- CSS -->
     <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- CSS para solicitante-->
+    <link href="../../css/style_solicitante.css" rel="stylesheet">
 
     <!-- DataTables -->
     <link href="../../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -52,18 +55,19 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="Inicio_solicitante.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>INICIO</span></a>
             </li>
 
             <!-- Nav Item - Nueva solicitud -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="Nueva_solicitud_solicitante.html"> <!-- FALTA LA REFERENCIA -->
                     <i class="fas fa-fw fa-solid fa-box"></i>
                     <span>NUEVA SOLICITUD</span></a>
             </li>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -85,15 +89,15 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                     
-                    <!-- Section Title (Topbar) -->
-                    <div class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100">
-                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">INICIO</h1>
-                    </div>
-
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+
+                    <!-- Section Title (Topbar) -->
+                    <div class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100">
+                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">PROCESO DE SOLICITUD</h1>
+                    </div>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -199,187 +203,113 @@
                     </div>
 
                     <!-- Main Content -->
-                    <div class="card-body">
-
-                        <div class="row mb-2">
-
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-warning shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                    SOLICITUDES PENDIENTES</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-clock fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
+                    <div class="container-fluid px-2">
+                        <!-- Proceso de Solicitud Content -->
+                        <div class="row">
+                            <!-- Columna de Artículos Seleccionados -->
+                            <div class="col-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-admin">Tabla de productos seleccionados</h6>
+                                        <a class="btn btn-admin shadow-sm" href="Nueva_solicitud_solicitante.html">
+                                            <i class="fas fa-plus fa-sm text-white-50"></i> Agregar productos
+                                        </a>
                                     </div>
-                                </div>
-                            </div>                                    
-
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-success shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                    SOLICITUDES APROBADAS</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">25</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-check fa-2x text-gray-300"></i>
-                                            </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table id="dataTable" class="table table-hover table-striped text-gray-800" >
+                                                <thead class="bg-light text-dark text-center">
+                                                    <tr>
+                                                        <th class="align-middle">Código</th>
+                                                        <th class="align-middle">Imagen</th>
+                                                        <th class="align-middle">Producto</th>
+                                                        <th class="align-middle">Stock actual</th>
+                                                        <th class="align-middle">Cantidad solicitada</th>
+                                                        <th class="align-middle">Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-sm">
+                                                    <tr>
+                                                        <td class="align-middle">SKU: L-0101</td>
+                                                        <td class="align-middle">
+                                                            <img src="https://a-static.mlcdn.com.br/undefinedxundefined/kit-material-escolar-basico-completo-ensino-medio-imp/prismacartuchos/15997141711/8f354956f61246336985abf89859a629.jpeg" alt="Item" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                                        </td>
+                                                        <td class="align-middle text-left">Kit escolar de emergencia</td>
+                                                        <td class="align-middle">5</td>
+                                                        <td class="align-middle" style="width: 150px;">
+                                                            <div class="input-group input-group-sm mx-auto" style="width: 120px;">
+                                                                <div class="input-group-prepend">
+                                                                    <button class="btn btn-outline-secondary px-2" type="button" onclick="modificarCantidad('cant1', -1, 5)"><i class="fas fa-minus"></i></button>
+                                                                </div>
+                                                                <input type="number" id="cant1" class="form-control text-center font-weight-bold form-control-sm" value="1" min="1" max="5" oninput="validarCantidad(this, 5)">
+                                                                <div class="input-group-append">
+                                                                    <button class="btn btn-outline-secondary px-2" type="button" onclick="modificarCantidad('cant1', 1, 5)"><i class="fas fa-plus"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <button class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="align-middle">SKU: M-100</td>
+                                                        <td class="align-middle">
+                                                            <img src="https://images.fravega.com/f1000/5c662b2a63c3751f78f584b846547264.jpg" alt="Item" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                                        </td>
+                                                        <td class="align-middle text-left">Higiene Familiar</td>
+                                                        <td class="align-middle">30</td>
+                                                        <td class="align-middle" style="width: 150px;">
+                                                            <div class="input-group input-group-sm mx-auto" style="width: 120px;">
+                                                                <div class="input-group-prepend">
+                                                                    <button class="btn btn-outline-secondary px-2" type="button" onclick="modificarCantidad('cant2', -1, 30)"><i class="fas fa-minus"></i></button>
+                                                                </div>
+                                                                <input type="number" id="cant2" class="form-control text-center font-weight-bold form-control-sm" value="1" min="1" max="30" oninput="validarCantidad(this, 30)">
+                                                                <div class="input-group-append">
+                                                                    <button class="btn btn-outline-secondary px-2" type="button" onclick="modificarCantidad('cant2', 1, 30)"><i class="fas fa-plus"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <button class="btn btn-outline-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-info shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                    SOLICITUDES ENTREGADAS</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">25</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fa-solid fa-truck fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
+
+                            <!-- Columna de Justificación -->
+                            <div class="col-lg-8 mx-auto">
+
+                                <div class="card shadow-sm mb-4 border-left-soli">
+
+                                    <div class="card-header py-3 bg-white border-bottom-0">
+                                        <h5 class="m-0 font-weight-bold text-dark"><i class="fas fa-edit text-warning mr-2"></i>Propósito de solicitud</h5>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-danger shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                    SOLICITUDES RECHAZADAS</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                                    <div class="card-body pt-0">
+                                        <form id="solicitudForm">
+                                            <div class="form-group">
+                                                <textarea class="form-control" id="motivo" rows="5" placeholder="Escriba motivo de su solicitud..." required></textarea>
+                                                <div class="invalid-feedback">Por favor, escriba una justificación para enviar la solicitud.</div>
                                             </div>
-                                            <div class="col-auto">
-                                                <i class="fa-solid fa-x fa-2x text-gray-300"></i>
+                                            
+                                            <div class="d-flex justify-content-between mt-4">
+                                                <button type="button" class="btn btn-admin px-4" onclick="enviarSolicitud()">
+                                                    Enviar solicitud <i class="fas fa-paper-plane ml-1"></i>
+                                                </button>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
-                                </div>
-                            </div>                            
-
-                        </div>
-                    
-                        <div class="card shadow mb-4">
-
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-admin">Tabla de Actividad Reciente</h6>
-                                
-                                <a href="Nueva_solicitud_solicitante.html" class="btn btn-admin shadow-sm">
-                                    <i class="fas fa-plus fa-sm text-white-50"></i> Crear nueva solicitud
-                                </a>
+                                </div>      
 
                             </div>
 
-                            <div class="card-body">
-
-                                <div class="row mb-3">
-
-                                    <div class="col-md-2">
-                                        <label class="small font-weight-bold text-dark">Por Estado:</label>
-                                        <select id="filtroEstado" class="form-control select2" style="width: 100%;">
-                                            <option>Seleccionar...</option>
-                                            <option>Pendientes</option>
-                                            <option>Aprobadas</option>
-                                            <option>Rechazadas</option>
-                                            <option>Entregadas</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-md-2">
-                                        <label class="small font-weight-bold text-dark">Por Fecha:</label>
-                                        <input type="date" class="form-control text-sm">
-                                    </div>
-
-                                    <div class="col-md-auto mt-4">
-                                        <button id="filtrar" type="button" class="btn btn-admin">
-                                            <i class="fas fa-filter fa-sm mr-1"></i>Filtrar
-                                        </button>
-                                    </div>
-
-                                </div>
-
-                                <div class="table-responsive">
-                                    <table id="dataTable" class="table table-hover text-gray-800" >
-                                        <thead class="bg-white text-dark text-center">
-                                            <tr>
-                                                <th>ID de solicitud</th>
-                                                <th>Fecha</th>
-                                                <th>Categorias solicitadas</th>
-                                                <th>Estado</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#1234567</td>
-                                                <td>10/04/2026</td>
-                                                <td class="align-middle">
-                                                    Merchandising institucional 
-                                                    <span class="badge badge-secondary ml-1" title="Materiales lúdicos y juegos educativos">+1</span>
-                                                </td>
-                                                <td class="align-middle text-center"><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
-                                                <td>
-                                                    <a href="Detalle_solicitud_solicitante.html?estado=pendiente" class="btn btn-sm shadow-sm" title="Ver detalle"><i class="fa-solid fa-eye"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#8901234</td>
-                                                <td>10/04/2026</td>
-                                                <td class="align-middle">
-                                                    Kits de ayuda humanitaria 
-                                                    <span class="badge badge-secondary ml-1" title="Kits de ayuda humanitaria, juegos educativos y Utilería para talleres">+2</span>
-                                                </td>
-                                                <td class="align-middle text-center"><span class="badge badge-info px-2 py-1">Entregada</span></td>
-                                                <td>
-                                                    <a href="Detalle_solicitud_solicitante.html?estado=entregada" class="btn btn-sm shadow-sm" title="Ver detalle"><i class="fa-solid fa-eye"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#5678901</td>
-                                                <td>05/05/2026</td>
-                                                <td class="align-middle">
-                                                    Kits de ayuda humanitaria 
-                                                    <span class="badge badge-secondary ml-1" title="Kits de ayuda humanitaria"></span>
-                                                </td>
-                                                <td class="align-middle text-center"><span class="badge badge-danger px-2 py-1">Rechazada</span></td>
-                                                <td>
-                                                    <a href="Detalle_solicitud_solicitante.html?estado=rechazada" class="btn btn-sm shadow-sm" title="Ver detalle"><i class="fa-solid fa-eye"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#5367501</td>
-                                                <td>06/05/2026</td>
-                                                <td class="align-middle">
-                                                    Merchandising intitucional 
-                                                    <span class="badge badge-secondary ml-1" title="Merchandising intitucional y Kits de ayuda humanitaria">+1</span>
-                                                </td>
-                                                <td class="align-middle text-center"><span class="badge badge-success px-2 py-1">Aprobada</span></td>
-                                                <td>
-                                                    <a href="Detalle_solicitud_solicitante.html?estado=aprobada" class="btn btn-sm shadow-sm" title="Ver detalle"><i class="fa-solid fa-eye"></i></a>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>
                 <!-- /.container-fluid -->
 
             </div>
@@ -436,12 +366,15 @@
     <!-- Custom scripts for all pages-->
     <script src="../../js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
+    <!-- DataTable plugins -->
     <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="../../js/demo/datatables-InicioCoord.js"></script>
+    <!-- DataTable -->
+    <script src="../../js/demo/datatables-ProcesoSolicitante.js"></script>
+
+    <!-- JavaScript para Solicitante -->
+    <script src="../../js/demo/scrip_solicitante.js"></script> 
 
     <!-- Opciones de buscador y calendario -->
     <script>
@@ -503,6 +436,53 @@
                     $(toast).alert('close');
                 }, 5000);
             }
+        };
+
+        // Función para los botones +/-
+        window.modificarCantidad = function(id, delta, maximo) {
+            let input = document.getElementById(id);
+            let val = parseInt(input.value);
+            if (isNaN(val)) val = 1;
+            
+            let newVal = val + delta;
+            if (newVal < 1) newVal = 1;
+            if (newVal > maximo) newVal = maximo;
+            
+            input.value = newVal;
+        };
+
+        // Lógica de validación de cantidad en tiempo real
+        window.validarCantidad = function(inputElement, maximo) {
+            let val = parseInt(inputElement.value);
+            if (isNaN(val) || val < 1) {
+                inputElement.value = 1;
+            } else if (val > maximo) {
+                inputElement.value = maximo;
+            }
+        };
+
+        // Enviar Solicitud
+        window.enviarSolicitud = function() {
+            const motivo = document.getElementById('motivo');
+            if (!motivo.value.trim()) {
+                motivo.classList.add('is-invalid');
+                return;
+            }
+            motivo.classList.remove('is-invalid');
+            
+            // Mostrar éxito y redirigir
+            const actionToast = document.getElementById('actionToast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.innerText = "La solicitud fue enviada exitosamente para revisión.";
+            
+            // Aseguramos estilo
+            actionToast.classList.remove('alert-danger');
+            actionToast.classList.add('alert-success');
+            actionToast.style.display = 'block';
+            
+            setTimeout(() => {
+                window.location.href = "Inicio_solicitante.html?action=creada";
+            }, 1500);
         };
     </script>
 
