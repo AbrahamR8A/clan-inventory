@@ -35,7 +35,7 @@ SET @buscar_pend = NULL;             -- Ejemplo: 'Nathan'
 
 SELECT 
     CONCAT('#', s.id_solicitudes) AS id_solicitud,
-    CONCAT(u.nombres, ' ', u.apellidos) AS solicitante,
+    CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS solicitante,
     DATE_FORMAT(s.fecha_solicitud, '%d/%m/%Y') AS fecha,
     'Pendiente' AS estado
 FROM clan_db.solicitudes s
@@ -45,7 +45,7 @@ WHERE s.estado = 'pendiente'
   AND (@filtro_fecha_pend IS NULL OR DATE(s.fecha_solicitud) = @filtro_fecha_pend)
   AND (@buscar_pend IS NULL
         OR s.id_solicitudes LIKE CONCAT('%', @buscar_pend, '%')
-        OR CONCAT(u.nombres, ' ', u.apellidos) LIKE CONCAT('%', @buscar_pend, '%')
+        OR CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) LIKE CONCAT('%', @buscar_pend, '%')
       )
 ORDER BY s.fecha_solicitud ASC; -- Las más antiguas primero
 
@@ -77,7 +77,7 @@ SET @buscar_hist = NULL;
 
 SELECT 
     CONCAT('#', s.id_solicitudes) AS id_solicitud,
-    CONCAT(u.nombres, ' ', u.apellidos) AS solicitante,
+    CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS solicitante,
     -- Agrupamos todos los materiales de esa solicitud en un solo texto separado por saltos de línea (\n)
     GROUP_CONCAT(CONCAT(d.cantidad, ' ', p.nombre) SEPARATOR '\n') AS materiales,
     GROUP_CONCAT(CONCAT('SKU: ', c.sigla, '-', p.codigo) SEPARATOR '\n') AS codigos,
@@ -101,7 +101,7 @@ WHERE s.id_coordinador = @id_coordinador_sesion -- Solo ve las que él mismo pro
       ))
   AND (@buscar_hist IS NULL
         OR s.id_solicitudes LIKE CONCAT('%', @buscar_hist, '%')
-        OR CONCAT(u.nombres, ' ', u.apellidos) LIKE CONCAT('%', @buscar_hist, '%')
+        OR CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) LIKE CONCAT('%', @buscar_hist, '%')
       )
 GROUP BY s.id_solicitudes
 ORDER BY s.fecha_revision DESC;
@@ -115,7 +115,7 @@ SET @id_solicitud_detalle = 1; -- El ID de la solicitud a revisar
 -- 3.1 Cabecera de la solicitud
 SELECT 
     CONCAT('#', s.id_solicitudes) AS id_solicitud,
-    CONCAT(u.nombres, ' ', u.apellidos) AS datos_solicitante,
+    CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS datos_solicitante,
     DATE_FORMAT(s.fecha_solicitud, '%d/%m/%Y %H:%i') AS fecha_hora_solicitud,
     s.estado,
     s.proposito
@@ -173,7 +173,7 @@ SET @id_solicitud_procesada = 5;
 -- Cabecera y Motivo de rechazo (si lo hubo)
 SELECT 
     CONCAT('#', s.id_solicitudes) AS id_solicitud,
-    CONCAT(u.nombres, ' ', u.apellidos) AS datos_solicitante,
+    CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS datos_solicitante,
     DATE_FORMAT(s.fecha_solicitud, '%d/%m/%Y %H:%i') AS fecha_hora_solicitud,
     DATE_FORMAT(s.fecha_revision, '%d/%m/%Y %H:%i') AS fecha_hora_respuesta,
     s.estado,

@@ -133,4 +133,18 @@ SELECT * FROM movimientos;
 
 SELECT * FROM productos;
 
+-- -----------------------------------------------------
+-- Tabla de notificaciones (Datos para el Administrador)
+-- -----------------------------------------------------
+
+INSERT INTO `clan_db`.`notificaciones` 
+(`mensaje`, `tipo`, `fecha_creacion`, `id_usuarios`) 
+VALUES 
+('El producto "Jenga" ha llegado a un nivel crítico de stock (4 unidades).', 'danger', CURRENT_TIMESTAMP, 2),
+('Se ha registrado un nuevo usuario en el sistema: Roberto Díaz.', 'info', CURRENT_TIMESTAMP, 2),
+('Ingreso exitoso: 100 unidades de Papelotes registradas en almacén.', 'success', CURRENT_TIMESTAMP, 2),
+('Alerta de sistema: Hay solicitudes pendientes de revisión acumuladas en la bandeja.', 'warning', CURRENT_TIMESTAMP, 2);
+
+SELECT * FROM notificaciones;
+
 

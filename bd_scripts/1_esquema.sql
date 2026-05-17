@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `clan_db`.`usuarios` (
   `foto_perfil` VARCHAR(255) NULL,
   `activo` TINYINT NOT NULL DEFAULT 1 COMMENT '1 para activo, 0 para retirado, 2 para pendiente.',
   `id_creador` INT UNSIGNED NULL COMMENT 'ID del usuario (admin) que creó esta cuenta. Relación 1:N recursiva.',
+  `fecha_creacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_usuarios`),
   UNIQUE INDEX `correo_UNIQUE` (`correo` ASC) VISIBLE,
   INDEX `fk_usuarios_creador_idx` (`id_creador` ASC) VISIBLE,

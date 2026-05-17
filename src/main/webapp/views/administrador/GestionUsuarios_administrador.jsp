@@ -59,7 +59,7 @@
 
                     <!-- Sidebar - Brand -->
                     <a class="sidebar-brand d-flex align-items-center justify-content-center"
-                        href="inicio_administrador.html">
+                        href="${pageContext.request.contextPath}/InicioAdminServlet">
                         <div class="sidebar-brand-icon rotate-n-15">
                             <i class="fas fa-laugh-wink"></i>
                         </div>
@@ -71,14 +71,14 @@
 
                     <!-- Nav Item - INICIO -->
                     <li class="nav-item">
-                        <a class="nav-link" href="inicio_administrador.html">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/InicioAdminServlet">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
                             <span>INICIO</span></a>
                     </li>
 
                     <!-- Nav Item - GESTION DE USUARIOS -->
                     <li class="nav-item active">
-                        <a class="nav-link" href="GestionUsuarios_administrador.html">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/UsuariosServlet">
                             <i class="fas fa-fw fa-users mr"></i>
                             <span>GESTION DE USUARIOS</span></a>
                     </li>
@@ -86,7 +86,7 @@
 
                     <!-- Nav Item - GESTION DE INVENTARIO -->
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionInventario_administrador.html">
+                        <a class="nav-link" href="GestionInventario_administrador.jsp">
                             <i class="fas fa-fw fa-box mr"></i>
                             <span>GESTION DE INVENTARIO</span></a>
                     </li>
@@ -94,7 +94,7 @@
 
                     <!-- Nav Item - REPORTES -->
                     <li class="nav-item">
-                        <a class="nav-link" href="Reportes_administrador.html">
+                        <a class="nav-link" href="Reportes_administrador.jsp">
                             <i class="fas fa-fw fa-chart-area"></i>
                             <span>REPORTES</span></a>
                     </li>
@@ -445,7 +445,7 @@
                             actual</div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                            <a class="btn btn-primary" href="../../login.html">Cerrar Sesión</a>
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/login.jsp">Cerrar Sesión</a>
                         </div>
                     </div>
                 </div>

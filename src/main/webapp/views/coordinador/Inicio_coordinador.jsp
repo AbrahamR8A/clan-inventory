@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,16 +11,26 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Inicio-Administrador</title>
+    <title>Inicio-Coordinador</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </head>
 
@@ -31,47 +43,32 @@
         <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="inicio_administrador.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="Inicio_coordinador.jsp">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">CLAN INVENTORY </div>
+                <div class="sidebar-brand-text mx-3">CLAN INVETORY</div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - INICIO -->
+            <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="inicio_administrador.html">
+                <a class="nav-link" href="Inicio_coordinador.jsp">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>INICIO</span></a>
             </li>
 
-
-            <!-- Nav Item - GESTION DE USUARIOS -->
+            <!-- Nav Item - Historial de solicitudes -->
             <li class="nav-item">
-                <a class="nav-link" href="GestionUsuarios_administrador.html">
-                    <i class="fas fa-fw fa-users mr"></i>
-                    <span>GESTION DE USUARIOS</span></a>
-            </li>
-
-            <!-- Nav Item - GESTION DE INVENTARIO -->
-            <li class="nav-item">
-                <a class="nav-link" href="GestionInventario_administrador.html">
-                    <i class="fas fa-fw fa-box mr"></i>
-                    <span>GESTION DE INVENTARIO</span></a>
-            </li>
-
-            <!-- Nav Item - REPORTES -->
-            <li class="nav-item">
-                <a class="nav-link" href="Reportes_administrador.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>REPORTES</span></a>
+                <a class="nav-link" href="hist_soli.jsp"> <!-- FALTA LA REFERENCIA -->
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>HISTORIAL DE SOLICITUDES</span></a>
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -144,7 +141,7 @@
                                         
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
+                                        <div class="icon-circle bg-advertencia">
                                             <i class="fas fa-info text-white"></i>
                                         </div>
                                     </div>
@@ -154,7 +151,7 @@
                                     </div>
                                 </a>
                                     
-                                <a class="dropdown-item text-center small text-gray-500" href="notificaciones.html">Mostrar todas las notificaciones</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="notificaciones.jsp">Mostrar todas las notificaciones</a>
                             </div>
                         </li>
 
@@ -166,15 +163,15 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nathan Castillo</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Abraham Ramirez</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../../img/undraw_profile.svg">
+                                    src="${pageContext.request.contextPath}/img/undraw_profile.svg">
                             </a>
                             
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="perfil_depósito.html">
+                                <a class="dropdown-item" href="perfil_depósito.jsp">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
@@ -206,8 +203,8 @@
                     <!--<div class="d-sm-flex align-items-center justify-content-between mb-4">-->
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-0">
-                        <h1 class="h3 mb-0 text-gray-800">Panel de Control del mes</h1>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-auto">
+                        <h1 class="h3 mb-0 text-gray-800">Bandeja de solicitudes pendientes</h1>
                     </div>
 
                     <!-- Main Content -->
@@ -216,28 +213,10 @@
                         <div class="row">
 
                             <div class="col-lg-9">
-                                
+
                                 <div class="row mb-4">
 
-                                    <div class="col-xl-3 col-md-6 mb-4">
-                                        <div class="card border-left-admin shadow h-100 py-2">
-                                            <div class="card-body">
-                                                <div class="row no-gutters align-items-center">
-                                                    <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-admin text-uppercase mb-1">
-                                                            USUARIOS REGISTRADOS</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <i class="fas fa-user-check fa-2x text-gray-300"></i>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="col-xl-4 col-md-6 mb-4">
                                         <div class="card border-left-success shadow h-100 py-2">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
@@ -254,7 +233,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="col-xl-4 col-md-6 mb-4">
                                         <div class="card border-left-warning shadow h-100 py-2">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
@@ -271,7 +250,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="col-xl-4 col-md-6 mb-4">
                                         <div class="card border-left-danger shadow h-100 py-2">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
@@ -291,70 +270,115 @@
                                 </div>
 
                                 <div class="card shadow mb-4">
-                                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                            <h6 class="m-0 font-weight-bold text-admin">Actividad Reciente del Sistema</h6>
-                                            <a href="#" class="btn btn-sm btn-admin shadow-sm">Ver todo</a>
-                                        </div>
+                                    <!-- DataTales Example -->
+                                    <div class="card shadow mb-4">
+
                                         <div class="card-body">
+
+                                            <div class="row mb-3">
+
+                                                <div class="col-md-3">
+                                                    <label class="small font-weight-bold text-dark">Por Solicitante:</label>
+                                                    <select id="filtroRol" class="form-control select2" style="width: 100%;">
+                                                        <option>Seleccionar...</option>
+                                                        <option>Nathan</option>
+                                                        <option>Luis</option>
+                                                        <option>Camila</option>
+                                                        <option>Abraham</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="small font-weight-bold text-dark">Por Fecha:</label>
+                                                    <input type="date" class="form-control text-sm">
+                                                </div>
+                                                
+                                                <div class="col-md-auto mt-4">
+                                                    <button id="filtrar" type="button" class="btn btn-admin">
+                                                        <i class="fas fa-filter fa-sm mr-1"></i>Filtrar
+                                                    </button>
+                                                </div>
+
+                                            </div>
+
                                             <div class="table-responsive">
-                                                <table class="table table-hover table-striped text-gray-800" width="100%" cellspacing="0">
+
+                                                <table id="dataTable" class="table table-hover table-striped text-gray-800" >
                                                     <thead class="bg-light">
                                                         <tr>
-                                                            <th class="text-center">Usuario</th>
-                                                            <th class="text-center">Rol</th>
-                                                            <th class="text-center">Acción</th>
-                                                            <th class="text-center">Detalle</th>
-                                                            <th class="text-center">Fecha y Hora</th>
+                                                            <th class="centered font-weight-bold">ID de solicitud</th>
+                                                            <th class="centered font-weight-bold">Solicitante</th>
+                                                            <th class="centered font-weight-bold">Fecha</th>
+                                                            <th class="centered font-weight-bold">Estado</th>
+                                                            <th class="centered font-weight-bold">Acción</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td>Juan Pérez</td>
-                                                            <td><span class="badge badge-info px-2 py-1">Encargado de deposito</span></td>
-                                                            <td>Stock Añadido</td>
-                                                            <td>Agregó 50 unidades de "Legos"</td>
-                                                            <td class="text-center small">21/04/2026 - 09:15 AM</td>
+                                                            <td>#123456</td>
+                                                            <td>Nathan</td>
+                                                            <td>10/04/2026</td>
+                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
+                                                            <td>
+                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>María García</td>
-                                                            <td><span class="badge badge-coord px-2 py-1">Coordinador</span></td>
-                                                            <td>Solicitud Aprobada</td>
-                                                            <td>Aprobó solicitud #91843830</td>
-                                                            <td class="text-center small">21/04/2026 - 08:30 AM</td>
+                                                            <td>#789101</td>
+                                                            <td>Camila</td>
+                                                            <td>10/04/2026</td>
+                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
+                                                            <td>
+                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Sistema</td>
-                                                            <td>-</td>
-                                                            <td>Stock crítico</td>
-                                                            <td>"Kits Ayuda" llegó a nivel crítico (1 unidad)</td>
-                                                            <td class="text-center small">20/04/2026 - 11:45 PM</td>
+                                                            <td>#112131</td>
+                                                            <td>Luis</td>
+                                                            <td>10/04/2026</td>
+                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
+                                                            <td>
+                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Roberto Díaz</td>
-                                                            <td><span class="badge badge-admin px-2 py-1">Administradora</span></td>
-                                                            <td>Usuario Creado</td>
-                                                            <td>Registró a nuevo usuario: Carlos Ruiz</td>
-                                                            <td class="text-center small">20/04/2026 - 04:20 PM</td>
+                                                            <td>#415161</td>
+                                                            <td>Abraham</td>
+                                                            <td>10/04/2026</td>
+                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
+                                                            <td>
+                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Nathan Nael</td>
-                                                            <td><span class="badge badge-soli px-2 py-1">Solicitante</span></td>
-                                                            <td>Registró de solicitud</td>
-                                                            <td>Registró una nueva solicitud</td>
-                                                            <td class="text-center small">20/04/2026 - 04:20 PM</td>
+                                                            <td>#718192</td>
+                                                            <td>ariana</td>
+                                                            <td>10/04/2026</td>
+                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
+                                                            <td>
+                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
+                                                            </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>Luis Quillas</td>
-                                                            <td><span class="badge badge-soli px-2 py-1">Solicitante</span></td>
-                                                            <td>Registró de solicitud</td>
-                                                            <td>Registró una nueva solicitud</td>
-                                                            <td class="text-center small">20/04/2026 - 04:20 PM</td>
+                                                            <td>#0212223</td>
+                                                            <td>Nathan</td>
+                                                            <td>10/04/2026</td>
+                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
+                                                            <td>
+                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
+                                                            </td>
                                                         </tr>
+
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
+
+                                </div>
+                                
+
+
 
                             </div> 
                             
@@ -437,7 +461,7 @@
                                         
                                         <hr class="m-0">
                                         
-                                        <div class="p-2 small text-center bg-light">
+                                        <div class="p-2 small text-auto bg-light">
                                             <td class="text-center align-middle"><span class="badge badge-danger px-2 py-1">Crítico</span></td>
                                             <span class="mr-2"><i class="fas fa-circle text-danger"></i> 0 a 5</span>
                                             <td class="text-center align-middle"><span class="badge badge-advertencia px-2 py-1">bajo</span></td>
@@ -450,7 +474,7 @@
                                 </div>
 
                             </div>
-                            </div>
+                        </div>
 
 
                     </div>
@@ -495,25 +519,93 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../../login.html">Logout</a>
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/login.jsp">Logout</a>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../../vendor/jquery/jquery.min.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../../js/sb-admin-2.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../../vendor/chart.js/Chart.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="../../js/demo/chart-area-demo.js"></script>
-    <script src="../../js/demo/chart-pie-demo.js"></script>
+    <script src="${pageContext.request.contextPath}/js/demo/datatables-InicioCoord.js"></script>
+
+    <!-- Opciones de buscador y calendario -->
+    <script>
+    function cambiarFiltro() {
+        const tipo = document.getElementById('tipoFiltro').value;
+        const contenedor = document.getElementById('contenedorBusqueda');
+        const inputBusqueda = document.getElementById('inputBusqueda');
+        const inputFecha = document.getElementById('inputFecha');
+        const label = document.getElementById('labelBusqueda');
+
+        if (tipo === 'ninguno') {
+            contenedor.style.display = 'none';
+        } else {
+            contenedor.style.display = 'block';
+            
+            if (tipo === 'fecha') {
+                // Mostrar calendario
+                inputBusqueda.style.display = 'none';
+                inputFecha.style.display = 'block';
+                label.innerText = 'Seleccionar Fecha:';
+            } else {
+                // Mostrar buscador para Solicitante o Coordinador
+                inputBusqueda.style.display = 'block';
+                inputFecha.style.display = 'none';
+                label.innerText = (tipo === 'solicitante') ? 'Nombre del Solicitante:' : 'Nombre del Coordinador:';
+            }
+        }
+    }
+    </script>
+
+    <script>
+        window.onload = function() {
+            // 1. Capturamos los parámetros de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const accion = urlParams.get('action'); // Busca la palabra 'aprobada' o 'rechazada'
+            const idSolicitud = urlParams.get('id'); // Busca el número de solicitud
+
+            // 2. Si existen ambos parámetros, configuramos y mostramos la alerta
+            if (accion && idSolicitud) {
+                const toast = document.getElementById('actionToast');
+                const toastMessage = document.getElementById('toastMessage');
+                
+                // 3. Cambiamos el texto dinámicamente
+                if (accion === 'aprobada') {
+                    toastMessage.innerText = `La solicitud #${idSolicitud} ha sido aprobada correctamente.`;
+                    toast.classList.add('alert-success');
+                } else if (accion === 'rechazada') {
+                    toastMessage.innerText = `La solicitud #${idSolicitud} ha sido rechazada correctamente.`;
+                    // Cambiamos el color a rojo/advertencia si fue un rechazo
+                    toast.classList.remove('alert-success');
+                    toast.classList.add('alert-success'); 
+                }
+
+                // 4. Mostramos la alerta en pantalla
+                toast.style.display = 'block';
+                
+                // 5. Cierre automático después de 5 segundos (5000 milisegundos)
+                setTimeout(() => {
+                    $(toast).alert('close');
+                }, 5000);
+            }
+        };
+    </script>
+
+
+</body>
+
+</html>

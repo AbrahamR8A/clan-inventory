@@ -9,7 +9,7 @@ public class UsuariosDao extends BaseDao{
     // 1. CREATE: Registrar Nuevo Usuario
     public boolean registrarUsuario(Usuarios usuario) {
         String sql = "INSERT INTO usuarios (nombres, apellido_paterno, apellido_materno, rol, correo, contrasenia, activo, id_creador) " +
-                "VALUES (?, ?, ?, ?, ?, ?, 1, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -20,11 +20,13 @@ public class UsuariosDao extends BaseDao{
             pstmt.setString(4, usuario.getRol());
             pstmt.setString(5, usuario.getCorreo());
             pstmt.setString(6, usuario.getContrasenia()); // debe venir hasheado desde el Servlet
+            pstmt.setInt(7, usuario.getActivo());
+            
             // Manejamos idCreador como Integer para permitir NULL
             if (usuario.getIdCreador() != null) {
-                pstmt.setInt(7, usuario.getIdCreador());
+                pstmt.setInt(8, usuario.getIdCreador());
             } else {
-                pstmt.setNull(7, Types.INTEGER);
+                pstmt.setNull(8, Types.INTEGER);
             }
 
             return pstmt.executeUpdate() > 0;

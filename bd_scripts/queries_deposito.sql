@@ -26,8 +26,8 @@ WHERE tipo = 'entrada';
 -- Vista general básica
 SELECT 
     CONCAT('#', s.id_solicitudes) AS id_solicitud,
-    CONCAT(sol.nombres, ' ', sol.apellidos) AS solicitante,
-    CONCAT(coord.nombres, ' ', coord.apellidos) AS aprobador,
+    CONCAT(sol.nombres, ' ', sol.apellido_paterno, ' ', sol.apellido_materno) AS solicitante,
+    CONCAT(coord.nombres, ' ', coord.apellido_paterno, ' ', coord.apellido_materno) AS aprobador,
     DATE_FORMAT(s.fecha_revision, '%d/%m/%Y') AS fecha
 FROM clan_db.solicitudes s
 JOIN clan_db.usuarios sol ON s.id_solicitante = sol.id_usuarios
@@ -42,8 +42,8 @@ SET @buscar = NULL;
 
 SELECT 
     s.id_solicitudes AS id_solicitud,
-    CONCAT(u_sol.nombres, ' ', u_sol.apellidos) AS nombre_solicitante,
-    CONCAT(u_coord.nombres, ' ', u_coord.apellidos) AS aprobador,
+    CONCAT(u_sol.nombres, ' ', u_sol.apellido_paterno, ' ', u_sol.apellido_materno) AS nombre_solicitante,
+    CONCAT(u_coord.nombres, ' ', u_coord.apellido_paterno, ' ', u_coord.apellido_materno) AS aprobador,
     DATE_FORMAT(s.fecha_revision, '%d/%m/%Y') AS fecha
 FROM clan_db.solicitudes s
 JOIN clan_db.usuarios u_sol ON s.id_solicitante = u_sol.id_usuarios
@@ -54,8 +54,8 @@ WHERE s.estado = 'aprobada'
   AND (@filtro_fecha IS NULL OR DATE(s.fecha_revision) = @filtro_fecha)
   AND (@buscar IS NULL
         OR s.id_solicitudes LIKE CONCAT('%', @buscar, '%')
-        OR CONCAT(u_sol.nombres, ' ', u_sol.apellidos) LIKE CONCAT('%', @buscar, '%')
-        OR CONCAT(u_coord.nombres, ' ', u_coord.apellidos) LIKE CONCAT('%', @buscar, '%')
+        OR CONCAT(u_sol.nombres, ' ', u_sol.apellido_paterno, ' ', u_sol.apellido_materno) LIKE CONCAT('%', @buscar, '%')
+        OR CONCAT(u_coord.nombres, ' ', u_coord.apellido_paterno, ' ', u_coord.apellido_materno) LIKE CONCAT('%', @buscar, '%')
       )
 ORDER BY s.fecha_solicitud DESC;
 
@@ -63,8 +63,8 @@ ORDER BY s.fecha_solicitud DESC;
 -- 3. VER DETALLE DE UNA SOLICITUD APROBADA (Ejemplo con ID 2)
 SELECT 
     DATE_FORMAT(s.fecha_revision, '%d/%m/%Y') AS fecha_aprobacion,
-    CONCAT(sol.nombres, ' ', sol.apellidos) AS solicitado_por,
-    CONCAT(coord.nombres, ' ', coord.apellidos) AS aprobado_por,
+    CONCAT(sol.nombres, ' ', sol.apellido_paterno, ' ', sol.apellido_materno) AS solicitado_por,
+    CONCAT(coord.nombres, ' ', coord.apellido_paterno, ' ', coord.apellido_materno) AS aprobado_por,
     d.cantidad AS cantidad,
     p.nombre AS material,
     CONCAT(c.sigla, '-', p.codigo) AS sku,
@@ -96,7 +96,7 @@ WHERE p.activo = 1;
 -- Registro histórico de salidas (Solicitudes ya entregadas)
 SELECT 
     CONCAT('#', s.id_solicitudes) AS id_solicitud,
-    CONCAT(u.nombres, ' ', u.apellidos) AS solicitante,
+    CONCAT(u.nombres, ' ', u.apellido_paterno, ' ', u.apellido_materno) AS solicitante,
     DATE_FORMAT(s.fecha_solicitud, '%d/%m/%Y') AS fecha_pedido,
     DATE_FORMAT(s.fecha_entrega, '%d/%m/%Y') AS fecha_entrega
 FROM clan_db.solicitudes s
