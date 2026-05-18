@@ -1,12 +1,12 @@
 let dataTable;
 
 const dataTableOptions = {
-  pageLength: 6,
+  pageLength: 5,
   destroy:true,
-
+  searching: false,
   //scrollX: "2000px",
 
-  lengthMenu:[3, 5, 7],
+  lengthMenu:[5, 7],
 
   columnDefs: [
       {className:"centered",targets:[0, 1, 2, 3, 4] },
