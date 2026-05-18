@@ -257,52 +257,58 @@
 
                                     </div>
                                     <div class="card-body">
+                                        <form action="${pageContext.request.contextPath}/UsuariosServlet" method="GET" class="w-100 mb-4">
+                                            <div class="row no-gutters align-items-center mb-3">
 
-                                        <div class="row mb-3">
-                                            <div class="col-md-3">
-                                                <label class="small font-weight-bold text-dark">Por Usuario:</label>
-                                                <select id="filtroUsuario" class="form-control select2"
-                                                    style="width: 100%;">
-                                                    <option value="">Todos los usuarios</option>
-                                                    <c:forEach var="u" items="${listaUsuarios}">
-                                                        <option
-                                                            value="${u.nombres} ${u.apellidoPaterno} ${u.apellidoMaterno}">
-                                                            ${u.nombres} ${u.apellidoPaterno} ${u.apellidoMaterno}
-                                                        </option>
-                                                    </c:forEach>
-                                                </select>
+                                                <div class="col-md-3 pr-2">
+                                                    <%-- label --%>
+                                                    <input type="text" name="buscar" class="form-control" placeholder="Buscar por nombre o correo..." value="${busquedaActual}">
+                                                </div>
+
+                                                <div class="col-md-3 pr-2">
+                                                    <%-- <label class="small font-weight-bold text-dark">Por Usuario:</label> --%>
+                                                    <select name="filtro_usuario_id" class="form-control select2" style="width: 100%;">
+                                                        <option value="">Filtrar por Usuario...</option>
+                                                        <c:forEach var="u" items="${listaCompletaUsuarios}">
+                                                            <option value="${u.idUsuarios}" ${usuarioActual == u.idUsuarios ? 'selected' : ''}>
+                                                                    ${u.nombres} ${u.apellidoPaterno} ${u.apellidoMaterno}
+                                                            </option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-2 pr-2">
+                                                    <%--<label class="small font-weight-bold text-dark">Por Rol:</label>--%>
+                                                    <select name="filtro_rol" class="form-control select2" style="width: 100%;">
+                                                        <option value="">Filtrar por Rol...</option>
+                                                        <option value="administrador" ${rolActual == 'administrador' ? 'selected' : ''}>Administrador</option>
+                                                        <option value="coordinador" ${rolActual == 'coordinador' ? 'selected' : ''}>Coordinador</option>
+                                                        <option value="solicitante" ${rolActual == 'solicitante' ? 'selected' : ''}>Solicitante</option>
+                                                        <option value="encargado_deposito" ${rolActual == 'encargado_deposito' ? 'selected' : ''}>Encargado de depósito</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-2 pr-2">
+                                                    <%--<label class="small font-weight-bold text-dark">Por Estado:</label>--%>
+                                                    <select name="filtro_estado" class="form-control select2" style="width: 100%;">
+                                                        <option value="">Filtrar por Estado...</option>
+                                                        <option value="1" ${estadoActual == '1' ? 'selected' : ''}>Activo</option>
+                                                        <option value="0" ${estadoActual == '0' ? 'selected' : ''}>Inactivo</option>
+                                                        <%-- <option value="2" ${estadoActual == '2' ? 'selected' : ''}>Pendiente</option> --%>
+                                                    </select>
+
+                                                </div>
+
+                                                <div class="col-md-2 d-flex justify-content-between">
+                                                    <button type="submit" class="btn btn-admin flex-grow-1 mr-2" style="height: 38px;">
+                                                        <i class="fas fa-filter fa-sm mr-1"></i>
+                                                    </button>
+                                                    <a href="${pageContext.request.contextPath}/UsuariosServlet" class="btn btn-light shadow-sm">
+                                                        <i class="fas fa-eraser text-secondary"></i>
+                                                    </a>
+                                                </div>
                                             </div>
-
-                                            <div class="col-md-3">
-                                                <label class="small font-weight-bold text-dark">Por Rol:</label>
-                                                <select id="filtroRol" class="form-control select2"
-                                                    style="width: 100%;">
-                                                    <option value="">Todos los roles</option>
-                                                    <option value="Administrador">Administrador</option>
-                                                    <option value="Coordinador">Coordinador</option>
-                                                    <option value="Solicitante">Solicitante</option>
-                                                    <option value="Encargado de depósito">Encargado de depósito</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3">
-                                                <label class="small font-weight-bold text-dark">Por Estado:</label>
-                                                <select id="filtroEstado" class="form-control select2"
-                                                    style="width: 100%;">
-                                                    <option value="">Todos los estados</option>
-                                                    <option value="Activo">Activo</option>
-                                                    <option value="Inactivo">Inactivo</option>
-                                                    <option value="Pendiente">Pendiente</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-auto mt-4">
-                                                <button id="filtrar" type="button" class="btn btn-admin">
-                                                    <i class="fas fa-filter fa-sm mr-1"></i>Filtrar
-                                                </button>
-                                            </div>
-
-                                        </div>
-
+                                        </form>
                                         <div class="table-responsive">
 
                                             <table id="dataTable" class="table table-hover table-striped text-gray-800">
@@ -366,10 +372,9 @@
 
                                                                     <td>
                                                                         <c:choose>
-                                                                            <c:when test="${usuario.activo == 1}">Activo
-                                                                            </c:when>
-                                                                            <c:when test="${usuario.activo == 2}">
-                                                                                Pendiente</c:when>
+                                                                            <c:when test="${usuario.activo == 1}">Activo</c:when>
+                                                                            <%--<c:when test="${usuario.activo == 2}">
+                                                                                Pendiente</c:when>--%>
                                                                             <c:otherwise>Inactivo</c:otherwise>
                                                                         </c:choose>
                                                                     </td>
@@ -717,21 +722,6 @@
                         width: '100%'
                     });
 
-                    // 2. Conectar los filtros a la tabla
-                    $('#filtrar').on('click', function () {
-                        // Capturamos los valores actuales de los select
-                        const usuarioVal = $('#filtroUsuario').val();
-                        const rolVal = $('#filtroRol').val();
-                        const estadoVal = $('#filtroEstado').val();
-
-                        // Aplicamos la búsqueda a las columnas correspondientes
-                        dataTable.column(0).search(usuarioVal);
-                        dataTable.column(2).search(rolVal);
-                        dataTable.column(3).search(estadoVal);
-
-                        // Finalmente dibujamos la tabla con todos los filtros aplicados
-                        dataTable.draw();
-                    });
                 });
             </script>
 
