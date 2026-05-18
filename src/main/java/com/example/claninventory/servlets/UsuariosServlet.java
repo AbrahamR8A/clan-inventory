@@ -45,15 +45,15 @@ public class UsuariosServlet extends HttpServlet {
             String contrasenia = request.getParameter("password"); // Corregido
             String rol = request.getParameter("rol");
 
-            // 2. Llenar el objeto usando los nombres de métodos correctos de tu Bean
+            // 2. Llenar el objeto usando los nombres de métodos correctos
             Usuarios nuevoUsuario = new Usuarios();
             nuevoUsuario.setNombres(nombres);
-            nuevoUsuario.setApellidoPaterno(apellidoPaterno); // Corregido camelCase
-            nuevoUsuario.setApellidoMaterno(apellidoMaterno); // Corregido camelCase
+            nuevoUsuario.setApellidoPaterno(apellidoPaterno);
+            nuevoUsuario.setApellidoMaterno(apellidoMaterno);
             nuevoUsuario.setCorreo(correo);
             nuevoUsuario.setContrasenia(contrasenia);
             nuevoUsuario.setRol(rol);
-            nuevoUsuario.setActivo(2); // 2 representa estado Pendiente
+            nuevoUsuario.setActivo(1); // setActivo(2) para usuario 'pendiente' es un deseable
 
             usuariosDao.registrarUsuario(nuevoUsuario);
 
@@ -65,15 +65,26 @@ public class UsuariosServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 1. Instanciamos el DAO y obtenemos la lista de la base de datos
+        String filtroUsuarioId = request.getParameter("filtro_usuario_id");
+        String buscar = request.getParameter("buscar");
+        String filtroRol = request.getParameter("filtro_rol");
+        String filtroEstado = request.getParameter("filtro_estado");
+
         UsuariosDao usuariosDao = new UsuariosDao();
-        // Nota: Asegúrate de importar java.util.ArrayList en tu Servlet si no lo tienes
-        java.util.ArrayList<Usuarios> lista = usuariosDao.listarUsuarios();
 
-        // 2. Guardamos la lista en el request con el nombre "listaUsuarios" (el mismo que usa tu JSP)
-        request.setAttribute("listaUsuarios", lista);
+        // 1. Lista COMPLETA para que el <select> siempre tenga a todos los usuarios
+        request.setAttribute("listaCompletaUsuarios", usuariosDao.listarUsuarios());
 
-        // 3. Enviamos (forward) la petición al JSP para que dibuje la tabla
+        // 2. Lista FILTRADA para mostrar en la tabla HTML
+        java.util.ArrayList<Usuarios> listaFiltrada = usuariosDao.listarUsuariosFiltrados(filtroUsuarioId, buscar, filtroRol, filtroEstado);
+        request.setAttribute("listaUsuarios", listaFiltrada);
+
+        // 3. Devolvemos los valores ingresados para que el formulario no se borre al recargar
+        request.setAttribute("usuarioActual", filtroUsuarioId);
+        request.setAttribute("busquedaActual", buscar);
+        request.setAttribute("rolActual", filtroRol);
+        request.setAttribute("estadoActual", filtroEstado);
+
         request.getRequestDispatcher("/views/administrador/GestionUsuarios_administrador.jsp").forward(request, response);
     }
 }
