@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `clan_db`.`usuarios` (
   `rol` ENUM('administrador', 'coordinador', 'encargado_deposito', 'solicitante', 'superadmin') NOT NULL COMMENT 'Roles definidos.',
   `correo` VARCHAR(45) NOT NULL COMMENT 'Correo del usuario.\nTiene marcado UQ (unique index) para que no existan dos cuentas con el mismo correo.',
   `contrasenia` VARCHAR(255) NOT NULL,
-  `foto_perfil` VARCHAR(255) NULL,
+  `foto_perfil` LONGBLOB NULL COMMENT 'Foto de perfil almacenada como binario directamente en la BD.',
   `activo` TINYINT NOT NULL DEFAULT 1 COMMENT '1 para activo, 0 para retirado, 2 para pendiente.',
   `id_creador` INT UNSIGNED NULL COMMENT 'ID del usuario (admin) que creó esta cuenta. Relación 1:N recursiva.',
   `fecha_creacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

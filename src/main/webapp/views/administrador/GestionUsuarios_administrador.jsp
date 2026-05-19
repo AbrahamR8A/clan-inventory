@@ -469,7 +469,8 @@
                             <div class="row">
                                 <div class="col-lg-7">
                                     <form id="formNuevoUsuario" class="text-left" method="POST"
-                                        action="${pageContext.request.contextPath}/UsuariosServlet">
+                                        action="${pageContext.request.contextPath}/UsuariosServlet"
+                                        enctype="multipart/form-data">
                                         <div class="form-group mb-3">
                                             <label class="font-weight-bold text-dark small">Nombre/s</label>
                                             <input type="text" class="form-control" id="inputNombre" name="nombres"
@@ -528,15 +529,24 @@
 
                                 <div
                                     class="col-lg-5 d-flex flex-column align-items-center justify-content-center border-left">
-                                    <div
-                                        class="foto-container text-center w-100 mb-3 d-flex flex-column align-items-center">
-                                        <div
-                                            class="foto-placeholder mb-2 p-4 bg-light rounded-circle d-inline-block border">
-                                            <i class="fas fa-user-plus fa-3x text-gray-300"></i>
+                                    <%-- Zona de foto de perfil para nuevo usuario --%>
+                                    <div class="foto-container text-center w-100 mb-3 d-flex flex-column align-items-center">
+                                        <div id="fotoPreviewNuevo"
+                                            class="mb-2 rounded-circle d-inline-block border overflow-hidden"
+                                            style="width:110px;height:110px;background:#f8f9fc;display:flex!important;align-items:center;justify-content:center;">
+                                            <i class="fas fa-user-plus fa-3x text-gray-300" id="iconoFotoNuevo"></i>
+                                            <img id="imgPreviewNuevo" src="#" alt="preview"
+                                                style="display:none;width:110px;height:110px;object-fit:cover;">
                                         </div>
                                         <br>
-                                        <button type="button" class="btn btn-outline-secondary btn-sm px-3">Subir
-                                            Imagen</button>
+                                        <%-- El input file va DENTRO del form para que se envíe --%>
+                                        <input type="file" id="inputFotoNuevo" name="foto_perfil"
+                                            accept="image/*" class="d-none" form="formNuevoUsuario">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm px-3"
+                                            onclick="document.getElementById('inputFotoNuevo').click()">
+                                            <i class="fas fa-camera mr-1"></i> Subir Imagen
+                                        </button>
+                                        <small class="text-muted mt-1" id="nombreArchivoNuevo">Ningún archivo</small>
                                     </div>
 
                                     <div class="w-100 text-center mt-3">
@@ -588,41 +598,51 @@
                             </button>
                         </div>
                         <div class="modal-body p-4">
+                            <%-- Checkbox de confirmación --%>
+                            <div class="alert alert-warning py-2 mb-3" id="editarAlertaConfirm">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="checkConfirmarEdicion">
+                                    <label class="custom-control-label font-weight-bold" for="checkConfirmarEdicion">
+                                        Confirmo que deseo editar los datos de este usuario
+                                    </label>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-lg-7">
                                     <form id="formEditarUsuario" class="text-left" method="POST"
-                                        action="${pageContext.request.contextPath}/UsuariosServlet">
+                                        action="${pageContext.request.contextPath}/UsuariosServlet"
+                                        enctype="multipart/form-data">
                                         <input type="hidden" name="action" id="editAction" value="editar">
                                         <input type="hidden" name="id_usuario" id="editIdUsuario">
 
                                         <div class="form-group mb-3">
                                             <label class="font-weight-bold text-dark small">Nombre/s</label>
                                             <input type="text" class="form-control" id="editNombre" name="nombres"
-                                                required>
+                                                required disabled>
                                         </div>
 
                                         <div class="form-row mb-2">
                                             <div class="form-group col-md-6">
                                                 <label class="font-weight-bold text-dark small">Apellido Paterno</label>
                                                 <input type="text" class="form-control" id="editApePaterno"
-                                                    name="apellido_paterno" required>
+                                                    name="apellido_paterno" required disabled>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="font-weight-bold text-dark small">Apellido Materno</label>
                                                 <input type="text" class="form-control" id="editApeMaterno"
-                                                    name="apellido_materno" required>
+                                                    name="apellido_materno" required disabled>
                                             </div>
                                         </div>
 
                                         <div class="form-group mb-3">
                                             <label class="font-weight-bold text-dark small">Correo Electrónico</label>
                                             <input type="email" class="form-control" id="editCorreo"
-                                                name="correo_electronico" required>
+                                                name="correo_electronico" required disabled>
                                         </div>
 
                                         <div class="form-group mb-0">
                                             <label class="font-weight-bold text-dark small">Asignar Rol</label>
-                                            <select id="editRol" name="rol" class="form-control border-left-success">
+                                            <select id="editRol" name="rol" class="form-control border-left-success" disabled>
                                                 <option value="solicitante">Solicitante</option>
                                                 <option value="coordinador">Coordinador</option>
                                                 <option value="encargado_deposito">Encargado de Depósito</option>
@@ -634,21 +654,32 @@
 
                                 <div
                                     class="col-lg-5 d-flex flex-column align-items-center justify-content-center border-left">
-                                    <div
-                                        class="foto-container text-center w-100 mb-3 d-flex flex-column align-items-center">
-                                        <div
-                                            class="foto-placeholder mb-2 p-4 bg-light rounded-circle d-inline-block border">
-                                            <i class="fas fa-user-edit fa-3x text-gray-300"></i>
+                                    <%-- Zona de foto de perfil en edición --%>
+                                    <div class="foto-container text-center w-100 mb-3 d-flex flex-column align-items-center">
+                                        <div id="fotoPreviewEditar"
+                                            class="mb-2 rounded-circle d-inline-block border overflow-hidden"
+                                            style="width:110px;height:110px;background:#f8f9fc;display:flex!important;align-items:center;justify-content:center;">
+                                            <i class="fas fa-user-edit fa-3x text-gray-300" id="iconoFotoEditar"></i>
+                                            <img id="imgPreviewEditar" src="#" alt="preview"
+                                                style="display:none;width:110px;height:110px;object-fit:cover;">
                                         </div>
+                                        <input type="file" id="inputFotoEditar" name="foto_perfil_editar"
+                                            accept="image/*" class="d-none" form="formEditarUsuario" disabled>
+                                        <button type="button" id="btnSubirFotoEditar"
+                                            class="btn btn-outline-secondary btn-sm px-3 mt-2" disabled
+                                            onclick="document.getElementById('inputFotoEditar').click()">
+                                            <i class="fas fa-camera mr-1"></i> Cambiar Foto
+                                        </button>
+                                        <small class="text-muted mt-1" id="nombreArchivoEditar">Sin cambios</small>
                                     </div>
 
                                     <div class="w-100 text-center mt-3">
                                         <button type="button" class="btn btn-admin btn-block shadow-sm mb-3"
-                                            id="btnGuardarEdicion">
+                                            id="btnGuardarEdicion" disabled>
                                             Guardar Cambios
                                         </button>
                                         <button type="button" class="btn btn-danger btn-block shadow-sm"
-                                            id="btnDesactivarUsuario">
+                                            id="btnDesactivarUsuario" disabled>
                                             Desactivar Usuario
                                         </button>
                                         <button type="button" class="btn btn-light btn-block btn-sm mt-2"
@@ -763,6 +794,21 @@
                     [Nombre, ApellidoP, ApellidoM, Correo, Pass, PassConf].forEach(el => el.addEventListener("input", evaluarBoton));
                     inputRol.addEventListener("change", evaluarBoton);
 
+                    // Preview de foto en el modal de creación
+                    document.getElementById('inputFotoNuevo').addEventListener('change', function() {
+                        const file = this.files[0];
+                        if (file && file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                document.getElementById('imgPreviewNuevo').src = e.target.result;
+                                document.getElementById('imgPreviewNuevo').style.display = 'block';
+                                document.getElementById('iconoFotoNuevo').style.display = 'none';
+                            };
+                            reader.readAsDataURL(file);
+                            document.getElementById('nombreArchivoNuevo').textContent = file.name;
+                        }
+                    });
+
                     // 4. Al hacer clic en "Finalizar Registro", ocultamos el primer modal y abrimos el resumen
                     $('#btnRegistrarUsuario').on('click', function () {
                         let nombreCompleto = Nombre.value.trim() + " " + ApellidoP.value.trim() + " " + ApellidoM.value.trim();
@@ -830,6 +876,34 @@
                     const editAction = document.getElementById('editAction');
                     const btnGuardarEdicion = document.getElementById('btnGuardarEdicion');
                     const btnDesactivarUsuario = document.getElementById('btnDesactivarUsuario');
+                    const checkConfirmar = document.getElementById('checkConfirmarEdicion');
+                    const camposEditar = ['editNombre', 'editApePaterno', 'editApeMaterno', 'editCorreo', 'editRol'];
+
+                    // Función para habilitar/deshabilitar los campos según el checkbox
+                    function actualizarEstadoEdicion() {
+                        const habilitado = checkConfirmar.checked;
+                        camposEditar.forEach(id => {
+                            document.getElementById(id).disabled = !habilitado;
+                        });
+                        btnGuardarEdicion.disabled = !habilitado;
+                        btnDesactivarUsuario.disabled = !habilitado;
+                        document.getElementById('inputFotoEditar').disabled = !habilitado;
+                        document.getElementById('btnSubirFotoEditar').disabled = !habilitado;
+                    }
+
+                    checkConfirmar.addEventListener('change', actualizarEstadoEdicion);
+
+                    // Al abrir el modal de edición: resetear el checkbox y bloquear campos
+                    $('#modalEditarUsuario').on('show.bs.modal', function () {
+                        checkConfirmar.checked = false;
+                        actualizarEstadoEdicion();
+                        // Limpiar foto previa
+                        document.getElementById('imgPreviewEditar').style.display = 'none';
+                        document.getElementById('imgPreviewEditar').src = '#';
+                        document.getElementById('iconoFotoEditar').style.display = 'inline';
+                        document.getElementById('inputFotoEditar').value = '';
+                        document.getElementById('nombreArchivoEditar').textContent = 'Sin cambios';
+                    });
 
                     btnEditarList.forEach(btn => {
                         btn.addEventListener('click', function () {
@@ -847,12 +921,48 @@
                             document.getElementById('editCorreo').value = this.getAttribute('data-correo');
                             document.getElementById('editRol').value = this.getAttribute('data-rol');
 
+                            // Intentar cargar la foto actual del usuario desde el servidor
+                            const idUsuario = this.getAttribute('data-id');
+                            const imgEditar = document.getElementById('imgPreviewEditar');
+                            const iconoEditar = document.getElementById('iconoFotoEditar');
+                            const urlFoto = '${pageContext.request.contextPath}/UsuariosServlet?action=foto&id=' + idUsuario;
+                            imgEditar.onerror = function() {
+                                imgEditar.style.display = 'none';
+                                iconoEditar.style.display = 'inline';
+                            };
+                            imgEditar.onload = function() {
+                                imgEditar.style.display = 'block';
+                                iconoEditar.style.display = 'none';
+                            };
+                            imgEditar.src = urlFoto;
+
                             $('#modalEditarUsuario').modal('show');
                         });
                     });
 
+                    // Preview de foto en el modal de edición
+                    document.getElementById('inputFotoEditar').addEventListener('change', function() {
+                        const file = this.files[0];
+                        if (file && file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                document.getElementById('imgPreviewEditar').src = e.target.result;
+                                document.getElementById('imgPreviewEditar').style.display = 'block';
+                                document.getElementById('iconoFotoEditar').style.display = 'none';
+                                document.getElementById('imgPreviewEditar').onerror = null; // reset error handler
+                            };
+                            reader.readAsDataURL(file);
+                            document.getElementById('nombreArchivoEditar').textContent = file.name;
+                        }
+                    });
+
                     btnGuardarEdicion.addEventListener('click', function () {
                         editAction.value = "editar";
+                        // Los campos disabled no se envían en el POST → los habilitamos justo antes del submit
+                        camposEditar.forEach(id => {
+                            document.getElementById(id).disabled = false;
+                        });
+                        document.getElementById('inputFotoEditar').disabled = false;
                         formEditar.submit();
                     });
 

@@ -4,12 +4,18 @@ import com.example.claninventory.beans.Usuarios;
 import com.example.claninventory.daos.UsuariosDao;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
+@MultipartConfig(maxFileSize = 5 * 1024 * 1024) // máximo 5 MB por foto
 @WebServlet(name = "UsuariosServlet", urlPatterns = {"/UsuariosServlet"})
 public class UsuariosServlet extends HttpServlet {
 
@@ -29,7 +35,15 @@ public class UsuariosServlet extends HttpServlet {
             usuario.setApellidoMaterno(request.getParameter("apellido_materno"));
             usuario.setCorreo(request.getParameter("correo_electronico"));
             usuario.setRol(request.getParameter("rol"));
-            
+
+            // Procesar foto del modal de edición (opcional)
+            Part fotoPart = request.getPart("foto_perfil_editar");
+            if (fotoPart != null && fotoPart.getSize() > 0) {
+                try (InputStream is = fotoPart.getInputStream()) {
+                    usuario.setFotoPerfil(leerBytes(is));
+                }
+            }
+
             usuariosDao.actualizarUsuario(usuario);
             response.sendRedirect(request.getContextPath() + "/UsuariosServlet?msg=edit_success");
         } else if ("desactivar".equals(action)) {
@@ -37,12 +51,12 @@ public class UsuariosServlet extends HttpServlet {
             usuariosDao.desactivarUsuario(id);
             response.sendRedirect(request.getContextPath() + "/UsuariosServlet?msg=deactivate_success");
         } else {
-            // 1. Capturar los datos exactamente como se llaman en el 'name' de tu JSP
+            // Registro de nuevo usuario
             String nombres = request.getParameter("nombres");
             String apellidoPaterno = request.getParameter("apellido_paterno");
             String apellidoMaterno = request.getParameter("apellido_materno");
-            String correo = request.getParameter("correo_electronico"); // Corregido
-            String contrasenia = request.getParameter("password"); // Corregido
+            String correo = request.getParameter("correo_electronico");
+            String contrasenia = request.getParameter("password");
             String rol = request.getParameter("rol");
 
             // 2. Llenar el objeto usando los nombres de métodos correctos
@@ -55,8 +69,15 @@ public class UsuariosServlet extends HttpServlet {
             nuevoUsuario.setRol(rol);
             nuevoUsuario.setActivo(1); // setActivo(2) para usuario 'pendiente' es un deseable
 
-            usuariosDao.registrarUsuario(nuevoUsuario);
+            // Procesar foto de perfil (campo opcional del modal)
+            Part fotoPart = request.getPart("foto_perfil");
+            if (fotoPart != null && fotoPart.getSize() > 0) {
+                try (InputStream is = fotoPart.getInputStream()) {
+                    nuevoUsuario.setFotoPerfil(leerBytes(is));
+                }
+            }
 
+            usuariosDao.registrarUsuario(nuevoUsuario);
             response.sendRedirect(request.getContextPath() + "/UsuariosServlet?msg=success");
         }
     }
@@ -64,6 +85,25 @@ public class UsuariosServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String action = request.getParameter("action");
+
+        // Endpoint para servir la foto de un usuario directamente (usada en <img src="...">)
+        if ("foto".equals(action)) {
+            UsuariosDao usuariosDao = new UsuariosDao();
+            int id = Integer.parseInt(request.getParameter("id"));
+            byte[] foto = usuariosDao.obtenerFotoPerfil(id);
+            if (foto != null && foto.length > 0) {
+                response.setContentType("image/jpeg");
+                response.setContentLength(foto.length);
+                try (OutputStream os = response.getOutputStream()) {
+                    os.write(foto);
+                }
+            } else {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            }
+            return;
+        }
 
         String filtroUsuarioId = request.getParameter("filtro_usuario_id");
         String buscar = request.getParameter("buscar");
@@ -86,5 +126,18 @@ public class UsuariosServlet extends HttpServlet {
         request.setAttribute("estadoActual", filtroEstado);
 
         request.getRequestDispatcher("/views/administrador/GestionUsuarios_administrador.jsp").forward(request, response);
+    }
+    /**
+     * Lee todos los bytes de un InputStream.
+     * Equivalente a InputStream.readAllBytes() de Java 9+, compatible con Java 8.
+     */
+    private byte[] leerBytes(InputStream is) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        byte[] chunk = new byte[8192];
+        int bytesLeidos;
+        while ((bytesLeidos = is.read(chunk)) != -1) {
+            buffer.write(chunk, 0, bytesLeidos);
+        }
+        return buffer.toByteArray();
     }
 }

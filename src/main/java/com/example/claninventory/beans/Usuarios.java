@@ -8,7 +8,7 @@ public class Usuarios {
     private String rol;
     private String correo;
     private String contrasenia;
-    private String fotoPerfil;
+    private byte[] fotoPerfil;
     private int activo;
     private Integer idCreador;
 
@@ -70,11 +70,11 @@ public class Usuarios {
         this.contrasenia = contrasenia;
     }
 
-    public String getFotoPerfil() {
+    public byte[] getFotoPerfil() {
         return fotoPerfil;
     }
 
-    public void setFotoPerfil(String fotoPerfil) {
+    public void setFotoPerfil(byte[] fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
     }
 

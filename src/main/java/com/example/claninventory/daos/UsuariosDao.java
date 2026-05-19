@@ -8,8 +8,8 @@ public class UsuariosDao extends BaseDao{
 
     // 1. CREATE: Registrar Nuevo Usuario
     public boolean registrarUsuario(Usuarios usuario) {
-        String sql = "INSERT INTO usuarios (nombres, apellido_paterno, apellido_materno, rol, correo, contrasenia, activo, id_creador) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (nombres, apellido_paterno, apellido_materno, rol, correo, contrasenia, activo, id_creador, foto_perfil) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -27,6 +27,13 @@ public class UsuariosDao extends BaseDao{
                 pstmt.setInt(8, usuario.getIdCreador());
             } else {
                 pstmt.setNull(8, Types.INTEGER);
+            }
+
+            // Guardamos la foto como BLOB; si no viene foto, guardamos NULL
+            if (usuario.getFotoPerfil() != null && usuario.getFotoPerfil().length > 0) {
+                pstmt.setBytes(9, usuario.getFotoPerfil());
+            } else {
+                pstmt.setNull(9, Types.BLOB);
             }
 
             return pstmt.executeUpdate() > 0;
@@ -129,10 +136,13 @@ public class UsuariosDao extends BaseDao{
         }
         return lista;
     }
-    // 3. UPDATE: Editar datos de un usuario
+    // 3. UPDATE: Editar datos de un usuario (con foto opcional)
     public boolean actualizarUsuario(Usuarios usuario) {
-        String sql = "UPDATE usuarios SET nombres = ?, apellido_paterno = ?, apellido_materno = ?, rol = ?, correo = ? " +
-                "WHERE id_usuarios = ?";
+        // Si viene foto nueva la actualizamos; si no, solo actualizamos los campos de texto
+        boolean tieneFoto = usuario.getFotoPerfil() != null && usuario.getFotoPerfil().length > 0;
+        String sql = tieneFoto
+                ? "UPDATE usuarios SET nombres = ?, apellido_paterno = ?, apellido_materno = ?, rol = ?, correo = ?, foto_perfil = ? WHERE id_usuarios = ?"
+                : "UPDATE usuarios SET nombres = ?, apellido_paterno = ?, apellido_materno = ?, rol = ?, correo = ? WHERE id_usuarios = ?";
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -142,13 +152,35 @@ public class UsuariosDao extends BaseDao{
             pstmt.setString(3, usuario.getApellidoMaterno());
             pstmt.setString(4, usuario.getRol());
             pstmt.setString(5, usuario.getCorreo());
-            pstmt.setInt(6, usuario.getIdUsuarios());
+            if (tieneFoto) {
+                pstmt.setBytes(6, usuario.getFotoPerfil());
+                pstmt.setInt(7, usuario.getIdUsuarios());
+            } else {
+                pstmt.setInt(6, usuario.getIdUsuarios());
+            }
 
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    // 3.1 Obtener foto de perfil de un usuario (para mostrarla en el modal de edición)
+    public byte[] obtenerFotoPerfil(int idUsuario) {
+        String sql = "SELECT foto_perfil FROM usuarios WHERE id_usuarios = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idUsuario);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBytes("foto_perfil");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // 4. DELETE (Lógico): Cambiar estado a inactivo
