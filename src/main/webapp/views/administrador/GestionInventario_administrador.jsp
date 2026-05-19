@@ -59,9 +59,6 @@
                     <span>INICIO</span></a>
             </li>
 
-            <!-- Divider -->
-            <!--<hr class="sidebar-divider">-->
-
             <!-- Nav Item - GESTION DE USUARIOS -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/UsuariosServlet">
@@ -72,9 +69,9 @@
             <!-- Divider -->
             <!--<hr class="sidebar-divider">-->
 
-            <!-- Nav Item - GESTION DE INVENTARIO -->
+            <%-- Nav Item - GESTION DE INVENTARIO --%>
             <li class="nav-item active">
-                <a class="nav-link" href="GestionInventario_administrador.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/ProductosServlet">
                     <i class="fas fa-fw fa-box mr"></i>
                     <span>GESTION DE INVENTARIO</span></a>
             </li>
@@ -84,7 +81,7 @@
 
             <!-- Nav Item - REPORTES -->
             <li class="nav-item">
-                <a class="nav-link" href="Reportes_administrador.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/views/administrador/Reportes_administrador.jsp">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>REPORTES</span></a>
             </li>
@@ -238,41 +235,53 @@
                                 </button>
 
                             </div>
-                            <div class="card-body">
+                                <div class="card-body">
 
-                                <div class="row mb-3">
-                                    <div class="col-md-3">
-                                        <label class="small font-weight-bold text-dark">Por Categoría:</label>
-                                        <select id="filtroCategoria" class="form-control select2" style="width: 100%;">
-                                            <option value="">Todas las categotrías</option>
-                                            <option value="Merchandising">Merchandising intitucional</option>
-                                            <option value="Materiales">Materiales lúdicos y juegos educativos</option>
-                                            <option value="Kits">Kits de ayuda humanitaria</option>
-                                            <option value="Utileria">Utilería para talleres</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-md-3">
-                                        <label class="small font-weight-bold text-dark">Por Estado:</label>
-                                        <select id="filtroEstado" class="form-control select2" style="width: 100%;">
-                                            <option value="">Todos los estados</option>
-                                            <option value="Pendiente">Óptimo</option>
-                                            <option value="Aprobada">Bajo</option>
-                                            <option value="Rechazada">Crítico</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-md-1 mt-4">
-                                        <button id="filtrar" type="button" class="btn btn-admin">
-                                            <i class="fas fa-filter fa-sm mr-1"></i>Filtrar
-                                        </button>
-                                    </div>
+                                    <%-- Formulario de filtros (GET al servidor, igual que usuarios) --%>
+                                    <form action="${pageContext.request.contextPath}/ProductosServlet" method="GET" class="w-100 mb-4">
+                                        <div class="row no-gutters align-items-center mb-3">
 
-                                </div>
+                                            <div class="col-md-4 pr-2">
+                                                <input type="text" name="buscar" class="form-control"
+                                                    placeholder="Buscar por nombre o código..."
+                                                    value="${busquedaActual}">
+                                            </div>
+
+                                            <div class="col-md-3 pr-2">
+                                                <select name="filtro_categoria" class="form-control select2" style="width:100%;">
+                                                    <option value="">Filtrar por Categoría...</option>
+                                                    <c:forEach var="cat" items="${listaCategorias}">
+                                                        <option value="${cat.idCategorias}"
+                                                            ${categoriaActual == cat.idCategorias ? 'selected' : ''}>
+                                                            ${cat.nombre}
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 pr-2">
+                                                <select name="filtro_estado" class="form-control select2" style="width:100%;">
+                                                    <option value="">Filtrar por Estado...</option>
+                                                    <option value="optimo"  ${estadoActual == 'optimo'  ? 'selected' : ''}>Óptimo</option>
+                                                    <option value="bajo"    ${estadoActual == 'bajo'    ? 'selected' : ''}>Bajo</option>
+                                                    <option value="critico" ${estadoActual == 'critico' ? 'selected' : ''}>Crítico</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3 d-flex justify-content-between">
+                                                <button type="submit" class="btn btn-admin flex-grow-1 mr-2" style="height:38px;">
+                                                    <i class="fas fa-filter fa-sm mr-1"></i>
+                                                </button>
+                                                <a href="${pageContext.request.contextPath}/ProductosServlet" class="btn btn-light shadow-sm">
+                                                    <i class="fas fa-eraser text-secondary"></i>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </form>
 
                                 <div class="table-responsive">
-
-                                    <table id="dataTable" class="table table-hover table-striped text-gray-800" >
+                                    <table id="dataTable" class="table table-hover table-striped text-gray-800">
                                         <thead class="bg-light">
                                             <tr>
                                                 <th class="centered font-weight-bold">Código</th>
@@ -284,88 +293,54 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>SKU: L-0101</td>
-                                                <td>Polo talla M</td>
-                                                <td>Merchandising intitucional</td>
-                                                <td>45</td>
-                                                <td class="text-center align-middle"><i class="fas fa-circle text-success"></i></td>
-                                                <td>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>SKU: L-0202</td>
-                                                <td>Juegos de bloques</td>
-                                                <td>Materiales lúdicos y juegos educativos</td>
-                                                <td>2</td>
-                                                <td class="text-center align-middle"><i class="fas fa-circle text-danger"></i></td>
-                                                <td>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>SKU: L-0200</td>
-                                                <td>Kit de higiene</td>
-                                                <td>Kits de ayuda humanitaria</td>
-                                                <td>9</td>
-                                                <td class="text-center align-middle"><i class="fas fa-circle text-advertencia"></i></td>
-                                                <td>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>SKU: L-0303</td>
-                                                <td>Tijera y cartulina</td>
-                                                <td>Utilería para talleres</td>
-                                                <td>0</td>
-                                                <td class="text-center align-middle"><i class="fas fa-circle text-advertencia"></i></td>
-                                                <td>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>SKU: L-0202</td>
-                                                <td>Legos</td>
-                                                <td>Materiales lúdicos y juegos educativos</td>
-                                                <td>2</td>
-                                                <td class="text-center align-middle"><i class="fas fa-circle text-danger"></i></td>
-                                                <td>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>SKU: L-0101</td>
-                                                <td>Polo talla M</td>
-                                                <td>Merchandising intitucional</td>
-                                                <td>45</td>
-                                                <td class="text-center align-middle"><i class="fas fa-circle text-success"></i></td>
-                                                <td>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>SKU: L-0101</td>
-                                                <td>Polo talla M</td>
-                                                <td>Merchandising intitucional</td>
-                                                <td>45</td>
-                                                <td class="text-center align-middle"><i class="fas fa-circle text-success"></i></td>
-                                                <td>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-eye"></i></button>
-                                                    <button class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></button>
-                                                </td>
-                                            </tr>
-                                            
+                                            <c:choose>
+                                                <c:when test="${not empty listaProductos}">
+                                                    <c:forEach var="producto" items="${listaProductos}">
+                                                        <tr>
+                                                            <td>SKU: ${producto.siglaCategoria}-${producto.codigo}</td>
+                                                            <td>${producto.nombre}</td>
+                                                            <td>${producto.nombreCategoria}</td>
+                                                            <td>${producto.stockActual}</td>
+                                                            <td class="text-center align-middle">
+                                                                <c:choose>
+                                                                    <c:when test="${producto.estadoStock == 'critico'}">
+                                                                        <span class="badge badge-danger px-2 py-1">Crítico</span>
+                                                                    </c:when>
+                                                                    <c:when test="${producto.estadoStock == 'bajo'}">
+                                                                        <span class="badge badge-advertencia px-2 py-1">Bajo</span>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <span class="badge badge-success px-2 py-1">Óptimo</span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-sm shadow-sm btn-editar-producto"
+                                                                    data-id="${producto.idProductos}"
+                                                                    data-codigo="${producto.codigo}"
+                                                                    data-nombre="${producto.nombre}"
+                                                                    data-stock="${producto.stockActual}"
+                                                                    data-stockbajo="${producto.stockBajo}"
+                                                                    data-stockcritico="${producto.stockCritico}"
+                                                                    data-categoria="${producto.idCategorias}"
+                                                                    data-activo="${producto.activo}"
+                                                                    data-descripcion="${producto.descripcion}">
+                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No se encontraron productos.</td>
+                                                    </tr>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
+                </div>
 
                                 <hr class="m-0">
                                 
@@ -440,58 +415,66 @@
                 <div class="modal-body p-4">
                     <div class="row">
                         <div class="col-lg-7">
-                            <form id="formNuevoProducto" class="text-left">
+                            <form id="formNuevoProducto" class="text-left" method="POST"
+                                action="${pageContext.request.contextPath}/ProductosServlet"
+                                enctype="multipart/form-data">
                                 <div class="form-row mb-3">
                                     <div class="form-group col-md-4">
                                         <label class="font-weight-bold text-dark small">Código</label>
-                                        <input type="text" class="form-control" id="inputCodigo" placeholder="Ej: MAT-001" required>
+                                        <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Ej: 0101" required>
                                     </div>
                                     <div class="form-group col-md-8">
                                         <label class="font-weight-bold text-dark small">Producto</label>
-                                        <input type="text" class="form-control" id="inputProducto" placeholder="Nombre del producto..." required>
+                                        <input type="text" class="form-control" id="inputProducto" name="nombre" placeholder="Nombre del producto..." required>
                                     </div>
                                 </div>
-
                                 <div class="form-row mb-3">
                                     <div class="form-group col-md-4">
                                         <label class="font-weight-bold text-dark small">Stock Inicial</label>
-                                        <input type="number" class="form-control" id="inputStock" min="0" placeholder="0" required>
+                                        <input type="number" class="form-control" id="inputStock" name="stock_actual" min="0" placeholder="0" required>
                                     </div>
                                     <div class="form-group col-md-8">
                                         <label class="font-weight-bold text-dark small">Categoría</label>
-                                        <select id="inputCategoria" class="form-control border-left-success" required>
+                                        <select id="inputCategoria" name="id_categorias" class="form-control border-left-success" required>
                                             <option value="">Seleccione una categoría...</option>
-                                            <option value="Merchandising institucional">Merchandising institucional</option>
-                                            <option value="Materiales lúdicos y juegos educativos">Materiales lúdicos y juegos educativos</option>
-                                            <option value="Kits de ayuda humanitaria">Kits de ayuda humanitaria</option>
-                                            <option value="Utilería para talleres">Utilería para talleres</option>
+                                            <c:forEach var="cat" items="${listaCategorias}">
+                                                <option value="${cat.idCategorias}">${cat.nombre}</option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="form-group mb-0">
                                     <label class="font-weight-bold text-dark small">Detalles del producto</label>
-                                    <textarea class="form-control" id="inputDetalles" rows="4" placeholder="Escriba la descripción, marca, color o especificaciones importantes del producto..." required></textarea>
+                                    <textarea class="form-control" id="inputDetalles" name="descripcion" rows="3"
+                                        placeholder="Descripción, marca, color o especificaciones..."></textarea>
                                 </div>
+                                <!-- Campos ocultos para stock_bajo y stock_critico con valores por defecto -->
+                                <input type="hidden" name="stock_bajo" value="10">
+                                <input type="hidden" name="stock_critico" value="5">
                             </form>
                         </div>
 
                         <div class="col-lg-5 d-flex flex-column align-items-center justify-content-between border-left">
-                            <div class="foto-container text-center w-100 mb-3">
-                                <div class="foto-placeholder mb-2 p-4 bg-light rounded-circle d-inline-block border">
+                            <div class="foto-container text-center w-100 mb-3 d-flex flex-column align-items-center">
+                                <img id="previewCrear" src="${pageContext.request.contextPath}/img/box-placeholder.svg"
+                                    class="rounded-circle mb-2 border"
+                                    style="width:110px;height:110px;object-fit:cover;
+                                           display:none;">
+                                <div id="placeholderCrear" class="mb-2 p-4 bg-light rounded-circle border"
+                                    style="width:110px;height:110px;display:inline-flex;align-items:center;justify-content:center;">
                                     <i class="fas fa-box-open fa-3x text-gray-300"></i>
                                 </div>
-                                <br>
-                                <button type="button" class="btn btn-outline-secondary btn-sm px-3">Subir Imagen</button>
+                                <label for="inputImagenCrear" class="btn btn-outline-secondary btn-sm px-3 mt-2 mb-0" style="cursor:pointer;">
+                                    Subir Imagen
+                                </label>
+                                <input type="file" id="inputImagenCrear" name="imagen" accept="image/*"
+                                    class="d-none" form="formNuevoProducto">
                             </div>
-
                             <div class="w-100 text-center mt-auto">
                                 <button type="button" class="btn btn-admin btn-block shadow-sm" id="btnRegistrarProducto" disabled>
                                     Registrar Producto
                                 </button>
-                                <button type="button" class="btn btn-light btn-block btn-sm mt-2" data-dismiss="modal">
-                                    Cancelar
-                                </button>
+                                <button type="button" class="btn btn-light btn-block btn-sm mt-2" data-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
                     </div>
@@ -500,21 +483,138 @@
         </div>
     </div>
 
+    <%-- Modal confirmación Registrar --%>
     <div class="modal fade" id="modalConfirmarRegistro" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content border-bottom-admin shadow-lg rounded-lg">
                 <div class="modal-body text-center p-5">
                     <h4 class="text-dark font-weight-bold">¿Registrar Producto?</h4>
                     <p class="mb-4 text-left">
-                        Verifique que los datos del nuevo producto sean correctos antes de ingresarlos al sistema:<br><br>
+                        Verifique que los datos del nuevo producto sean correctos:<br><br>
                         - <strong>Código:</strong> <span id="resumenCodigo" class="font-weight-bold"></span><br>
                         - <strong>Producto:</strong> <span id="resumenProducto" class="font-weight-bold"></span><br>
                         - <strong>Stock:</strong> <span id="resumenStock" class="font-weight-bold"></span> unidades<br>
                         - <strong>Categoría:</strong> <span id="resumenCategoria" class="font-weight-bold"></span><br>
                     </p>
-                    
                     <button type="button" class="btn btn-secondary rounded-pill px-4 mr-2" data-dismiss="modal">Cancelar</button>
                     <button type="button" id="btnConfirmarAccionFinal" class="btn btn-admin px-4">Sí, registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- Modal Editar Producto --%>
+    <div class="modal fade" id="modalEditarProducto" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow-lg rounded-lg">
+                <div class="modal-header bg-white">
+                    <h5 class="m-0 font-weight-bold text-admin">Editar Producto</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="alert alert-warning py-2 mb-3">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="checkConfirmarEdicionProducto">
+                            <label class="custom-control-label font-weight-bold" for="checkConfirmarEdicionProducto">
+                                Confirmo que deseo editar los datos de este producto
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <form id="formEditarProducto" method="POST"
+                                action="${pageContext.request.contextPath}/ProductosServlet"
+                                enctype="multipart/form-data">
+                                <input type="hidden" name="action" id="editActionProducto" value="editar">
+                                <input type="hidden" name="id_producto" id="editIdProducto">
+                                <div class="form-row mb-3">
+                                    <div class="form-group col-md-4">
+                                        <label class="font-weight-bold text-dark small">Código</label>
+                                        <input type="text" class="form-control" id="editCodigoProducto" name="codigo" required disabled>
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                        <label class="font-weight-bold text-dark small">Nombre</label>
+                                        <input type="text" class="form-control" id="editNombreProducto" name="nombre" required disabled>
+                                    </div>
+                                </div>
+                                <div class="form-row mb-3">
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold text-dark small">Umbral Stock Bajo</label>
+                                        <input type="number" class="form-control" id="editStockBajo" name="stock_bajo" min="0" required disabled>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="font-weight-bold text-dark small">Umbral Stock Crítico</label>
+                                        <input type="number" class="form-control" id="editStockCritico" name="stock_critico" min="0" required disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold text-dark small">Categoría</label>
+                                    <select id="editCategoriaProducto" name="id_categorias" class="form-control border-left-success" disabled>
+                                        <c:forEach var="cat" items="${listaCategorias}">
+                                            <option value="${cat.idCategorias}">${cat.nombre}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold text-dark small">Detalles del producto</label>
+                                    <textarea class="form-control" id="editDescripcionProducto" name="descripcion"
+                                        rows="2" placeholder="Descripción, marca, color o especificaciones..."
+                                        disabled></textarea>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <label class="font-weight-bold text-dark small">Imagen del producto</label>
+                                    <label for="inputImagenEditar" class="btn btn-outline-secondary btn-sm w-100" style="cursor:pointer;">
+                                        <i class="fas fa-upload mr-1"></i> Cambiar imagen
+                                    </label>
+                                    <input type="file" id="inputImagenEditar" name="imagen" accept="image/*" class="d-none" disabled>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 d-flex flex-column align-items-center justify-content-center border-left">
+                            <img id="previewEditar"
+                                style="width:110px;height:110px;object-fit:cover;border-radius:50%;display:none;"
+                                class="mb-2 border" alt="Foto del producto">
+                            <div id="placeholderEditar"
+                                class="mb-2 p-4 bg-light rounded-circle border"
+                                style="width:110px;height:110px;display:inline-flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-fw fa-box-open fa-3x text-gray-300"></i>
+                            </div>
+                            <div class="w-100 text-center mt-3">
+                                <button type="button" class="btn btn-admin btn-block shadow-sm mb-3" id="btnGuardarProducto" disabled>Guardar Cambios</button>
+                                <button type="button" class="btn btn-danger btn-block shadow-sm d-none" id="btnDesactivarProducto" disabled><i class="fas fa-ban mr-1"></i> Desactivar</button>
+                                <button type="button" class="btn btn-success btn-block shadow-sm d-none" id="btnActivarProducto" disabled><i class="fas fa-check mr-1"></i> Activar</button>
+                                <button type="button" class="btn btn-light btn-block btn-sm mt-2" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- Modal confirmación Desactivar producto --%>
+    <div class="modal fade" id="modalConfirmarDesactivarProducto" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-bottom-danger">
+                <div class="modal-body text-center p-5">
+                    <h4 class="text-dark font-weight-bold">¿Desactivar Producto?</h4>
+                    <p class="mb-4 text-left">¿Estás seguro? El producto dejará de estar disponible en el sistema.</p>
+                    <button type="button" class="btn btn-secondary rounded-pill px-4 mr-2" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnConfirmarDesactivarProducto" class="btn btn-danger px-4">Sí, desactivar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- Modal confirmación Activar producto --%>
+    <div class="modal fade" id="modalConfirmarActivarProducto" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-bottom-success">
+                <div class="modal-body text-center p-5">
+                    <h4 class="text-dark font-weight-bold">¿Activar Producto?</h4>
+                    <p class="mb-4 text-left">¿Estás seguro? El producto volverá a estar disponible en el sistema.</p>
+                    <button type="button" class="btn btn-secondary rounded-pill px-4 mr-2" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnConfirmarActivarProducto" class="btn btn-success px-4">Sí, activar</button>
                 </div>
             </div>
         </div>
@@ -539,90 +639,172 @@
 
     <script>
     $(document).ready(function() {
-        // 1. Inicializar Select2 con el tema de Bootstrap 4
-        $('.select2').select2({
-            theme: 'bootstrap4', 
-            width: '100%'
-        });
-
-        // 2. Conectar los filtros a tu tabla
-        // Filtro de Categoría (Busca en la columna 2)
-        $('#filtroCategoria').on('change', function() {
-            dataTable.column(2).search(this.value).draw();
-        });
-
-        // Filtro de Estado (Busca en la columna 4)
-        $('#filtroEstado').on('change', function() {
-            dataTable.column(4).search(this.value).draw();
-        });
+        $('.select2').select2({ theme: 'bootstrap4', width: '100%' });
     });
     </script>
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // 1. Capturamos los inputs del producto
-        const Codigo = document.getElementById("inputCodigo");
-        const Producto = document.getElementById("inputProducto");
-        const Stock = document.getElementById("inputStock");
-        const Categoria = document.getElementById("inputCategoria");
-        const Detalles = document.getElementById("inputDetalles");
+        // ── Modal CREAR ──────────────────────────────────────────────────────
+        const Codigo       = document.getElementById("inputCodigo");
+        const Producto     = document.getElementById("inputProducto");
+        const Stock        = document.getElementById("inputStock");
+        const Categoria    = document.getElementById("inputCategoria");
         const btnRegistrar = document.getElementById("btnRegistrarProducto");
-        
-        // 2. Función que evalúa si habilitar el botón de envío
-        function evaluarBoton() {
-            if (Codigo.value.trim() !== "" && 
-                Producto.value.trim() !== "" &&
-                Stock.value.trim() !== "" &&
-                Categoria.value.trim() !== "" &&
-                Detalles.value.trim() !== "" ) {
-                
-                btnRegistrar.disabled = false;
-            } else {
-                btnRegistrar.disabled = true;
-            }
-        }
-        
-        // 3. Escuchamos los cambios en los inputs en tiempo real
-        Codigo.addEventListener("input", evaluarBoton);
-        Producto.addEventListener("input", evaluarBoton);
-        Stock.addEventListener("input", evaluarBoton);
-        Categoria.addEventListener("change", evaluarBoton); // select usa 'change'
-        Detalles.addEventListener("input", evaluarBoton);
+        const inputImgCrear   = document.getElementById("inputImagenCrear");
+        const previewCrear    = document.getElementById("previewCrear");
+        const placeholderCrear = document.getElementById("placeholderCrear");
 
-        // 4. Lógica al presionar "Registrar Producto" (Llenar y abrir confirmación)
+        function evaluarBotonCrear() {
+            btnRegistrar.disabled = !(
+                Codigo.value.trim() && Producto.value.trim() &&
+                Stock.value.trim()  && Categoria.value
+            );
+        }
+        [Codigo, Producto, Stock].forEach(el => el.addEventListener("input", evaluarBotonCrear));
+        Categoria.addEventListener("change", evaluarBotonCrear);
+
+        // Preview imagen al crear
+        inputImgCrear.addEventListener("change", function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    previewCrear.src = e.target.result;
+                    previewCrear.style.display = "block";
+                    placeholderCrear.style.display = "none";
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
         $('#btnRegistrarProducto').on('click', function() {
-            // Pasamos los valores a los spans del resumen
             $('#resumenCodigo').text(Codigo.value.trim());
             $('#resumenProducto').text(Producto.value.trim());
             $('#resumenStock').text(Stock.value.trim());
-            $('#resumenCategoria').text(Categoria.value.trim());
-            
-            // Ocultamos el modal principal y abrimos la confirmación
+            $('#resumenCategoria').text(Categoria.options[Categoria.selectedIndex].text);
             $('#modalCrearProducto').modal('hide');
             $('#modalConfirmarRegistro').modal('show');
         });
 
-        // 5. Al hacer clic en "Sí, registrar", disparamos el mensaje de éxito reutilizable
         $('#btnConfirmarAccionFinal').on('click', function() {
-            // Cerramos la ventana de confirmación final
             $('#modalConfirmarRegistro').modal('hide');
-
-            // Limpiamos los datos del formulario de manera segura
-            document.getElementById("formNuevoProducto").reset();
-            evaluarBoton(); // Vuelve a deshabilitar el botón
-
-            // Mostramos la alerta superior con animación suave (fadeIn)
-            $('#toastMessage').text('El producto se ha añadido correctamente.');
-            $('#actionToast').fadeIn();
-
-            // Ocultamos la alerta suavemente (fadeOut) después de 5 segundos
-            setTimeout(() => {
-                $('#actionToast').fadeOut();
-            }, 5000);
+            document.getElementById("formNuevoProducto").submit();
         });
+
+        // ── Modal EDITAR ─────────────────────────────────────────────────────
+        const formEditar   = document.getElementById('formEditarProducto');
+        const editAction   = document.getElementById('editActionProducto');
+        const checkEditar  = document.getElementById('checkConfirmarEdicionProducto');
+        const btnGuardar   = document.getElementById('btnGuardarProducto');
+        const btnDesact    = document.getElementById('btnDesactivarProducto');
+        const btnAct       = document.getElementById('btnActivarProducto');
+        const inputImgEditar     = document.getElementById('inputImagenEditar');
+        const previewEditar      = document.getElementById('previewEditar');
+        const placeholderEditar  = document.getElementById('placeholderEditar');
+        const camposEditar = ['editCodigoProducto','editNombreProducto','editStockBajo','editStockCritico','editCategoriaProducto','editDescripcionProducto'];
+
+        function actualizarEdicion() {
+            const ok = checkEditar.checked;
+            camposEditar.forEach(id => document.getElementById(id).disabled = !ok);
+            inputImgEditar.disabled = !ok;
+            btnGuardar.disabled = !ok;
+            if (!btnDesact.classList.contains('d-none')) btnDesact.disabled = !ok;
+            if (!btnAct.classList.contains('d-none'))   btnAct.disabled   = !ok;
+        }
+        checkEditar.addEventListener('change', actualizarEdicion);
+
+        // Preview imagen al cambiar en edición
+        inputImgEditar.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    previewEditar.src = e.target.result;
+                    previewEditar.style.display = 'block';
+                    placeholderEditar.style.display = 'none';
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        $('#modalEditarProducto').on('show.bs.modal', function() {
+            checkEditar.checked = false;
+            actualizarEdicion();
+        });
+
+        document.querySelectorAll('.btn-editar-producto').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.getElementById('editIdProducto').value        = this.dataset.id;
+                document.getElementById('editCodigoProducto').value    = this.dataset.codigo;
+                document.getElementById('editNombreProducto').value    = this.dataset.nombre;
+                document.getElementById('editStockBajo').value         = this.dataset.stockbajo;
+                document.getElementById('editStockCritico').value      = this.dataset.stockcritico;
+                document.getElementById('editCategoriaProducto').value = this.dataset.categoria;
+                document.getElementById('editDescripcionProducto').value = this.dataset.descripcion || '';
+                const activo = parseInt(this.dataset.activo);
+                btnDesact.classList.toggle('d-none', activo !== 1);
+                btnAct.classList.toggle('d-none',    activo === 1);
+                // Cargar foto desde el servidor
+                const idProducto = this.dataset.id;
+                const fotoUrl = '${pageContext.request.contextPath}/ProductosServlet?action=foto&id=' + idProducto + '&t=' + Date.now();
+                previewEditar.onload = () => {
+                    previewEditar.style.display = 'block';
+                    placeholderEditar.style.display = 'none';
+                };
+                previewEditar.onerror = () => {
+                    previewEditar.style.display = 'none';
+                    placeholderEditar.style.display = 'flex';
+                };
+                previewEditar.src = fotoUrl;
+                $('#modalEditarProducto').modal('show');
+            });
+        });
+
+        btnGuardar.addEventListener('click', function() {
+            editAction.value = 'editar';
+            camposEditar.forEach(id => document.getElementById(id).disabled = false);
+            inputImgEditar.disabled = false;
+            formEditar.submit();
+        });
+
+        btnDesact.addEventListener('click', function() {
+            $('#modalEditarProducto').modal('hide');
+            $('#modalConfirmarDesactivarProducto').modal('show');
+        });
+        btnAct.addEventListener('click', function() {
+            $('#modalEditarProducto').modal('hide');
+            $('#modalConfirmarActivarProducto').modal('show');
+        });
+        document.getElementById('btnConfirmarDesactivarProducto').addEventListener('click', function() {
+            editAction.value = 'desactivar';
+            document.getElementById('editIdProducto').disabled = false;
+            formEditar.submit();
+        });
+        document.getElementById('btnConfirmarActivarProducto').addEventListener('click', function() {
+            editAction.value = 'activar';
+            document.getElementById('editIdProducto').disabled = false;
+            formEditar.submit();
+        });
+
+        // ── Toast de éxito por parámetro msg en URL ──────────────────────────
+        const params = new URLSearchParams(window.location.search);
+        const msg = params.get('msg');
+        if (msg) {
+            const textos = {
+                'success':           'El producto se ha registrado correctamente.',
+                'edit_success':      'El producto se ha actualizado correctamente.',
+                'deactivate_success':'El producto ha sido desactivado.',
+                'activate_success':  'El producto ha sido reactivado exitosamente.',
+                'error':             '❌ Error al guardar el producto. Verifique el código y que no exista duplicado.'
+            };
+            if (textos[msg]) {
+                $('#toastMessage').text(textos[msg]);
+                $('#actionToast').fadeIn();
+                setTimeout(() => $('#actionToast').fadeOut(), 5000);
+                window.history.replaceState(null, null, window.location.pathname);
+            }
+        }
     });
     </script>
 
 </body>
-
 </html>

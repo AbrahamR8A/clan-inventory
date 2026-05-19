@@ -197,4 +197,17 @@ public class UsuariosDao extends BaseDao{
             return false;
         }
     }
+
+    // 5. Reactivar un usuario previamente desactivado
+    public boolean activarUsuario(int idUsuario) {
+        String sql = "UPDATE usuarios SET activo = 1 WHERE id_usuarios = ?";
+        try (Connection conn = this.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idUsuario);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

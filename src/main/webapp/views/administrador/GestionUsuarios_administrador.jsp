@@ -86,7 +86,7 @@
 
                     <!-- Nav Item - GESTION DE INVENTARIO -->
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionInventario_administrador.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ProductosServlet">
                             <i class="fas fa-fw fa-box mr"></i>
                             <span>GESTION DE INVENTARIO</span></a>
                     </li>
@@ -94,7 +94,7 @@
 
                     <!-- Nav Item - REPORTES -->
                     <li class="nav-item">
-                        <a class="nav-link" href="Reportes_administrador.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/views/administrador/Reportes_administrador.jsp">
                             <i class="fas fa-fw fa-chart-area"></i>
                             <span>REPORTES</span></a>
                     </li>
@@ -132,14 +132,15 @@
                             <!-- Topbar Navbar -->
                             <ul class="navbar-nav ml-auto">
 
-
                                 <!-- Nav Item - Alerts -->
                                 <li class="nav-item dropdown no-arrow mx-1">
                                     <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-bell fa-fw"></i>
                                         <!-- Counter - Alerts -->
-                                        <span class="badge badge-danger badge-counter">3+</span>
+                                        <c:if test="${notificacionesNoLeidas > 0}">
+                                            <span class="badge badge-danger badge-counter">${notificacionesNoLeidas}</span>
+                                        </c:if>
                                     </a>
                                     <!-- Dropdown - Alerts -->
                                     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -148,48 +149,29 @@
                                             Centro de Alertas
                                         </h6>
 
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-check text-white"></i>
+                                        <c:forEach var="notif" items="${listaNotificaciones}">
+                                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                                <div class="mr-3">
+                                                    <div class="icon-circle bg-${notif.tipo}">
+                                                        <c:choose>
+                                                            <c:when test="${notif.tipo == 'success'}"><i class="fas fa-check text-white"></i></c:when>
+                                                            <c:when test="${notif.tipo == 'warning'}"><i class="fas fa-exclamation-triangle text-white"></i></c:when>
+                                                            <c:when test="${notif.tipo == 'danger'}"><i class="fas fa-exclamation-circle text-white"></i></c:when>
+                                                            <c:otherwise><i class="fas fa-info text-white"></i></c:otherwise>
+                                                        </c:choose>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">13 de Abril, 2026</div>
-                                                <span class="font-weight-bold">Aprobaste la solicitud 91843830.</span>
-                                            </div>
-                                        </a>
-
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-success">
-                                                    <i class="fas fa-check text-white"></i>
+                                                <div>
+                                                    <div class="small text-gray-500">${notif.fechaCreacion}</div>
+                                                    <span class="${notif.leido ? '' : 'font-weight-bold'}">${notif.mensaje}</span>
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">13 de Abril, 2026</div>
-                                                <span class="font-weight-bold">Aprobaste la solicitud 91843829.</span>
-                                            </div>
-                                        </a>
-
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <div class="mr-3">
-                                                <div class="icon-circle bg-warning">
-                                                    <i class="fas fa-info text-white"></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="small text-gray-500">12 de Abril, 2026</div>
-                                                Nueva solicitud 91843700 pendiente de aprobación.
-                                            </div>
-                                        </a>
+                                            </a>
+                                        </c:forEach>
 
                                         <a class="dropdown-item text-center small text-gray-500"
                                             href="notificaciones.html">Mostrar todas las notificaciones</a>
                                     </div>
                                 </li>
-
-
 
                                 <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -247,8 +229,15 @@
                                 <div class="card shadow mb-4">
                                     <div
                                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold text-admin">Tabla de administración de personal
-                                        </h6>
+
+                                        <div>
+
+                                            <h6 class="m-0 font-weight-bold text-admin">Tabla de administración de personal</h6>
+                                            <small class="text-muted d-block mt-1" style="font-size:0.78rem;">
+                                                Listado de todos los integrantes registrados en el sistema. Permite gestionar roles, estados y datos de acceso.
+                                            </small>
+
+                                        </div>
 
                                         <button type="button" class="btn btn-admin shadow-sm" data-toggle="modal"
                                             data-target="#modalCrearUsuario">
@@ -387,7 +376,8 @@
                                                                             data-apellidop="${usuario.apellidoPaterno}"
                                                                             data-apellidom="${usuario.apellidoMaterno}"
                                                                             data-correo="${usuario.correo}"
-                                                                            data-rol="${usuario.rol}">
+                                                                            data-rol="${usuario.rol}"
+                                                                            data-activo="${usuario.activo}">
                                                                             <i class="fa-solid fa-pencil"></i>
                                                                         </button>
                                                                     </td>
@@ -678,9 +668,15 @@
                                             id="btnGuardarEdicion" disabled>
                                             Guardar Cambios
                                         </button>
-                                        <button type="button" class="btn btn-danger btn-block shadow-sm"
+                                        <%-- Botón Desactivar: visible solo si el usuario está activo --%>
+                                        <button type="button" class="btn btn-danger btn-block shadow-sm d-none"
                                             id="btnDesactivarUsuario" disabled>
-                                            Desactivar Usuario
+                                            <i class="fas fa-user-slash mr-1"></i> Desactivar Usuario
+                                        </button>
+                                        <%-- Botón Activar: visible solo si el usuario está inactivo --%>
+                                        <button type="button" class="btn btn-success btn-block shadow-sm d-none"
+                                            id="btnActivarUsuario" disabled>
+                                            <i class="fas fa-user-check mr-1"></i> Activar Usuario
                                         </button>
                                         <button type="button" class="btn btn-light btn-block btn-sm mt-2"
                                             data-dismiss="modal">
@@ -694,6 +690,7 @@
                 </div>
             </div>
 
+            <%-- Modal de confirmación: Desactivar --%>
             <div class="modal fade" id="modalConfirmarDesactivacion" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content border-bottom-danger">
@@ -707,6 +704,25 @@
                                 data-dismiss="modal">Cancelar</button>
                             <button type="button" id="btnConfirmarDesactivar" class="btn btn-danger px-4">Sí,
                                 desactivar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%-- Modal de confirmación: Activar --%>
+            <div class="modal fade" id="modalConfirmarActivacion" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content border-bottom-success">
+                        <div class="modal-body text-center p-5">
+                            <h4 class="text-dark font-weight-bold">¿Activar Usuario?</h4>
+                            <p class="mb-4 text-left">
+                                ¿Estás seguro de que deseas reactivar a este usuario? Esto le permitirá volver a acceder
+                                al sistema con su rol asignado.
+                            </p>
+                            <button type="button" class="btn btn-secondary rounded-pill px-4 mr-2"
+                                data-dismiss="modal">Cancelar</button>
+                            <button type="button" id="btnConfirmarActivar" class="btn btn-success px-4">Sí,
+                                activar</button>
                         </div>
                     </div>
                 </div>
@@ -849,6 +865,8 @@
                             text = 'El usuario se ha actualizado correctamente.';
                         } else if (msg === 'deactivate_success') {
                             text = 'El usuario ha sido desactivado.';
+                        } else if (msg === 'activate_success') {
+                            text = 'El usuario ha sido reactivado exitosamente.';
                         }
 
                         if (text !== '') {
@@ -876,8 +894,12 @@
                     const editAction = document.getElementById('editAction');
                     const btnGuardarEdicion = document.getElementById('btnGuardarEdicion');
                     const btnDesactivarUsuario = document.getElementById('btnDesactivarUsuario');
+                    const btnActivarUsuario = document.getElementById('btnActivarUsuario');
                     const checkConfirmar = document.getElementById('checkConfirmarEdicion');
                     const camposEditar = ['editNombre', 'editApePaterno', 'editApeMaterno', 'editCorreo', 'editRol'];
+
+                    // Variable para guardar el id del usuario en edición (necesario para cargar la foto)
+                    let idUsuarioEnEdicion = null;
 
                     // Función para habilitar/deshabilitar los campos según el checkbox
                     function actualizarEstadoEdicion() {
@@ -886,23 +908,47 @@
                             document.getElementById(id).disabled = !habilitado;
                         });
                         btnGuardarEdicion.disabled = !habilitado;
-                        btnDesactivarUsuario.disabled = !habilitado;
+                        // Solo habilitamos el botón que esté visible
+                        if (!btnDesactivarUsuario.classList.contains('d-none')) {
+                            btnDesactivarUsuario.disabled = !habilitado;
+                        }
+                        if (!btnActivarUsuario.classList.contains('d-none')) {
+                            btnActivarUsuario.disabled = !habilitado;
+                        }
                         document.getElementById('inputFotoEditar').disabled = !habilitado;
                         document.getElementById('btnSubirFotoEditar').disabled = !habilitado;
                     }
 
                     checkConfirmar.addEventListener('change', actualizarEstadoEdicion);
 
-                    // Al abrir el modal de edición: resetear el checkbox y bloquear campos
+                    // Al abrir el modal: resetear el checkbox y bloquear campos
                     $('#modalEditarUsuario').on('show.bs.modal', function () {
                         checkConfirmar.checked = false;
                         actualizarEstadoEdicion();
-                        // Limpiar foto previa
+                        // Limpiar foto previa (se cargará en shown.bs.modal para evitar conflictos de timing)
                         document.getElementById('imgPreviewEditar').style.display = 'none';
                         document.getElementById('imgPreviewEditar').src = '#';
                         document.getElementById('iconoFotoEditar').style.display = 'inline';
                         document.getElementById('inputFotoEditar').value = '';
                         document.getElementById('nombreArchivoEditar').textContent = 'Sin cambios';
+                    });
+
+                    // Una vez el modal está visible (animación terminada), cargamos la foto actual del usuario
+                    $('#modalEditarUsuario').on('shown.bs.modal', function () {
+                        if (idUsuarioEnEdicion) {
+                            const imgEditar = document.getElementById('imgPreviewEditar');
+                            const iconoEditar = document.getElementById('iconoFotoEditar');
+                            const urlFoto = '${pageContext.request.contextPath}/UsuariosServlet?action=foto&id=' + idUsuarioEnEdicion;
+                            imgEditar.onerror = function() {
+                                imgEditar.style.display = 'none';
+                                iconoEditar.style.display = 'inline';
+                            };
+                            imgEditar.onload = function() {
+                                imgEditar.style.display = 'block';
+                                iconoEditar.style.display = 'none';
+                            };
+                            imgEditar.src = urlFoto;
+                        }
                     });
 
                     btnEditarList.forEach(btn => {
@@ -913,34 +959,32 @@
                                 return;
                             }
 
+                            // Guardar id para cargarlo en shown.bs.modal
+                            idUsuarioEnEdicion = this.getAttribute('data-id');
+
                             // Llenar el formulario con los datos del botón
-                            document.getElementById('editIdUsuario').value = this.getAttribute('data-id');
+                            document.getElementById('editIdUsuario').value = idUsuarioEnEdicion;
                             document.getElementById('editNombre').value = this.getAttribute('data-nombres');
                             document.getElementById('editApePaterno').value = this.getAttribute('data-apellidop');
                             document.getElementById('editApeMaterno').value = this.getAttribute('data-apellidom');
                             document.getElementById('editCorreo').value = this.getAttribute('data-correo');
                             document.getElementById('editRol').value = this.getAttribute('data-rol');
 
-                            // Intentar cargar la foto actual del usuario desde el servidor
-                            const idUsuario = this.getAttribute('data-id');
-                            const imgEditar = document.getElementById('imgPreviewEditar');
-                            const iconoEditar = document.getElementById('iconoFotoEditar');
-                            const urlFoto = '${pageContext.request.contextPath}/UsuariosServlet?action=foto&id=' + idUsuario;
-                            imgEditar.onerror = function() {
-                                imgEditar.style.display = 'none';
-                                iconoEditar.style.display = 'inline';
-                            };
-                            imgEditar.onload = function() {
-                                imgEditar.style.display = 'block';
-                                iconoEditar.style.display = 'none';
-                            };
-                            imgEditar.src = urlFoto;
+                            // Mostrar el botón correcto según el estado del usuario
+                            const activo = parseInt(this.getAttribute('data-activo'));
+                            if (activo === 1) {
+                                btnDesactivarUsuario.classList.remove('d-none');
+                                btnActivarUsuario.classList.add('d-none');
+                            } else {
+                                btnDesactivarUsuario.classList.add('d-none');
+                                btnActivarUsuario.classList.remove('d-none');
+                            }
 
                             $('#modalEditarUsuario').modal('show');
                         });
                     });
 
-                    // Preview de foto en el modal de edición
+                    // Preview de foto al seleccionar archivo en edición
                     document.getElementById('inputFotoEditar').addEventListener('change', function() {
                         const file = this.files[0];
                         if (file && file.type.startsWith('image/')) {
@@ -949,7 +993,7 @@
                                 document.getElementById('imgPreviewEditar').src = e.target.result;
                                 document.getElementById('imgPreviewEditar').style.display = 'block';
                                 document.getElementById('iconoFotoEditar').style.display = 'none';
-                                document.getElementById('imgPreviewEditar').onerror = null; // reset error handler
+                                document.getElementById('imgPreviewEditar').onerror = null;
                             };
                             reader.readAsDataURL(file);
                             document.getElementById('nombreArchivoEditar').textContent = file.name;
@@ -966,13 +1010,27 @@
                         formEditar.submit();
                     });
 
+                    // Botón Desactivar
                     btnDesactivarUsuario.addEventListener('click', function () {
                         $('#modalEditarUsuario').modal('hide');
                         $('#modalConfirmarDesactivacion').modal('show');
                     });
 
+                    // Botón Activar
+                    btnActivarUsuario.addEventListener('click', function () {
+                        $('#modalEditarUsuario').modal('hide');
+                        $('#modalConfirmarActivacion').modal('show');
+                    });
+
                     document.getElementById('btnConfirmarDesactivar').addEventListener('click', function () {
                         editAction.value = "desactivar";
+                        formEditar.submit();
+                    });
+
+                    document.getElementById('btnConfirmarActivar').addEventListener('click', function () {
+                        editAction.value = "activar";
+                        // Habilitamos campos antes del submit para que id_usuario se envíe
+                        document.getElementById('editIdUsuario').disabled = false;
                         formEditar.submit();
                     });
                 });

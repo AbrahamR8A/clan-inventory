@@ -50,6 +50,10 @@ public class UsuariosServlet extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id_usuario"));
             usuariosDao.desactivarUsuario(id);
             response.sendRedirect(request.getContextPath() + "/UsuariosServlet?msg=deactivate_success");
+        } else if ("activar".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id_usuario"));
+            usuariosDao.activarUsuario(id);
+            response.sendRedirect(request.getContextPath() + "/UsuariosServlet?msg=activate_success");
         } else {
             // Registro de nuevo usuario
             String nombres = request.getParameter("nombres");

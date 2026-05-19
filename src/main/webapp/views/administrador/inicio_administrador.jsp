@@ -62,14 +62,14 @@
 
                     <!-- Nav Item - GESTION DE INVENTARIO -->
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionInventario_administrador.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/ProductosServlet">
                             <i class="fas fa-fw fa-box mr"></i>
                             <span>GESTION DE INVENTARIO</span></a>
                     </li>
 
                     <!-- Nav Item - REPORTES -->
                     <li class="nav-item">
-                        <a class="nav-link" href="Reportes_administrador.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/views/administrador/Reportes_administrador.jsp">
                             <i class="fas fa-fw fa-chart-area"></i>
                             <span>REPORTES</span></a>
                     </li>
@@ -200,7 +200,7 @@
 
                             <!-- Page Heading -->
                             <div class="d-sm-flex align-items-center justify-content-between mb-0">
-                                <h1 class="h3 mb-0 text-gray-800">Panel de Control del mes</h1>
+                                <h1 class="h3 mb-0 text-gray-800">Panel de Control</h1>
                             </div>
 
                             <!-- Main Content -->

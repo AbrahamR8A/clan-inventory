@@ -59,12 +59,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `clan_db`.`productos` (
   `id_productos` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `codigo` CHAR(4) NOT NULL COMMENT 'Código del producto de la forma "0123".',
+  `codigo` VARCHAR(20) NOT NULL COMMENT 'Código o referencia del producto.',
   `nombre` VARCHAR(45) NOT NULL COMMENT 'Nombre descriptivo del producto.',
   `stock_actual` INT UNSIGNED NOT NULL COMMENT 'Cantidad disponible en tiempo real en el depósito.',
   `stock_bajo` INT UNSIGNED NOT NULL COMMENT 'Cantidad de stock para determinar estado bajo (amarillo).',
   `stock_critico` INT UNSIGNED NOT NULL COMMENT 'Cantidad de stock para determinar estado crítico (rojo).',
-  `imagen` VARCHAR(256) NULL COMMENT 'Enlace al servicio cloud de almacenamiento de archivos.',
+  `imagen` LONGBLOB NULL COMMENT 'Imagen del producto almacenada como binario en la BD.',
+  `descripcion` VARCHAR(255) NULL COMMENT 'Descripción, marca, color u otras especificaciones.',
   `activo` TINYINT NOT NULL DEFAULT 1 COMMENT '1 para activo, 0 para retirado.',
   `id_usuarios` INT UNSIGNED NOT NULL,
   `id_categorias` INT UNSIGNED NOT NULL,

@@ -69,7 +69,7 @@
 
             <!-- Nav Item - GESTION DE INVENTARIO -->
             <li class="nav-item">
-                <a class="nav-link" href="GestionInventario_administrador.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/ProductosServlet">
                     <i class="fas fa-fw fa-box mr"></i>
                     <span>GESTION DE INVENTARIO</span></a>
             </li>
