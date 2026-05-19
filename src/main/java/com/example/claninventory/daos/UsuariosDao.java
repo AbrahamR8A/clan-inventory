@@ -37,7 +37,7 @@ public class UsuariosDao extends BaseDao{
         }
     }
 
-    // 2. READ: Listar todos los usuarios para la tabla administrativa
+    // 2. READ: Listar todos los usuarios
     public ArrayList<Usuarios> listarUsuarios() {
         ArrayList<Usuarios> lista = new ArrayList<>();
         String sql = "SELECT id_usuarios, nombres, apellido_paterno, apellido_materno, correo, rol, activo " +
@@ -64,6 +64,71 @@ public class UsuariosDao extends BaseDao{
         return lista;
     }
 
+    // 2.1 Listar usuarios con filtros dinámicos para la tabla administrativa
+    public ArrayList<Usuarios> listarUsuariosFiltrados(String idUsuario, String buscar, String rol, String estado) {
+        ArrayList<Usuarios> lista = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT id_usuarios, nombres, apellido_paterno, apellido_materno, correo, rol, activo " +
+                        "FROM usuarios WHERE 1=1 "
+        );
+
+        // Construcción de la consulta
+        if (idUsuario != null && !idUsuario.trim().isEmpty()) {
+            sql.append(" AND id_usuarios = ? ");
+        }
+        if (rol != null && !rol.trim().isEmpty()) {
+            sql.append(" AND rol = ? ");
+        }
+        if (estado != null && !estado.trim().isEmpty()) {
+            sql.append(" AND activo = ? ");
+        }
+        if (buscar != null && !buscar.trim().isEmpty()) {
+            sql.append(" AND (nombres LIKE ? OR apellido_paterno LIKE ? OR correo LIKE ?) ");
+        }
+
+        sql.append(" ORDER BY id_usuarios DESC");
+
+        try (Connection conn = this.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+
+            int paramIndex = 1;
+
+            // Asignación de parámetros respetando el orden exacto de los IFs
+            if (idUsuario != null && !idUsuario.trim().isEmpty()) {
+                pstmt.setInt(paramIndex++, Integer.parseInt(idUsuario));
+            }
+            if (rol != null && !rol.trim().isEmpty()) {
+                pstmt.setString(paramIndex++, rol);
+            }
+            if (estado != null && !estado.trim().isEmpty()) {
+                pstmt.setInt(paramIndex++, Integer.parseInt(estado));
+            }
+            if (buscar != null && !buscar.trim().isEmpty()) {
+                String searchPattern = "%" + buscar.trim() + "%";
+                pstmt.setString(paramIndex++, searchPattern);
+                pstmt.setString(paramIndex++, searchPattern);
+                pstmt.setString(paramIndex++, searchPattern);
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Usuarios u = new Usuarios();
+                    u.setIdUsuarios(rs.getInt("id_usuarios"));
+                    u.setNombres(rs.getString("nombres"));
+                    u.setApellidoPaterno(rs.getString("apellido_paterno"));
+                    u.setApellidoMaterno(rs.getString("apellido_materno"));
+                    u.setCorreo(rs.getString("correo"));
+                    u.setRol(rs.getString("rol"));
+                    u.setActivo(rs.getInt("activo"));
+                    lista.add(u);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
     // 3. UPDATE: Editar datos de un usuario
     public boolean actualizarUsuario(Usuarios usuario) {
         String sql = "UPDATE usuarios SET nombres = ?, apellido_paterno = ?, apellido_materno = ?, rol = ?, correo = ? " +
