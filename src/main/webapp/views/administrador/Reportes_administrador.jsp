@@ -234,9 +234,9 @@
                                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                             <h6 class="m-0 font-weight-bold text-admin">Tabla de Consumo del Mes</h6>
                                             
-                                            <a href="#" class="btn btn-admin shadow-sm">
+                                            <button type="button" id="btnExportarExcel" class="btn btn-admin shadow-sm">
                                                 <i class="fa-solid fa-file-excel"></i> Exportar a Excel
-                                            </a>
+                                            </button>
 
                                         </div>
                                         <div class="card-body">
@@ -559,3 +559,45 @@
     <script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>
     <script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>
     <script src="${pageContext.request.contextPath}/js/demo/chart-bar-demo.js"></script>
+
+    <!-- Librería para exportar la tabla a Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <!-- Script para exportar la tabla de consumo del mes a Excel -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnExportar = document.getElementById("btnExportarExcel");
+
+            if (!btnExportar) return;
+
+            btnExportar.addEventListener("click", function () {
+                const tabla = document.getElementById("dataTable");
+
+                if (!tabla) {
+                    alert("No se encontró la tabla para exportar.");
+                    return;
+                }
+
+                if (typeof XLSX === "undefined") {
+                    alert("No se pudo cargar la librería para exportar a Excel.");
+                    return;
+                }
+
+                const workbook = XLSX.utils.table_to_book(tabla, {
+                    sheet: "Consumo del Mes"
+                });
+
+                const fecha = new Date();
+                const anio = fecha.getFullYear();
+                const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+                const dia = String(fecha.getDate()).padStart(2, "0");
+
+                const nombreArchivo = "Reporte_Consumo_" + anio + "-" + mes + "-" + dia + ".xlsx";
+
+                XLSX.writeFile(workbook, nombreArchivo);
+            });
+        });
+    </script>
+
+</body>
+</html>
