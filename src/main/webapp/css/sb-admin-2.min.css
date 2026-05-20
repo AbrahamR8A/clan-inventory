@@ -238,3 +238,46 @@ nav.topbar {
         left: 0;
     }
 }
+
+/* =======================================================
+   CORRECCIÓN: AJUSTAR CONTENIDO CUANDO SIDEBAR SE REDUCE
+   ======================================================= */
+
+/* Estado normal: sidebar abierta */
+@media (min-width: 768px) {
+    #content-wrapper {
+        margin-left: 224px !important;
+        width: calc(100% - 224px) !important;
+    }
+
+    nav.topbar {
+        left: 224px;
+        width: calc(100% - 224px);
+    }
+}
+
+/* Estado reducido: sidebar colapsada */
+@media (min-width: 768px) {
+    body.sidebar-toggled #content-wrapper {
+        margin-left: 104px !important;
+        width: calc(100% - 104px) !important;
+    }
+
+    body.sidebar-toggled nav.topbar {
+        left: 104px;
+        width: calc(100% - 104px);
+    }
+}
+
+/* Móviles */
+@media (max-width: 767.98px) {
+    #content-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    nav.topbar {
+        left: 0;
+        width: 100%;
+    }
+}
