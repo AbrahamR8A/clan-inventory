@@ -281,3 +281,28 @@ nav.topbar {
         width: 100%;
     }
 }
+
+/* Tabla de Alertas de Stock con columnas más equilibradas */
+.tabla-alertas-stock {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.tabla-alertas-stock th,
+.tabla-alertas-stock td {
+    vertical-align: middle !important;
+}
+
+.tabla-alertas-stock th:nth-child(1),
+.tabla-alertas-stock td:nth-child(1) {
+    text-align: left !important;
+    padding-left: 1rem !important;
+}
+
+.tabla-alertas-stock th:nth-child(2),
+.tabla-alertas-stock td:nth-child(2),
+.tabla-alertas-stock th:nth-child(3),
+.tabla-alertas-stock td:nth-child(3) {
+    text-align: center !important;
+}
+

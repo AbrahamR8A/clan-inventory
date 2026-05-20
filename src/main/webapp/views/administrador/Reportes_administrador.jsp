@@ -353,7 +353,7 @@
 
                                             <div class="table-responsive">
 
-                                                <table id="dataTable" class="table table-hover table-striped text-gray-800" >
+                                                <table id="dataTable" class="table table-hover text-gray-800" >
                                                     <thead class="bg-light">
                                                         <tr>
                                                             <th class="centered font-weight-bold">Código</th>

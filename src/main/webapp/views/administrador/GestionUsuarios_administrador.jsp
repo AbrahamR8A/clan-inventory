@@ -300,7 +300,7 @@
                                         </form>
                                         <div class="table-responsive">
 
-                                            <table id="dataTable" class="table table-hover table-striped text-gray-800">
+                                            <table id="dataTable" class="table table-hover text-gray-800">
                                                 <thead class="bg-light">
                                                     <tr>
                                                         <th class="centered font-weight-bold">Usuario</th>
@@ -318,9 +318,14 @@
                                                                     <td>${usuario.nombres} ${usuario.apellidoPaterno}
                                                                         ${usuario.apellidoMaterno}</td>
 
-                                                                    <td>${usuario.correo} <button
-                                                                            class="btn btn-sm shadow-sm"><i
-                                                                                class="fa-regular fa-copy"></i></button>
+                                                                    <td>
+                                                                        <span class="correo-text">${usuario.correo}</span>
+                                                                        <button type="button"
+                                                                                class="btn btn-sm shadow-sm btn-copiar-correo"
+                                                                                data-correo="${usuario.correo}"
+                                                                                title="Copiar correo">
+                                                                            <i class="far fa-copy"></i>
+                                                                        </button>
                                                                     </td>
 
                                                                     <td>
@@ -1032,6 +1037,79 @@
                         // Habilitamos campos antes del submit para que id_usuario se envíe
                         document.getElementById('editIdUsuario').disabled = false;
                         formEditar.submit();
+                    });
+                });
+            </script>
+
+
+            <!-- Script para copiar correo sin alerta flotante -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+
+                    function copiarTexto(texto) {
+                        if (navigator.clipboard && window.isSecureContext) {
+                            return navigator.clipboard.writeText(texto);
+                        }
+
+                        const inputTemporal = document.createElement("textarea");
+                        inputTemporal.value = texto;
+                        inputTemporal.style.position = "fixed";
+                        inputTemporal.style.left = "-9999px";
+                        inputTemporal.style.top = "0";
+
+                        document.body.appendChild(inputTemporal);
+                        inputTemporal.focus();
+                        inputTemporal.select();
+
+                        return new Promise(function (resolve, reject) {
+                            try {
+                                const copiado = document.execCommand("copy");
+
+                                if (copiado) {
+                                    resolve();
+                                } else {
+                                    reject();
+                                }
+                            } catch (error) {
+                                reject(error);
+                            } finally {
+                                document.body.removeChild(inputTemporal);
+                            }
+                        });
+                    }
+
+                    document.addEventListener("click", function (event) {
+                        const boton = event.target.closest(".btn-copiar-correo");
+
+                        if (!boton) return;
+
+                        const correo = boton.getAttribute("data-correo");
+
+                        if (!correo || correo.trim() === "") return;
+
+                        const icono = boton.querySelector("i");
+                        const iconoOriginal = icono.className;
+                        const tituloOriginal = boton.getAttribute("title") || "Copiar correo";
+
+                        copiarTexto(correo.trim())
+                            .then(function () {
+                                icono.className = "fas fa-check text-success";
+                                boton.setAttribute("title", "Correo copiado");
+
+                                setTimeout(function () {
+                                    icono.className = iconoOriginal;
+                                    boton.setAttribute("title", tituloOriginal);
+                                }, 1200);
+                            })
+                            .catch(function () {
+                                icono.className = "fas fa-times text-danger";
+                                boton.setAttribute("title", "No se pudo copiar");
+
+                                setTimeout(function () {
+                                    icono.className = iconoOriginal;
+                                    boton.setAttribute("title", tituloOriginal);
+                                }, 1200);
+                            });
                     });
                 });
             </script>

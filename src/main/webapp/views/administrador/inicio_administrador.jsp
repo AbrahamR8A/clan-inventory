@@ -23,6 +23,9 @@
             <!-- Custom styles for this template-->
             <link href="${pageContext.request.contextPath}/css/sb-admin-2.min.css" rel="stylesheet">
 
+             <!-- Font Awesome -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
         </head>
 
         <body id="page-top">
@@ -200,7 +203,7 @@
 
                             <!-- Page Heading -->
                             <div class="d-sm-flex align-items-center justify-content-between mb-0">
-                                <h1 class="h3 mb-0 text-gray-800">Panel de Control</h1>
+                                <h1 class="h3 mb-3 text-gray-800 font-weight-bold">Panel de Control</h1>
                             </div>
 
                             <!-- Main Content -->
@@ -210,7 +213,7 @@
 
                                     <div class="col-lg-9">
 
-                                        <div class="row mb-4">
+                                        <div class="row mb-3">
 
                                             <div class="col-xl-3 col-md-6 mb-4">
                                                 <div class="card border-left-admin shadow h-100 py-2">
@@ -296,11 +299,10 @@
                                                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                                 <h6 class="m-0 font-weight-bold text-admin">Actividad Reciente del
                                                     Sistema</h6>
-                                                <a href="#" class="btn btn-sm btn-admin shadow-sm">Ver todo</a>
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
-                                                    <table class="table table-hover table-striped text-gray-800"
+                                                    <table class="table table-hover text-gray-800"
                                                         width="100%" cellspacing="0">
                                                         <thead class="bg-light">
                                                             <tr>
@@ -348,45 +350,54 @@
                                             <div class="card-body p-0">
 
                                                 <div class="table-responsive">
+                                                    <table class="table table-hover text-gray-800 tabla-alertas-stock"
+                                                         width="100%" cellspacing="0">
 
-                                                    <table class="table table-hover table-striped text-gray-800"
-                                                        width="100%" cellspacing="0">
+                                                        <colgroup>
+                                                            <col style="width: 48%;">
+                                                            <col style="width: 32%;">
+                                                            <col style="width: 20%;">
+                                                        </colgroup>
 
                                                         <thead class="bg-light">
                                                             <tr>
-                                                                <th class="text-center align-middle">Producto</th>
+                                                                <th class="text-left pl-3 align-middle">Producto</th>
                                                                 <th class="text-center align-middle">Stock Actual</th>
                                                                 <th class="text-center align-middle">Estado</th>
                                                             </tr>
                                                         </thead>
+
                                                         <tbody>
                                                             <c:forEach var="alerta" items="${alertasStock}">
                                                                 <tr>
-                                                                    <td class="text-left pl-3">${alerta.producto}</td>
-                                                                    <td class="text-center align-middle">${alerta.cantidad}</td>
-                                                                    <td class="text-center align-middle">
-                                                                        <c:choose>
-                                                                            <c:when test="${alerta.estadoColor == 'Rojo'}"><i class="fas fa-circle text-danger"></i></c:when>
-                                                                            <c:when test="${alerta.estadoColor == 'Amarillo'}"><i class="fas fa-circle text-warning"></i></c:when>
-                                                                            <c:when test="${alerta.estadoColor == 'Verde'}"><i class="fas fa-circle text-success"></i></c:when>
-                                                                        </c:choose>
-                                                                    </td>
-                                                                </tr>
-                                                            </c:forEach>
-                                                        </tbody>
-                                                    </table>
-
+                                                                <td class="text-left pl-3">${alerta.producto}</td>
+                                                                <td class="text-center align-middle">${alerta.cantidad}</td>
+                                                                <td class="text-center align-middle">
+                                                                    <c:choose>
+                                                                        <c:when test="${alerta.estadoColor == 'Rojo'}">
+                                                                             <i class="fas fa-circle text-danger"></i>
+                                                                        </c:when>
+                                                                        <c:when test="${alerta.estadoColor == 'Amarillo'}">
+                                                                             <i class="fas fa-circle text-warning"></i>
+                                                                        </c:when>
+                                                                        <c:when test="${alerta.estadoColor == 'Verde'}">
+                                                                                <i class="fas fa-circle text-success"></i>
+                                                                        </c:when>
+                                                                            </c:choose>
+                                                                        </td>
+                                                                    </tr>
+                                                                </c:forEach>
+                                                            </tbody>
+                                                        </table>
                                                 </div>
-
                                                 <hr class="m-0">
-
                                                 <div class="p-2 small text-center bg-light">
                                                     <td class="text-center align-middle"><span
                                                             class="badge badge-danger px-2 py-1">Crítico</span></td>
                                                     <span class="mr-2"><i class="fas fa-circle text-danger"></i> 0 a
                                                         5</span>
                                                     <td class="text-center align-middle"><span
-                                                            class="badge badge-advertencia px-2 py-1">bajo</span></td>
+                                                            class="badge badge-advertencia px-2 py-1">Bajo</span></td>
                                                     <span class="mr-2"><i class="fas fa-circle text-warning"></i> 6 a
                                                         10</span>
                                                     <td class="text-center align-middle"><span
@@ -436,16 +447,16 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">¿Desea salir?</h5>
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                        <div class="modal-body">Seleccione "Cerrar sesión" a continuación si desea finalizar su sesión actual.
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/login.jsp">Logout</a>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/login.jsp">Cerrar Sesión</a>
                         </div>
                     </div>
                 </div>
