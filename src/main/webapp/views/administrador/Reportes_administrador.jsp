@@ -18,11 +18,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Reportes - CLAN INVENTORY</title>
 
+    <!-- Fuentes e iconos -->
     <link href="${pageContext.request.contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900&display=swap" rel="stylesheet">
 
+    <!-- Estilos del tema SB Admin 2 (versión personalizada con los colores de rol) -->
     <link href="${pageContext.request.contextPath}/css/sb-admin-2.css" rel="stylesheet">
 
+    <!-- Estilos DataTables -->
     <link href="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <style>
@@ -39,6 +42,12 @@
         .text-coord { color: #ff2a9e !important; }
         .border-left-coord { border-left: .25rem solid #ff2a9e !important; }
 
+        /* Degradado morado del menú lateral (igual que el resto del sistema) */
+        #accordionSidebar {
+            background-image: linear-gradient(180deg, #7203c1 10%, #5a0299 100%) !important;
+            background-size: cover;
+        }
+
         /* Tarjetas KPI de Reportes */
         .kpi-card .kpi-num { font-size: 1.6rem; font-weight: 700; }
         .kpi-icon { font-size: 2rem; opacity: .3; }
@@ -53,57 +62,47 @@
 <div id="wrapper">
 
     <%-- ============================================================== --%>
-    <%-- SIDEBAR                                                        --%>
+    <%-- SIDEBAR                                                         --%>
+    <%-- Si ya tienes tu propio menu lateral, reemplaza este bloque      --%>
+    <%-- completo por tu include de sidebar.                             --%>
     <%-- ============================================================== --%>
     <ul class="navbar-nav bg-admin sidebar sidebar-dark accordion" id="accordionSidebar">
-        
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/InicioAdminServlet">
-            <div class="sidebar-brand-icon">
-                <i class="fas fa-laugh-wink"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3 text-left" style="line-height: 1.2;">
-                CLAN<br>INVENTORY
-            </div>
+            <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+            <div class="sidebar-brand-text mx-3">CLAN INVENTORY</div>
         </a>
-        
         <hr class="sidebar-divider my-0">
-        
         <li class="nav-item">
-            <a class="nav-link py-3" href="${pageContext.request.contextPath}/InicioAdminServlet">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>INICIO</span></a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/InicioAdminServlet">
+                <i class="fas fa-fw fa-tachometer-alt"></i><span>INICIO</span></a>
         </li>
-        
         <li class="nav-item">
-            <a class="nav-link py-3" href="${pageContext.request.contextPath}/UsuariosServlet">
-                <i class="fas fa-fw fa-users"></i>
-                <span>GESTION DE USUARIOS</span></a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/UsuariosServlet">
+                <i class="fas fa-fw fa-users"></i><span>GESTION DE USUARIOS</span></a>
         </li>
-        
         <li class="nav-item">
-            <a class="nav-link py-3" href="${pageContext.request.contextPath}/ProductosServlet">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>GESTION DE<br>INVENTARIO</span></a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/ProductosServlet">
+                <i class="fas fa-fw fa-boxes"></i><span>GESTION DE INVENTARIO</span></a>
         </li>
-        
         <li class="nav-item active">
-            <a class="nav-link py-3" href="${pageContext.request.contextPath}/ReportesServlet">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>REPORTES</span></a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/ReportesServlet">
+                <i class="fas fa-fw fa-chart-bar"></i><span>REPORTES</span></a>
         </li>
-        
-        <hr class="sidebar-divider d-none d-md-block mt-4">
+        <hr class="sidebar-divider d-none d-md-block">
 
-        <div class="text-center d-none d-md-inline mt-2">
+        <!-- Botón para contraer / expandir el menú -->
+        <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
-        
     </ul>
+    <!-- FIN SIDEBAR -->
+
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
 
             <%-- ========================================================= --%>
             <%-- TOPBAR                                                    --%>
+            <%-- Reemplazalo por tu include de topbar si ya lo tienes.     --%>
             <%-- ========================================================= --%>
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -120,13 +119,18 @@
                     </li>
                 </ul>
             </nav>
+            <!-- FIN TOPBAR -->
+
+            <!-- ========================= CONTENIDO ====================== -->
             <div class="container-fluid">
 
                 <div class="row">
 
+                    <!-- ===================== COLUMNA IZQUIERDA ============ -->
                     <div class="col-xl-8 col-lg-7">
                         <div class="card shadow mb-4">
 
+                            <!-- Cabecera: título + botón Exportar a Excel -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-admin">Tabla de Consumo del Mes</h6>
                                 <a class="btn btn-sm btn-admin"
@@ -137,6 +141,7 @@
 
                             <div class="card-body">
 
+                                <!-- ============ FORMULARIO DE FILTRO ========= -->
                                 <form method="get" action="${pageContext.request.contextPath}/ReportesServlet"
                                       class="form-row align-items-end mb-4">
                                     <div class="form-group col-md-4 mb-2">
@@ -177,6 +182,7 @@
                                     </div>
                                 </form>
 
+                                <!-- ============ TARJETAS KPI ================= -->
                                 <div class="row">
                                     <div class="col-md-3 col-6 mb-3">
                                         <div class="card border-left-coord shadow h-100 py-2 kpi-card">
@@ -232,6 +238,8 @@
                                     </div>
                                 </div>
 
+                                <!-- ============ TABLA DE CONSUMO ============= -->
+                                <!-- Mismo estilo que la tabla de Gestión de Inventario -->
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
@@ -259,8 +267,14 @@
                                     </table>
                                 </div>
 
-                            </div></div></div><div class="col-xl-4 col-lg-5">
+                            </div><!-- /card-body -->
+                        </div><!-- /card -->
+                    </div><!-- /col izquierda -->
 
+                    <!-- ===================== COLUMNA DERECHA ============== -->
+                    <div class="col-xl-4 col-lg-5">
+
+                        <!-- Gráfico de barras -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-admin">Productos más solicitados</h6>
@@ -270,6 +284,7 @@
                             </div>
                         </div>
 
+                        <!-- Gráfico de dona -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-admin">Consumo por categoría</h6>
@@ -279,24 +294,39 @@
                             </div>
                         </div>
 
-                    </div></div></div></div><footer class="sticky-footer bg-white">
+                    </div><!-- /col derecha -->
+
+                </div><!-- /row -->
+
+            </div><!-- /container-fluid -->
+            <!-- ======================= FIN CONTENIDO ==================== -->
+
+        </div><!-- /content -->
+
+        <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
                     <span>CLAN INVENTORY &copy; <%= java.time.Year.now() %></span>
                 </div>
             </div>
         </footer>
-    </div></div><a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div><!-- /content-wrapper -->
+</div><!-- /wrapper -->
 
+<a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
+<!-- ===================== SCRIPTS ===================== -->
 <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
 
+<!-- DataTables: hace que la tabla de Reportes se vea/funcione como la de Inventario -->
 <script src="${pageContext.request.contextPath}/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/datatables-ReportesAdmin.js"></script>
 
+<!-- Chart.js para los gráficos -->
 <script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>
 <script>
     // Datos enviados por ReportesServlet (ya vienen en formato JSON)
@@ -305,8 +335,21 @@
     const donutLabels = ${empty donutLabels ? '[]' : donutLabels};
     const donutData   = ${empty donutData   ? '[]' : donutData};
 
+    // Muestra un mensaje cuando un gráfico no tiene datos para el periodo
+    function reportesSinDatos(idCanvas, mensaje) {
+        var canvas = document.getElementById(idCanvas);
+        if (canvas) {
+            canvas.parentElement.innerHTML =
+                '<div class="text-center text-gray-500 py-5">' +
+                '<i class="fas fa-chart-area fa-2x mb-2 text-gray-300"></i><br>' +
+                mensaje + '</div>';
+        }
+    }
+
     // ---- Gráfico de barras: Productos más solicitados ----
-    if (document.getElementById("graficoProductos")) {
+    if (barLabels.length === 0) {
+        reportesSinDatos("graficoProductos", "No hay solicitudes registradas en este periodo.");
+    } else if (document.getElementById("graficoProductos")) {
         new Chart(document.getElementById("graficoProductos"), {
             type: "bar",
             data: {
@@ -328,7 +371,9 @@
     }
 
     // ---- Gráfico de dona: Consumo por categoría ----
-    if (document.getElementById("graficoCategorias")) {
+    if (donutLabels.length === 0) {
+        reportesSinDatos("graficoCategorias", "No hay consumo registrado en este periodo.");
+    } else if (document.getElementById("graficoCategorias")) {
         new Chart(document.getElementById("graficoCategorias"), {
             type: "doughnut",
             data: {

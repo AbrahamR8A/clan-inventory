@@ -1,24 +1,23 @@
 let dataTable;
 
 const dataTableOptions = {
-  pageLength: 8,
+  pageLength: 5,
   destroy:true,
 
   //scrollX: "2000px",
 
-  lengthMenu:[3, 5, 7],
+  lengthMenu:[5, 10, 25],
 
   columnDefs: [
-      {className:"centered",targets:[0, 1, 2, 3, 4, 5] },
-      {orderable: false,targets:[5]},
+      {className:"centered",targets:[0, 3, 4, 5] },
       //{width: "15%",targets:[2] }
     ],
 
   language:{
     lengthMenu: "Mostrar _MENU_ registros por pagina",
-    zeroRecords: "Ningún usuario encontrado",
+    zeroRecords: "Ningún registro encontrado",
     info: "Mostrando de _START_ a _END_ de un total de _TOTAL_ registros",
-    infoEmpty: "Ningún usuario encontrado",
+    infoEmpty: "Ningún registro encontrado",
     search: "Buscar",
     loadingRecords: "Cargando...",
     paginate: {
