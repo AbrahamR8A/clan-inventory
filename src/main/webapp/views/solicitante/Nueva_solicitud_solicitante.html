@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Nueva Solicitud-Solicitante</title>
+
+    <!-- fonts -->
+    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- CSS para solicitante-->
+    <link href="../../css/style_solicitante.css" rel="stylesheet">
+
+    <!-- DataTables -->
+    <link href="../../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="Inicio_solicitante.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">CLAN INVETORY</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="Inicio_solicitante.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>INICIO</span></a>
+            </li>
+
+            <!-- Nav Item - Nueva solicitud -->
+            <li class="nav-item active">
+                <a class="nav-link" href="Nueva_solicitud_solicitante.html"> <!-- FALTA LA REFERENCIA -->
+                    <i class="fas fa-fw fa-solid fa-box"></i>
+                    <span>NUEVA SOLICITUD</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Section Title (Topbar) -->
+                    <div class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100">
+                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">NUEVA SOLICITUD</h1>
+                    </div>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header bg-admin text-white border-0">
+                                    Centro de Alertas
+                                </h6>
+
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-check text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">13 de Abril, 2026</div>
+                                        <span class="font-weight-bold">Aprobaste la solicitud 91843830.</span>
+                                    </div>
+                                </a>
+
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-check text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">13 de Abril, 2026</div>
+                                        <span class="font-weight-bold">Aprobaste la solicitud 91843829.</span>
+                                    </div>
+                                </a>
+
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-advertencia">
+                                            <i class="fas fa-info text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">12 de Abril, 2026</div>
+                                        Nueva solicitud 91843700 pendiente de aprobación.
+                                    </div>
+                                </a>
+
+                                <a class="dropdown-item text-center small text-gray-500"
+                                    href="notificaciones.html">Mostrar todas las notificaciones</a>
+                            </div>
+                        </li>
+
+
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Abraham Ramirez</span>
+                                <img class="img-profile rounded-circle" src="../../img/undraw_profile.svg">
+                            </a>
+
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="perfil_depósito.html">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Perfil
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cerrar Sesión
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <div id="actionToast" class="alert alert-success alert-dismissible fade show shadow mb-4"
+                        role="alert" style="display: none;">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <strong>¡Éxito!</strong> <span id="toastMessage">La solicitud ha sido procesada.</span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-admin">Lista de productos disponibles</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-4 px-3 align-items-end">
+                                <div class="col-md-4">
+                                    <label class="font-weight-bold text-dark mb-2">Filtrar por Categoría:</label>
+                                    <select id="filtroCategoria" class="form-control select2" style="width: 100%;">
+                                        <option value="todas">Todas las categorías</option>
+                                        <option value="merchandising">Merchandising institucional</option>
+                                        <option value="materiales">Materiales lúdicos y juegos educativos</option>
+                                        <option value="kits">Kits de ayuda humanitaria</option>
+                                        <option value="utileria">Utilería para talleres</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8 text-right">
+                                    <a href="Proceso_solicitud_solicitante.html"
+                                        class="btn btn-admin shadow-sm position-relative mt-4">
+                                        <i class="fa-solid fa-box-open mr-2"></i> Ver cajita
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger text-white"
+                                            id="contador-cajita" style="top: -5px; right: -10px;">0</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="px-3 mb-4 border-bottom pb-2">
+                                <h4 id="titulo-categoria" class="font-weight-bold text-admin text-left m-0">Todas las
+                                    categorías</h4>
+                            </div>
+
+                            <div class="container-fluid px-3">
+                                <div class="row" id="lista-productos">
+
+                                    <!-- Producto 1 -->
+                                    <div class="col-md-3 mb-4 producto-item" data-categoria="kits">
+                                        <div class="card card-solicitante h-100 text-center border-0">
+                                            <img src="https://images.fravega.com/f1000/5c662b2a63c3751f78f584b846547264.jpg"
+                                                class="card-img-top p-4" alt="Higiene Familiar"
+                                                style="height: 200px; object-fit: contain;">
+                                            <div class="card-body d-flex flex-column pt-0">
+                                                <h5 class="card-title font-weight-bold text-dark mb-1">Higiene Familiar
+                                                </h5>
+                                                <p class="card-text text-muted small mb-3">Kits de ayuda humanitaria</p>
+                                                <div class="mb-3 mt-auto">
+                                                    <span class="badge badge-success px-3 py-2"
+                                                        style="font-size: 0.85rem;"><i class="fas fa-circle mr-1"
+                                                            style="font-size: 0.6rem;"></i>Disponible: 25</span>
+                                                </div>
+                                                <a href="#" class="btn btn-admin btn-block agregar-cajita"
+                                                    data-id="1">Agregar a la cajita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Producto 2 -->
+                                    <div class="col-md-3 mb-4 producto-item" data-categoria="kits">
+                                        <div class="card card-solicitante h-100 text-center border-0">
+                                            <img src="https://http2.mlstatic.com/D_NQ_NP_704752-MLM70137911577_062023-O.webp"
+                                                class="card-img-top p-4" alt="Higiene Mujer"
+                                                style="height: 200px; object-fit: contain;">
+                                            <div class="card-body d-flex flex-column pt-0">
+                                                <h5 class="card-title font-weight-bold text-dark mb-1">Higiene Mujer
+                                                </h5>
+                                                <p class="card-text text-muted small mb-3">Kits de ayuda humanitaria</p>
+                                                <div class="mb-3 mt-auto">
+                                                    <span class="badge badge-success px-3 py-2"
+                                                        style="font-size: 0.85rem;"><i class="fas fa-circle mr-1"
+                                                            style="font-size: 0.6rem;"></i>Disponible: 18</span>
+                                                </div>
+                                                <a href="#" class="btn btn-admin btn-block agregar-cajita"
+                                                    data-id="2">Agregar a la cajita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Producto 3 -->
+                                    <div class="col-md-3 mb-4 producto-item" data-categoria="kits">
+                                        <div class="card card-solicitante h-100 text-center border-0">
+                                            <img src="https://http2.mlstatic.com/D_NQ_NP_841584-MLM80792548353_112024-O.webp"
+                                                class="card-img-top p-4" alt="Limpieza del hogar"
+                                                style="height: 200px; object-fit: contain;">
+                                            <div class="card-body d-flex flex-column pt-0">
+                                                <h5 class="card-title font-weight-bold text-dark mb-1">Limpieza del
+                                                    hogar</h5>
+                                                <p class="card-text text-muted small mb-3">Kits de ayuda humanitaria</p>
+                                                <div class="mb-3 mt-auto">
+                                                    <span class="badge badge-success px-3 py-2"
+                                                        style="font-size: 0.85rem;"><i class="fas fa-circle mr-1"
+                                                            style="font-size: 0.6rem;"></i>Disponible: 12</span>
+                                                </div>
+                                                <a href="#" class="btn btn-admin btn-block agregar-cajita"
+                                                    data-id="3">Agregar a la cajita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Producto 4 -->
+                                    <div class="col-md-3 mb-4 producto-item" data-categoria="kits">
+                                        <div class="card card-solicitante h-100 text-center border-0">
+                                            <img src="https://anthonyarms.com/wp-content/uploads/2022/12/Best-Non-Perishable-Foods-to-Stockpile-for-Survival.jpg"
+                                                class="card-img-top p-4" alt="Alimentos"
+                                                style="height: 200px; object-fit: contain;">
+                                            <div class="card-body d-flex flex-column pt-0">
+                                                <h5 class="card-title font-weight-bold text-dark mb-1">Alimentos</h5>
+                                                <p class="card-text text-muted small mb-3">Kits de ayuda humanitaria</p>
+                                                <div class="mb-3 mt-auto">
+                                                    <span class="badge badge-success px-3 py-2"
+                                                        style="font-size: 0.85rem;"><i class="fas fa-circle mr-1"
+                                                            style="font-size: 0.6rem;"></i>Disponible: 30</span>
+                                                </div>
+                                                <a href="#" class="btn btn-admin btn-block agregar-cajita"
+                                                    data-id="4">Agregar a la cajita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Producto 5 -->
+                                    <div class="col-md-3 mb-4 producto-item" data-categoria="utileria">
+                                        <div class="card card-solicitante h-100 text-center border-0">
+                                            <img src="https://a-static.mlcdn.com.br/undefinedxundefined/kit-material-escolar-basico-completo-ensino-medio-imp/prismacartuchos/15997141711/8f354956f61246336985abf89859a629.jpeg"
+                                                class="card-img-top p-4" alt="Escolar de emergencia"
+                                                style="height: 200px; object-fit: contain;">
+                                            <div class="card-body d-flex flex-column pt-0">
+                                                <h5 class="card-title font-weight-bold text-dark mb-1">Escolar de
+                                                    emergencia</h5>
+                                                <p class="card-text text-muted small mb-3">Utilería para talleres</p>
+                                                <div class="mb-3 mt-auto">
+                                                    <span class="badge badge-warning text-dark px-3 py-2"
+                                                        style="font-size: 0.85rem;"><i class="fas fa-circle mr-1"
+                                                            style="font-size: 0.6rem;"></i>Disponible: 5</span>
+                                                </div>
+                                                <a href="#" class="btn btn-admin btn-block agregar-cajita"
+                                                    data-id="5">Agregar a la cajita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Producto 6 -->
+                                    <div class="col-md-3 mb-4 producto-item" data-categoria="utileria">
+                                        <div class="card card-solicitante h-100 text-center border-0">
+                                            <img src="https://acdn-us.mitiendanube.com/stores/003/456/057/products/calca-helanca-escola-jaqueta-bermuda-menino-uniforme-camisetas-mangacurta-infantil-azul-marinho-jpg-34872b79835715631e17453718734972-240-0.jpg"
+                                                class="card-img-top p-4" alt="Escolar por tallas"
+                                                style="height: 200px; object-fit: contain;">
+                                            <div class="card-body d-flex flex-column pt-0">
+                                                <h5 class="card-title font-weight-bold text-dark mb-1">Escolar por
+                                                    tallas</h5>
+                                                <p class="card-text text-muted small mb-3">Utilería para talleres</p>
+                                                <div class="mb-3 mt-auto">
+                                                    <span class="badge badge-warning text-dark px-3 py-2"
+                                                        style="font-size: 0.85rem;"><i class="fas fa-circle mr-1"
+                                                            style="font-size: 0.6rem;"></i>Disponible: 4</span>
+                                                </div>
+                                                <a href="#" class="btn btn-admin btn-block agregar-cajita"
+                                                    data-id="6">Agregar a la cajita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Producto 7 -->
+                                    <div class="col-md-3 mb-4 producto-item" data-categoria="materiales">
+                                        <div class="card card-solicitante h-100 text-center border-0">
+                                            <img src="https://www.libreriasdeportivas.com/wp-content/uploads/2016/11/jenga-clasico.jpg"
+                                                class="card-img-top p-4" alt="Jenga"
+                                                style="height: 200px; object-fit: contain;">
+                                            <div class="card-body d-flex flex-column pt-0">
+                                                <h5 class="card-title font-weight-bold text-dark mb-1">Jenga de Madera
+                                                </h5>
+                                                <p class="card-text text-muted small mb-3">Materiales lúdicos y juegos
+                                                    educativos</p>
+                                                <div class="mb-3 mt-auto">
+                                                    <span class="badge badge-success px-3 py-2"
+                                                        style="font-size: 0.85rem;"><i class="fas fa-circle mr-1"
+                                                            style="font-size: 0.6rem;"></i>Disponible: 15</span>
+                                                </div>
+                                                <a href="#" class="btn btn-admin btn-block agregar-cajita"
+                                                    data-id="7">Agregar a la cajita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Producto 8 -->
+                                    <div class="col-md-3 mb-4 producto-item" data-categoria="merchandising">
+                                        <div class="card card-solicitante h-100 text-center border-0">
+                                            <img src="https://d2j6dbq0eux0bg.cloudfront.net/images/28362615/1449330656.jpg"
+                                                class="card-img-top p-4" alt="Tazas institucionales"
+                                                style="height: 200px; object-fit: contain;">
+                                            <div class="card-body d-flex flex-column pt-0">
+                                                <h5 class="card-title font-weight-bold text-dark mb-1">Tazas
+                                                    Institucionales</h5>
+                                                <p class="card-text text-muted small mb-3">Merchandising institucional
+                                                </p>
+                                                <div class="mb-3 mt-auto">
+                                                    <span class="badge badge-success px-3 py-2"
+                                                        style="font-size: 0.85rem;"><i class="fas fa-circle mr-1"
+                                                            style="font-size: 0.6rem;"></i>Disponible: 50</span>
+                                                </div>
+                                                <a href="#" class="btn btn-admin btn-block agregar-cajita"
+                                                    data-id="8">Agregar a la cajita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Paginación -->
+                    <div class="row mt-4">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info text-gray-800" role="status" aria-live="polite">Mostrando 1 a 8
+                                de
+                                32 entradas</div>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_simple_numbers">
+                                <ul class="pagination justify-content-end mb-0">
+                                    <li class="paginate_button page-item previous disabled"><a href="#"
+                                            class="page-link">Anterior</a></li>
+                                    <li class="paginate_button page-item active"><a href="#" class="page-link">1</a>
+                                    </li>
+                                    <li class="paginate_button page-item"><a href="#" class="page-link">2</a></li>
+                                    <li class="paginate_button page-item"><a href="#" class="page-link">3</a></li>
+                                    <li class="paginate_button page-item"><a href="#" class="page-link">4</a></li>
+                                    <li class="paginate_button page-item next"><a href="#"
+                                            class="page-link">Siguiente</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Clan Inventory 2026</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="../../login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../../js/sb-admin-2.min.js"></script>
+
+    <!-- DataTable plugins -->
+    <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- DataTable -->
+    <script src="../../js/demo/datatables-InicioCoord.js"></script>
+
+    <!-- JavaScript para Solicitante -->
+    <script src="../../js/demo/scrip_solicitante.js"></script>
+
+    <!-- Opciones de buscador y calendario -->
+    <script>
+        function cambiarFiltro() {
+            const tipo = document.getElementById('tipoFiltro').value;
+            const contenedor = document.getElementById('contenedorBusqueda');
+            const inputBusqueda = document.getElementById('inputBusqueda');
+            const inputFecha = document.getElementById('inputFecha');
+            const label = document.getElementById('labelBusqueda');
+
+            if (tipo === 'ninguno') {
+                contenedor.style.display = 'none';
+            } else {
+                contenedor.style.display = 'block';
+
+                if (tipo === 'fecha') {
+                    // Mostrar calendario
+                    inputBusqueda.style.display = 'none';
+                    inputFecha.style.display = 'block';
+                    label.innerText = 'Seleccionar Fecha:';
+                } else {
+                    // Mostrar buscador para Solicitante o Coordinador
+                    inputBusqueda.style.display = 'block';
+                    inputFecha.style.display = 'none';
+                    label.innerText = (tipo === 'solicitante') ? 'Nombre del Solicitante:' : 'Nombre del Coordinador:';
+                }
+            }
+        }
+    </script>
+
+    <script>
+        window.onload = function () {
+            // 1. Capturamos los parámetros de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const accion = urlParams.get('action'); // Busca la palabra 'aprobada' o 'rechazada'
+            const idSolicitud = urlParams.get('id'); // Busca el número de solicitud
+
+            // 2. Si existen ambos parámetros, configuramos y mostramos la alerta
+            if (accion && idSolicitud) {
+                const toast = document.getElementById('actionToast');
+                const toastMessage = document.getElementById('toastMessage');
+
+                // 3. Cambiamos el texto dinámicamente
+                if (accion === 'aprobada') {
+                    toastMessage.innerText = `La solicitud #${idSolicitud} ha sido aprobada correctamente.`;
+                    toast.classList.add('alert-success');
+                } else if (accion === 'rechazada') {
+                    toastMessage.innerText = `La solicitud #${idSolicitud} ha sido rechazada correctamente.`;
+                    // Cambiamos el color a rojo/advertencia si fue un rechazo
+                    toast.classList.remove('alert-success');
+                    toast.classList.add('alert-success');
+                }
+
+                // 4. Mostramos la alerta en pantalla
+                toast.style.display = 'block';
+
+                // 5. Cierre automático después de 5 segundos (5000 milisegundos)
+                setTimeout(() => {
+                    $(toast).alert('close');
+                }, 5000);
+            }
+        };
+
+        // Lógica de filtrado con el select
+        $(document).ready(function () {
+            $('.select2').select2({
+                theme: 'bootstrap4',
+                width: '100%'
+            });
+
+            $('#filtroCategoria').on('change', function () {
+                const categoria = $(this).val();
+                const nombreCategoria = $(this).find("option:selected").text();
+
+                // Cambiar el título
+                document.getElementById('titulo-categoria').innerText = nombreCategoria;
+
+                // Filtrar productos
+                const boxes = document.querySelectorAll('.producto-item');
+                boxes.forEach(box => {
+                    if (categoria === 'todas') {
+                        box.style.display = 'block';
+                    } else {
+                        if (box.getAttribute('data-categoria') === categoria) {
+                            box.style.display = 'block';
+                        } else {
+                            box.style.display = 'none';
+                        }
+                    }
+                });
+            });
+
+            // Simular incremento en el contador de la cajita
+            const botonesAgregar = document.querySelectorAll('.agregar-cajita');
+            const contadorCajita = document.getElementById('contador-cajita');
+            let count = 0;
+            botonesAgregar.forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    count++;
+                    contadorCajita.innerText = count;
+
+                    const actionToast = document.getElementById('actionToast');
+                    const toastMessage = document.getElementById('toastMessage');
+                    toastMessage.innerText = "Producto agregado a la cajita.";
+
+                    // Asegurar clases correctas para mensaje de producto
+                    actionToast.classList.remove('alert-danger');
+                    actionToast.classList.add('alert-success');
+
+                    actionToast.style.display = 'block';
+                    setTimeout(() => {
+                        $('#actionToast').alert('close');
+                        // Volvemos a insertar el toast para no perder el DOM
+                        actionToast.style.display = 'none';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

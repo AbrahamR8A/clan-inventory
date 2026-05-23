@@ -1,0 +1,26 @@
+@import "style_login.css";
+
+/* Estilos específicos para Registro */
+.register-container {
+    padding: 40px 20px;
+}
+
+.register-card {
+    max-width: 700px; /* Un poco más ancho para las columnas dobles */
+}
+
+.row-inputs {
+    display: flex;
+    gap: 15px;
+}
+
+.row-inputs > div {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .row-inputs {
+        flex-direction: column;
+        gap: 0;
+    }
+}

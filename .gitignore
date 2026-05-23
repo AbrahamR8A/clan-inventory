@@ -1,19 +1,46 @@
-# Dependencias
-node_modules/
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+.kotlin
 
-# Archivos de registro de errores de Node
-npm-debug.log
-yarn-error.log
+### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
 
-# Archivos del sistema operativo Windows / macOS (Basura de carpetas)
-Thumbs.db
-desktop.ini
-.DS_Store
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# Archivos de configuración local de editores (VS Code)
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
 .vscode/
 
-# Archivos temporales o carpetas de compilación
-dist/
-build/
-*.log
+### Mac OS ###
+.DS_Store
+
+# Archivos de IntelliJ IDEA
+.idea/
+*.iml
+
+# Archivos de compilación de Maven
+target/
