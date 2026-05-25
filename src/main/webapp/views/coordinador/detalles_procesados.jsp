@@ -217,7 +217,7 @@
                                 <div class="card shadow mb-4">
 
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-admin">Materiales solicitados</h6>
+                                        <h6 class="m-0 font-weight-bold text-admin">Materiales Solicitados</h6>
                                     </div>
                                     
                                     <div class="table-responsive mb-4 shadow-sm">
@@ -257,7 +257,7 @@
                                                 </h6>
                                                 <div class="form-group mb-0">
                                                     <label class="small font-weight-bold text-dark">Motivo del rechazo:</label>
-                                                    <div class="p-2 border bg-white rounded text-dark" style="min-height: 60px;">
+                                                    <div class="p-2 text-dark" style="min-height: 60px;">
                                                         ${solicitud.comentarioRechazo}
                                                     </div>
                                                 </div>
@@ -270,7 +270,7 @@
                                                 <h6 class="font-weight-bold text-success mb-0">
                                                     <i class="fas fa-check-circle mr-2"></i> Solicitud Aprobada Exitosamente
                                                 </h6>
-                                                <p class="small text-muted mt-2 mb-0">Los materiales ya fueron descontados del inventario y notificados al depósito.</p>
+                                                <p class="p-2 text-dark">Los materiales ya fueron descontados del inventario y notificados al depósito.</p>
                                             </div>
                                         </div>
                                     </c:when>

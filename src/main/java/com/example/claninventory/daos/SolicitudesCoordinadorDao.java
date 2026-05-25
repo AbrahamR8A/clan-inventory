@@ -20,7 +20,7 @@ public class SolicitudesCoordinadorDao extends BaseDao {
                 "JOIN usuarios u ON s.id_solicitante = u.id_usuarios " +
                 "WHERE s.estado = 'pendiente' " +
                 "AND (? IS NULL OR DATE(s.fecha_solicitud) = ?) " +
-                "AND (? IS NULL OR s.id_solicitudes LIKE ? OR u.nombres LIKE ? OR u.apellido_paterno LIKE ?) " +
+                "AND (? IS NULL OR s.id_solicitudes LIKE ? OR u.nombres LIKE ? OR u.apellido_paterno LIKE ? OR u.apellido_materno LIKE ?) " +
                 "ORDER BY s.fecha_solicitud ASC";
 
         try (Connection conn = this.getConnection();
@@ -38,6 +38,7 @@ public class SolicitudesCoordinadorDao extends BaseDao {
             pstmt.setString(4, pattern);
             pstmt.setString(5, pattern);
             pstmt.setString(6, pattern);
+            pstmt.setString(7, pattern);
 
             // Ahora que los parámetros están listos, ejecutamos la consulta
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -252,7 +253,7 @@ public class SolicitudesCoordinadorDao extends BaseDao {
                 "JOIN usuarios u ON s.id_solicitante = u.id_usuarios " +
                 "WHERE s.estado IN ('aprobada', 'rechazada') " +
                 "AND (? IS NULL OR DATE(s.fecha_revision) = ?) " +
-                "AND (? IS NULL OR s.id_solicitudes LIKE ? OR u.nombres LIKE ? OR u.apellido_paterno LIKE ?) " +
+                "AND (? IS NULL OR s.id_solicitudes LIKE ? OR u.nombres LIKE ? OR u.apellido_paterno LIKE ? OR u.apellido_materno LIKE ?) " +
                 "ORDER BY s.fecha_revision DESC";
 
         try (Connection conn = this.getConnection();
@@ -267,6 +268,7 @@ public class SolicitudesCoordinadorDao extends BaseDao {
             pstmt.setString(4, pattern);
             pstmt.setString(5, pattern);
             pstmt.setString(6, pattern);
+            pstmt.setString(7, pattern);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {

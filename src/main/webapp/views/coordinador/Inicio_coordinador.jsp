@@ -318,7 +318,7 @@
                                                                 <c:forEach var="solicitud" items="${listaPendientes}">
                                                                     <tr>
                                                                         <td class="align-middle" data-order="${solicitud.idSolicitudes}">#${solicitud.idSolicitudes}</td>
-                                                                        <td class="align-middle">${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno}</td>
+                                                                        <td class="align-middle">${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</td>
                                                                         <td class="align-middle">
                                                                             <fmt:formatDate value="${solicitud.fechaSolicitud}" pattern="dd/MM/yyyy HH:mm" />
                                                                         </td>
