@@ -3,7 +3,7 @@ let dataTable;
 const dataTableOptions = {
   pageLength: 5,
   destroy:true,
-
+    searching: false,
   //scrollX: "2000px",
 
   lengthMenu:[5, 10, 25],
