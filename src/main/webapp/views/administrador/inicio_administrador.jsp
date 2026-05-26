@@ -35,11 +35,10 @@
 
                     <!-- Sidebar - Brand -->
                     <a class="sidebar-brand d-flex align-items-center justify-content-center"
-                        href="${pageContext.request.contextPath}/InicioAdminServlet">
-                        <div class="sidebar-brand-icon rotate-n-15">
-                            <i class="fas fa-laugh-wink"></i>
-                        </div>
-                        <div class="sidebar-brand-text mx-3">CLAN INVENTORY </div>
+                       href="${pageContext.request.contextPath}/InicioAdminServlet">
+                        <img src="${pageContext.request.contextPath}/img/quintaola_logo.png"
+                             alt="Quinta Ola"
+                             class="logo-quintaola-sidebar">
                     </a>
 
                     <!-- Divider -->
@@ -282,7 +281,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <i class="fa-solid fa-x fa-2x text-gray-300"></i>
+                                                                <i class="fas fa-times-circle fa-2x text-gray-300"></i>
                                                             </div>
                                                         </div>
                                                     </div>

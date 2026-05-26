@@ -238,3 +238,113 @@ nav.topbar {
         left: 0;
     }
 }
+
+/* =======================================================
+   SIDEBAR FIJA SIN ESPACIO BLANCO
+   ======================================================= */
+
+@media (min-width: 768px) {
+
+    /* Quitamos el comportamiento flex para evitar doble espacio */
+    #wrapper {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    /* Sidebar fija abierta */
+    #accordionSidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 14rem !important;
+        height: 100vh !important;
+        z-index: 1030 !important;
+        overflow-y: auto !important;
+    }
+
+    /* Contenido cuando sidebar está abierta */
+    #content-wrapper {
+        margin-left: 14rem !important;
+        width: calc(100% - 14rem) !important;
+        min-height: 100vh !important;
+    }
+
+    /* Topbar fija cuando sidebar está abierta */
+    nav.topbar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 14rem !important;
+        width: calc(100% - 14rem) !important;
+        z-index: 1020 !important;
+    }
+
+    /* Espacio para que la topbar no tape el contenido */
+    #content {
+        padding-top: 95px !important;
+    }
+
+    /* Sidebar contraída */
+    #accordionSidebar.toggled {
+        width: 6.5rem !important;
+    }
+
+    /* Contenido cuando sidebar está contraída */
+    #accordionSidebar.toggled ~ #content-wrapper,
+    body.sidebar-toggled #content-wrapper {
+        margin-left: 6.5rem !important;
+        width: calc(100% - 6.5rem) !important;
+    }
+
+    /* Topbar cuando sidebar está contraída */
+    body.sidebar-toggled nav.topbar {
+        left: 6.5rem !important;
+        width: calc(100% - 6.5rem) !important;
+    }
+}
+
+/* Móviles */
+@media (max-width: 767.98px) {
+    #wrapper {
+        display: flex !important;
+    }
+
+    #accordionSidebar {
+        position: relative !important;
+        width: 0 !important;
+    }
+
+    #content-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    nav.topbar {
+        position: relative !important;
+        left: 0 !important;
+        width: 100% !important;
+    }
+
+    #content {
+        padding-top: 0 !important;
+    }
+}
+
+/* Logo Quinta Ola en sidebar */
+.logo-quintaola-sidebar {
+    max-width: 145px;
+    max-height: 65px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Ajuste del espacio del logo */
+.sidebar-brand {
+    padding: 1rem 0.5rem !important;
+}
+
+/* Logo cuando la barra lateral está contraída */
+.sidebar.toggled .logo-quintaola-sidebar {
+    max-width: 48px;
+    max-height: 48px;
+}

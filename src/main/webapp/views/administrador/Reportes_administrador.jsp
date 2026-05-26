@@ -71,7 +71,7 @@
             <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
             <div class="sidebar-brand-text mx-3">CLAN INVENTORY</div>
         </a>
-        <hr class="sidebar-divider my-0">
+        <hr class="sidebar-divider my-0">g
         <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/InicioAdminServlet">
                 <i class="fas fa-fw fa-tachometer-alt"></i><span>INICIO</span></a>
