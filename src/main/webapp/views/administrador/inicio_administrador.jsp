@@ -34,11 +34,14 @@
                 <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
 
                     <!-- Sidebar - Brand -->
+
                     <a class="sidebar-brand d-flex align-items-center justify-content-center"
                        href="${pageContext.request.contextPath}/InicioAdminServlet">
-                        <img src="${pageContext.request.contextPath}/img/quintaola_logo.png"
-                             alt="Quinta Ola"
-                             class="logo-quintaola-sidebar">
+                        <div class="logo-quintaola-box">
+                            <img src="${pageContext.request.contextPath}/img/quintaola_logo.png"
+                                 alt="Quinta Ola"
+                                 class="logo-quintaola-sidebar">
+                        </div>
                     </a>
 
                     <!-- Divider -->

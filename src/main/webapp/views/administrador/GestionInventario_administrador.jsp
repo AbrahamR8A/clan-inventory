@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gestion de inventario-Administrador</title>
+    <title>Gestión de inventario-Administrador</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -44,9 +44,11 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center"
                href="${pageContext.request.contextPath}/InicioAdminServlet">
-                <img src="${pageContext.request.contextPath}/img/quintaola_logo.png"
-                     alt="Quinta Ola"
-                     class="logo-quintaola-sidebar">
+                <div class="logo-quintaola-box">
+                    <img src="${pageContext.request.contextPath}/img/quintaola_logo.png"
+                         alt="Quinta Ola"
+                         class="logo-quintaola-sidebar">
+                </div>
             </a>
 
             <!-- Divider -->
@@ -63,7 +65,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/UsuariosServlet">
                     <i class="fas fa-fw fa-users mr"></i>
-                    <span>GESTION DE USUARIOS</span></a>
+                    <span>GESTIÓN DE USUARIOS</span></a>
             </li>
 
             <!-- Divider -->
@@ -73,7 +75,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="${pageContext.request.contextPath}/ProductosServlet">
                     <i class="fas fa-fw fa-box mr"></i>
-                    <span>GESTION DE INVENTARIO</span></a>
+                    <span>GESTIÓN DE INVENTARIO</span></a>
             </li>
 
             <!-- Divider -->
@@ -108,7 +110,7 @@
                     
                     <!-- Section Title (Topbar) -->
                     <div class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100">
-                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">GESTION DE INVENTARIO</h1>
+                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">GESTIÓN DE INVENTARIO</h1>
                     </div>
 
                     <!-- Sidebar Toggle (Topbar) -->

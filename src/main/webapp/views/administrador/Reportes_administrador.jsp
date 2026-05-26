@@ -39,6 +39,53 @@
         .btn-admin:hover, .btn-admin:focus {
             color: #fff; background-color: #5a0299; border-color: #5a0299;
         }
+        /* Logo Quinta Ola en sidebar */
+        #accordionSidebar .sidebar-brand {
+            background: transparent !important;
+            height: 4.375rem !important;
+            padding: 0.6rem 0.7rem !important;
+            margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        /* Caja blanca del logo */
+        #accordionSidebar .logo-quintaola-box {
+            width: 150px !important;
+            height: 50px !important;
+            background-color: #ffffff !important;
+            border-radius: 14px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 6px 10px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16) !important;
+            overflow: hidden !important;
+        }
+
+        /* Imagen del logo */
+        #accordionSidebar .logo-quintaola-sidebar {
+            max-width: 125px !important;
+            max-height: 40px !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+        }
+
+        /* Cuando la sidebar está contraída */
+        #accordionSidebar.toggled .logo-quintaola-box {
+            width: 52px !important;
+            height: 52px !important;
+            border-radius: 50% !important;
+            padding: 6px !important;
+        }
+
+        #accordionSidebar.toggled .logo-quintaola-sidebar {
+            max-width: 42px !important;
+            max-height: 42px !important;
+        }
         .text-coord { color: #ff2a9e !important; }
         .border-left-coord { border-left: .25rem solid #ff2a9e !important; }
 
@@ -67,11 +114,16 @@
     <%-- completo por tu include de sidebar.                             --%>
     <%-- ============================================================== --%>
     <ul class="navbar-nav bg-admin sidebar sidebar-dark accordion" id="accordionSidebar">
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/InicioAdminServlet">
-            <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-            <div class="sidebar-brand-text mx-3">CLAN INVENTORY</div>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center"
+           href="${pageContext.request.contextPath}/InicioAdminServlet">
+            <div class="logo-quintaola-box">
+                <img src="${pageContext.request.contextPath}/img/quintaola_logo.png"
+                     alt="Quinta Ola"
+                     class="logo-quintaola-sidebar">
+            </div>
         </a>
-        <hr class="sidebar-divider my-0">g
+
+        <hr class="sidebar-divider my-0">
         <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/InicioAdminServlet">
                 <i class="fas fa-fw fa-tachometer-alt"></i><span>INICIO</span></a>
@@ -306,7 +358,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>CLAN INVENTORY &copy; <%= java.time.Year.now() %></span>
+                    <span>CLAN INVENTORY ; <%= java.time.Year.now() %></span>
                 </div>
             </div>
         </footer>

@@ -348,3 +348,52 @@ nav.topbar {
     max-width: 48px;
     max-height: 48px;
 }
+
+/* =======================================================
+   LOGO QUINTA OLA EN SIDEBAR - VERSIÓN LIMPIA
+   ======================================================= */
+
+.sidebar-brand {
+    background: transparent !important;
+    height: 4.375rem !important;
+    padding: 0.6rem 0.7rem !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Caja blanca pequeña, no toda la barra */
+.logo-quintaola-box {
+    width: 150px;
+    height: 50px;
+    background-color: #ffffff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+/* Imagen del logo */
+.logo-quintaola-sidebar {
+    max-width: 125px;
+    max-height: 40px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Cuando la sidebar está contraída */
+.sidebar.toggled .logo-quintaola-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    padding: 6px;
+}
+
+.sidebar.toggled .logo-quintaola-sidebar {
+    max-width: 42px;
+    max-height: 42px;
+}
