@@ -296,11 +296,10 @@
                                                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                                 <h6 class="m-0 font-weight-bold text-admin">Actividad Reciente del
                                                     Sistema</h6>
-                                                <a href="#" class="btn btn-sm btn-admin shadow-sm">Ver todo</a>
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
-                                                    <table class="table table-hover table-striped text-gray-800"
+                                                    <table class="table table-hover text-gray-800"
                                                         width="100%" cellspacing="0">
                                                         <thead class="bg-light">
                                                             <tr>
@@ -349,7 +348,7 @@
 
                                                 <div class="table-responsive">
 
-                                                    <table class="table table-hover table-striped text-gray-800"
+                                                    <table class="table table-hover text-gray-800"
                                                         width="100%" cellspacing="0">
 
                                                         <thead class="bg-light">
@@ -386,7 +385,7 @@
                                                     <span class="mr-2"><i class="fas fa-circle text-danger"></i> 0 a
                                                         5</span>
                                                     <td class="text-center align-middle"><span
-                                                            class="badge badge-advertencia px-2 py-1">bajo</span></td>
+                                                            class="badge badge-advertencia px-2 py-1">Bajo</span></td>
                                                     <span class="mr-2"><i class="fas fa-circle text-warning"></i> 6 a
                                                         10</span>
                                                     <td class="text-center align-middle"><span
@@ -436,16 +435,16 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">¿Listo para salir?</h5>
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                        <div class="modal-body">Selecciona «Cerrar sesión» a continuación si deseas finalizar tu sesión actual.
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/login.jsp">Logout</a>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/login.jsp">Cerrar Sesión</a>
                         </div>
                     </div>
                 </div>
