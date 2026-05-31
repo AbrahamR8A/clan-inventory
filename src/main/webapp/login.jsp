@@ -1,4 +1,20 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%
+    // Si ya hay sesion activa, redirigir al Inicio del rol correspondiente
+    if (session != null && session.getAttribute("usuario") != null) {
+        response.sendRedirect(request.getContextPath() + "/LoginServlet");
+        return;
+    }
+
+    // Lectura del parametro de error que envia el LoginServlet
+    String errorParam = request.getParameter("error");
+    String mensajeError = null;
+    if ("credenciales".equals(errorParam)) {
+        mensajeError = "Correo o contraseña incorrectos.";
+    } else if ("campos".equals(errorParam)) {
+        mensajeError = "Debes ingresar tu correo y tu contraseña.";
+    }
+%>
     <!doctype html>
     <html lang="es">
 
@@ -39,14 +55,14 @@
                     <p class="slogan">El arsenal de tu inventario, bajo control.</p>
                 </div>
 
-                <div id="errorAlert" style="display: none;">
+                <div id="errorAlert" style="display: <%= mensajeError != null ? "block" : "none" %>;">
                     <div class="alert alert-glass" role="alert" id="errorMessageDiv">
                         <i class="fas fa-exclamation-triangle mr-2"></i>
-                        <span id="errorMessageText"></span>
+                        <span id="errorMessageText"><%= mensajeError != null ? mensajeError : "" %></span>
                     </div>
                 </div>
 
-                <form method="POST" action="#" novalidate id="loginForm">
+                <form method="POST" action="<%= request.getContextPath() %>/LoginServlet" novalidate id="loginForm">
 
                     <div class="form-floating">
                         <i class="fas fa-user input-icon"></i>
