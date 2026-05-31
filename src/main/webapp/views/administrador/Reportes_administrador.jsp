@@ -291,30 +291,38 @@
                                 </div>
 
                                 <!-- ============ TABLA DE CONSUMO ============= -->
-                                <!-- Mismo estilo que la tabla de Gestión de Inventario -->
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Código</th>
-                                                <th>Producto</th>
-                                                <th>Categoría</th>
-                                                <th>Stock inicial</th>
-                                                <th>Entrada del mes</th>
-                                                <th>Salida del mes</th>
-                                            </tr>
+                                    <table id="dataTable" class="table table-hover text-gray-800">
+                                        <thead class="bg-light">
+                                        <tr>
+                                            <th class="centered font-weight-bold">Código</th>
+                                            <th class="centered font-weight-bold">Producto</th>
+                                            <th class="centered font-weight-bold">Categoría</th>
+                                            <th class="centered font-weight-bold">Stock inicial</th>
+                                            <th class="centered font-weight-bold">Entrada del mes</th>
+                                            <th class="centered font-weight-bold">Salida del mes</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="r" items="${listaConsumo}">
+                                        <c:choose>
+                                            <c:when test="${not empty listaConsumo}">
+                                                <c:forEach var="r" items="${listaConsumo}">
+                                                    <tr>
+                                                        <td>${r.codigo}</td>
+                                                        <td>${r.producto}</td>
+                                                        <td>${r.categoria}</td>
+                                                        <td>${r.stockInicial}</td>
+                                                        <td class="text-success font-weight-bold">${r.entradaMes}</td>
+                                                        <td class="text-danger font-weight-bold">${r.salidaMes}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
                                                 <tr>
-                                                    <td class="text-center">${r.codigo}</td>
-                                                    <td>${r.producto}</td>
-                                                    <td>${r.categoria}</td>
-                                                    <td class="text-center">${r.stockInicial}</td>
-                                                    <td class="text-center text-success font-weight-bold">${r.entradaMes}</td>
-                                                    <td class="text-center text-danger font-weight-bold">${r.salidaMes}</td>
+                                                    <td colspan="6" class="text-center">No se encontraron registros.</td>
                                                 </tr>
-                                            </c:forEach>
+                                            </c:otherwise>
+                                        </c:choose>
                                         </tbody>
                                     </table>
                                 </div>
