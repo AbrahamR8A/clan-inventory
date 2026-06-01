@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Detalles de solicitud procesadas-Coordinador</title>
+    <title>Historial de solicitudes - Coordinador</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -23,6 +23,12 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -35,25 +41,22 @@
         <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=inicio">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/InicioCoordinadorServlet">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">CLAN INVETORY</div>
+                <div class="sidebar-brand-text mx-3">CLAN INVENTORY</div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=inicio">
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/InicioCoordinadorServlet">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>INICIO</span></a>
             </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
             <!-- Nav Item - Historial de solicitudes -->
             <li class="nav-item active">
@@ -84,7 +87,7 @@
                     
                     <!-- Section Title (Topbar) -->
                     <div class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100">
-                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">DETALLES DE SOLICITUD - PROCESADO</h1>
+                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">HISTORIAL DE SOLICITUDES</h1>
                     </div>
 
                     <!-- Sidebar Toggle (Topbar) -->
@@ -95,7 +98,6 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
@@ -146,11 +148,9 @@
                                     </div>
                                 </a>
                                     
-                                <a class="dropdown-item text-center small text-gray-500" href="notificaciones.html">Mostrar todas las notificaciones</a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Mostrar todas las notificaciones</a>
                             </div>
                         </li>
-
-            
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -160,13 +160,13 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Abraham Ramirez</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../../img/undraw_profile.svg">
+                                    src="${pageContext.request.contextPath}/img/undraw_profile.svg">
                             </a>
                             
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="perfil_depósito.html">
+                                <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
@@ -187,115 +187,109 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading 
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Bandeja de solicitudes pendientes</h1>
-                    </div>
-                    -->
-
                     <!-- Main Content -->
-                    <div class="card-body">
+                    <div class="card shadow mb-4">
                         
-                        <div class="row">
+                        <div class="card shadow mb-4">
 
-                            <div class="col-lg-8">
-                                
-                                <!--<h4 class="mb-4 font-weight-bold text-dark">Detalles de solicitud - pasada</h4>-->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-admin">Tabla de solicitudes procesadas</h6>
+                            </div>
 
-                                <div class="mb-4 text-dark">
-                                    <h1 class="h3 mb-2 text-gray-800">Solicitud #${solicitud.idSolicitudes}</h1>
-                                    <p class="mb-1"><strong>Datos del Solicitante:</strong> ${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</p>
-                                    <p class="mb-1"><strong>Fecha y Hora de Solicitud:</strong> <fmt:formatDate value="${solicitud.fechaSolicitud}" pattern="dd/MM/yyyy HH:mm" /></p>
-                                    <p class="mb-1"><strong>Fecha y Hora de Revisión:</strong> <fmt:formatDate value="${solicitud.fechaRevision}" pattern="dd/MM/yyyy HH:mm" /></p>
-                                    <p class="mb-1"><strong>Estado:</strong> <span class="badge ${solicitud.estado == 'aprobada' ? 'badge-success' : 'badge-danger'} px-2 py-1">${solicitud.estado}</span></p>
-                                    <p class="mb-1"><strong>Propósito:</strong></p>
-                                    <div class="p-3 bg-light border rounded text-dark">
-                                        <p>${solicitud.proposito}</p>
+                            <div class="card-body">
+
+                                <form action="${pageContext.request.contextPath}/InicioCoordinadorServlet" method="GET" class="w-100 mb-4">
+                                    <input type="hidden" name="action" value="historial">
+
+                                    <div class="row align-items-end mb-3">
+                                        <div class="col-md-3">
+                                            <label class="small font-weight-bold text-dark">Por Solicitante:</label>
+                                            <input type="text" name="buscar" class="form-control" placeholder="Nombre o ID de solicitud..." value="${param.buscar}">
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label class="small font-weight-bold text-dark">Por Fecha:</label>
+                                            <input type="date" name="fecha" class="form-control text-sm" value="${param.fecha}">
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label class="small font-weight-bold text-dark">Por Estado:</label>
+                                            <select name="estado" class="form-control">
+                                                <option value="">Todos</option>
+                                                <option value="aprobada" ${param.estado == 'aprobada' ? 'selected' : ''}>Aprobadas</option>
+                                                <option value="rechazada" ${param.estado == 'rechazada' ? 'selected' : ''}>Rechazadas</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2 d-flex align-items-end">
+                                            <button type="submit" class="btn btn-admin flex-grow-1 mr-2">
+                                                <i class="fas fa-filter fa-sm mr-1"></i> Filtrar
+                                            </button>
+                                            <a href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=historial" class="btn btn-light shadow-sm">
+                                                <i class="fas fa-eraser text-secondary"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
 
-                                <div class="card shadow mb-4">
-
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-admin">Materiales Solicitados</h6>
-                                    </div>
-                                    
-                                    <div class="table-responsive mb-4 shadow-sm">
-                                        <table class="table table-hover table-striped text-gray-800 text-center" width="100%" cellspacing="0">
-                                            <thead class="bg-light text-dark">
-                                                <tr>
-                                                    <th>SKU</th>
-                                                    <th>Producto</th>
-                                                    <th>Categoría</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Stock Actual</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="detalle" items="${listaDetalles}">
+                                <div class="table-responsive">
+                                    <table id="dataTable" class="table table-hover table-striped text-gray-800">
+                                        <thead class="bg-light text-dark text-center">
+                                            <tr>
+                                                <th>ID de Solicitud</th>
+                                                <th>Solicitante</th>
+                                                <th>Fecha de solicitud</th>
+                                                <th>Estado</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-sm">
+                                            <c:choose>
+                                                <c:when test="${not empty listaHistorial}">
+                                                    <c:forEach var="solicitud" items="${listaHistorial}">
+                                                        <tr>
+                                                            <td class="align-middle text-center">#${solicitud.idSolicitudes}</td>
+                                                            <td class="align-middle">${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</td>
+                                                            <td class="align-middle text-center">
+                                                                <fmt:formatDate value="${solicitud.fechaSolicitud}" pattern="dd/MM/yyyy HH:mm" />
+                                                            </td>
+                                                            <td class="align-middle text-center">
+                                                                <c:choose>
+                                                                    <c:when test="${solicitud.estado == 'aprobada'}">
+                                                                        <span class="badge badge-success px-2 py-1">Aprobada</span>
+                                                                    </c:when>
+                                                                    <c:when test="${solicitud.estado == 'rechazada'}">
+                                                                        <span class="badge badge-danger px-2 py-1">Rechazada</span>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <span class="badge badge-secondary px-2 py-1">${solicitud.estado}</span>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                            </td>
+                                                            <td class="align-middle text-center">
+                                                                <a href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=verDetalle&id=${solicitud.idSolicitudes}" class="btn btn-sm shadow-sm btn-admin text-white">
+                                                                    <i class="fa-solid fa-eye"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
                                                     <tr>
-                                                        <td class="align-middle">${detalle.producto.siglaCategoria}-${detalle.producto.codigo}</td>
-                                                        <td class="align-middle">${detalle.producto.nombre}</td>
-                                                        <td class="align-middle">${detalle.producto.nombreCategoria}</td>
-                                                        <td class="align-middle">${detalle.cantidad}</td>
-                                                        <td class="align-middle">${detalle.producto.stockActual}</td>
+                                                        <td colspan="5" class="text-center py-4 text-muted">No hay solicitudes procesadas en el historial.</td>
                                                     </tr>
-                                                </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </tbody>
+                                    </table>
                                 </div>
-
-
-                                <c:choose>
-                                    <c:when test="${solicitud.estado == 'rechazada'}">
-                                        <div class="card shadow-sm mb-4 border-left-danger bg-light">
-                                            <div class="card-body">
-                                                <h6 class="font-weight-bold text-danger mb-3">
-                                                    <i class="fas fa-times-circle mr-2"></i> Solicitud Rechazada
-                                                </h6>
-                                                <div class="form-group mb-0">
-                                                    <label class="small font-weight-bold text-dark">Motivo del rechazo:</label>
-                                                    <div class="p-2 text-dark" style="min-height: 60px;">
-                                                        ${solicitud.comentarioRechazo}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:when>
-                                    <c:when test="${solicitud.estado == 'aprobada'}">
-                                        <div class="card shadow-sm mb-4 border-left-success bg-light">
-                                            <div class="card-body">
-                                                <h6 class="font-weight-bold text-success mb-0">
-                                                    <i class="fas fa-check-circle mr-2"></i> Solicitud Aprobada Exitosamente
-                                                </h6>
-                                                <p class="p-2 text-dark">Los materiales ya fueron descontados del inventario y notificados al depósito.</p>
-                                            </div>
-                                        </div>
-                                    </c:when>
-                                </c:choose>
 
                             </div>
 
-                            <div class="col-lg-4">
-                                
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-admin">Información Adicional</h6>
-                                    </div>
-                                    <div class="card-body text-center py-5 text-muted">
-                                        <i class="fas fa-folder-open fa-3x mb-3 text-gray-300"></i>
-                                        <p class="mb-0">Registro histórico de solo lectura.</p>
-                                    </div>
-                                </div>
-                                
-
-                            </div>
                         </div>
 
-
                     </div>
+
                 </div>
                 <!-- /.container-fluid -->
 
@@ -329,33 +323,19 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">¿Desea salir?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Seleccione "Cerrar sesión" si desea finalizar su sesión actual.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                     <a class="btn btn-primary" href="${pageContext.request.contextPath}/LogoutServlet">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content border-primary">
-            <div class="modal-body text-center p-5">
-                <h5 class="text-dark mb-4" id="textoConfirmacion">¿Desea marcar la solicitud como ...?</h5>
-                <button type="button" class="btn btn-outline-secondary px-4 mr-2" data-dismiss="modal">No</button>
-                <a href="#" class="btn btn-primary px-4">Sí</a>
-            </div>
-        </div>
-    </div>
-    </div>
-
-
 
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
@@ -368,12 +348,11 @@
     <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>
-    <script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>
-
+    <script src="${pageContext.request.contextPath}/js/demo/datatables-HistSoliCoord.js"></script>
 
 </body>
 

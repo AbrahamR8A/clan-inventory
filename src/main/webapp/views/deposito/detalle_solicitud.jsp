@@ -44,18 +44,6 @@
                     <i class="fas fa-fw fa-home"></i>
                     <span>INICIO</span></a>
             </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/entrada_producto.jsp">
-                    <i class="fas fa-fw fa-box-open"></i>
-                    <span>ENTRADA DE PRODUCTO</span></a>
-            </li>
-
-            <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
@@ -291,7 +279,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.jsp">Logout</a>
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/LogoutServlet">Cerrar Sesión</a>
                 </div>
             </div>
         </div>

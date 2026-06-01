@@ -110,12 +110,27 @@
                 </button>
                 <h1 class="h3 mb-0 text-gray-800 ml-2">REPORTES</h1>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown no-arrow">
+                    <li class="nav-item dropdown no-arrow mx-1">
                         <a class="nav-link" href="#"><i class="fas fa-bell fa-fw"></i></a>
                     </li>
                     <div class="topbar-divider d-none d-sm-block"></div>
-                    <li class="nav-item">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Administrador</span>
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.usuario.nombres}</span>
+                            <img class="img-profile rounded-circle"
+                                src="${pageContext.request.contextPath}/img/undraw_profile.svg">
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Cerrar Sesión
+                            </a>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -314,6 +329,25 @@
 </div><!-- /wrapper -->
 
 <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¿Desea salir?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Seleccione "Cerrar sesión" a continuación si desea finalizar su sesión actual.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" href="${pageContext.request.contextPath}/LogoutServlet">Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- ===================== SCRIPTS ===================== -->
 <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
