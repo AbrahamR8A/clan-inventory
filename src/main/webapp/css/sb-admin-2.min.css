@@ -238,3 +238,71 @@ nav.topbar {
         left: 0;
     }
 }
+
+/* =======================================================
+   CORRECCIÓN: AJUSTAR CONTENIDO CUANDO SIDEBAR SE REDUCE
+   ======================================================= */
+
+/* Estado normal: sidebar abierta */
+@media (min-width: 768px) {
+    #content-wrapper {
+        margin-left: 224px !important;
+        width: calc(100% - 224px) !important;
+    }
+
+    nav.topbar {
+        left: 224px;
+        width: calc(100% - 224px);
+    }
+}
+
+/* Estado reducido: sidebar colapsada */
+@media (min-width: 768px) {
+    body.sidebar-toggled #content-wrapper {
+        margin-left: 104px !important;
+        width: calc(100% - 104px) !important;
+    }
+
+    body.sidebar-toggled nav.topbar {
+        left: 104px;
+        width: calc(100% - 104px);
+    }
+}
+
+/* Móviles */
+@media (max-width: 767.98px) {
+    #content-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    nav.topbar {
+        left: 0;
+        width: 100%;
+    }
+}
+
+/* Tabla de Alertas de Stock con columnas más equilibradas */
+.tabla-alertas-stock {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.tabla-alertas-stock th,
+.tabla-alertas-stock td {
+    vertical-align: middle !important;
+}
+
+.tabla-alertas-stock th:nth-child(1),
+.tabla-alertas-stock td:nth-child(1) {
+    text-align: left !important;
+    padding-left: 1rem !important;
+}
+
+.tabla-alertas-stock th:nth-child(2),
+.tabla-alertas-stock td:nth-child(2),
+.tabla-alertas-stock th:nth-child(3),
+.tabla-alertas-stock td:nth-child(3) {
+    text-align: center !important;
+}
+

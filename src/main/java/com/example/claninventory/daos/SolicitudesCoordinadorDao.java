@@ -244,7 +244,7 @@ public class SolicitudesCoordinadorDao extends BaseDao {
     }
 
     // ───  Listar historial de solicitudes procesadas por Coordinador ─────────────────────────────────────────
-    public ArrayList<Solicitudes> listarSolicitudesProcesadas(String buscar, String fecha) {
+    public ArrayList<Solicitudes> listarSolicitudesProcesadas(String buscar, String fecha, String estado) {
         ArrayList<Solicitudes> lista = new ArrayList<>();
 
         String sql = "SELECT s.id_solicitudes, s.proposito, s.estado, s.fecha_solicitud, s.fecha_revision, " +
@@ -252,23 +252,31 @@ public class SolicitudesCoordinadorDao extends BaseDao {
                 "FROM solicitudes s " +
                 "JOIN usuarios u ON s.id_solicitante = u.id_usuarios " +
                 "WHERE s.estado IN ('aprobada', 'rechazada') " +
-                "AND (? IS NULL OR DATE(s.fecha_revision) = ?) " +
-                "AND (? IS NULL OR s.id_solicitudes LIKE ? OR u.nombres LIKE ? OR u.apellido_paterno LIKE ? OR u.apellido_materno LIKE ?) " +
+                "AND (? IS NULL OR s.estado = ?) " +
+                "AND (? IS NULL OR DATE(s.fecha_solicitud) = ?) " +
+                "AND (? IS NULL OR CAST(s.id_solicitudes AS CHAR) LIKE ? OR u.nombres LIKE ? OR u.apellido_paterno LIKE ? OR u.apellido_materno LIKE ?) " +
                 "ORDER BY s.fecha_revision DESC";
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, fecha);
-            pstmt.setString(2, fecha);
+            // 1 y 2: Filtro de Estado
+            pstmt.setString(1, (estado == null || estado.isEmpty()) ? null : estado);
+            pstmt.setString(2, (estado == null || estado.isEmpty()) ? null : estado);
 
-            String pattern = (buscar != null && !buscar.isEmpty()) ? "%" + buscar + "%" : null; // Si no se escribió nada en la barra de búsqueda,
-                                                                                                // la variable buscar llega como nula, entonces pattern también lo será
-            pstmt.setString(3, buscar);
-            pstmt.setString(4, pattern);
-            pstmt.setString(5, pattern);
+            // 3 y 4: Filtro de Fecha
+            pstmt.setString(3, (fecha == null || fecha.isEmpty()) ? null : fecha);
+            pstmt.setString(4, (fecha == null || fecha.isEmpty()) ? null : fecha);
+
+            // Armamos el patrón LIKE
+            String pattern = (buscar != null && !buscar.isEmpty()) ? "%" + buscar + "%" : null;
+
+            // 5 al 9: Filtros del buscador de texto e ID
+            pstmt.setString(5, (buscar == null || buscar.isEmpty()) ? null : buscar);
             pstmt.setString(6, pattern);
             pstmt.setString(7, pattern);
+            pstmt.setString(8, pattern);
+            pstmt.setString(9, pattern);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {

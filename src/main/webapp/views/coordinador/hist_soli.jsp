@@ -65,8 +65,6 @@
                     <span>HISTORIAL DE SOLICITUDES</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -202,20 +200,17 @@
                                     <input type="hidden" name="action" value="historial">
 
                                     <div class="row align-items-end mb-3">
-                                        <div class="col-md-3">
-                                            <label class="small font-weight-bold text-dark">Por Solicitante:</label>
-                                            <input type="text" name="buscar" class="form-control" placeholder="Nombre o ID de solicitud..." value="${param.buscar}">
+                                        <div class="col-md-4">
+                                            <input type="text" name="buscar" class="form-control" placeholder="Filtrar por nombre o ID de solicitud..." value="${param.buscar}">
                                         </div>
 
-                                        <div class="col-md-2">
-                                            <label class="small font-weight-bold text-dark">Por Fecha:</label>
+                                        <div class="col-md-3">
                                             <input type="date" name="fecha" class="form-control text-sm" value="${param.fecha}">
                                         </div>
 
-                                        <div class="col-md-2">
-                                            <label class="small font-weight-bold text-dark">Por Estado:</label>
+                                        <div class="col-md-3">
                                             <select name="estado" class="form-control">
-                                                <option value="">Todos</option>
+                                                <option value="">Filtrar por Estado...</option>
                                                 <option value="aprobada" ${param.estado == 'aprobada' ? 'selected' : ''}>Aprobadas</option>
                                                 <option value="rechazada" ${param.estado == 'rechazada' ? 'selected' : ''}>Rechazadas</option>
                                             </select>
@@ -248,12 +243,12 @@
                                                 <c:when test="${not empty listaHistorial}">
                                                     <c:forEach var="solicitud" items="${listaHistorial}">
                                                         <tr>
-                                                            <td class="align-middle text-center">#${solicitud.idSolicitudes}</td>
+                                                            <td class="align-middle">#${solicitud.idSolicitudes}</td>
                                                             <td class="align-middle">${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</td>
-                                                            <td class="align-middle text-center">
+                                                            <td class="align-middle">
                                                                 <fmt:formatDate value="${solicitud.fechaSolicitud}" pattern="dd/MM/yyyy HH:mm" />
                                                             </td>
-                                                            <td class="align-middle text-center">
+                                                            <td class="align-middle">
                                                                 <c:choose>
                                                                     <c:when test="${solicitud.estado == 'aprobada'}">
                                                                         <span class="badge badge-success px-2 py-1">Aprobada</span>
@@ -264,9 +259,10 @@
                                                                     <c:otherwise>
                                                                         <span class="badge badge-secondary px-2 py-1">${solicitud.estado}</span>
                                                                     </c:otherwise>
+
                                                                 </c:choose>
                                                             </td>
-                                                            <td class="align-middle text-center">
+                                                            <td class="align-middle">
                                                                 <a href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=verDetalle&id=${solicitud.idSolicitudes}" class="btn btn-sm shadow-sm btn-admin text-white">
                                                                     <i class="fa-solid fa-eye"></i>
                                                                 </a>
@@ -352,7 +348,7 @@
     <script src="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="${pageContext.request.contextPath}/js/demo/datatables-HistSoliCoord.js"></script>
+    <script src="${pageContext.request.contextPath}/js/demo/datatables-demo.js"></script>
 
 </body>
 

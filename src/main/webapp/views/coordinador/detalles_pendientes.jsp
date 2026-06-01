@@ -52,8 +52,6 @@
                     <span>INICIO</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
             <!-- Nav Item - Historial de solicitudes -->
             <li class="nav-item">
@@ -196,13 +194,11 @@
                                     <p class="mb-1"><strong>Datos del Solicitante:</strong> ${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</p>
                                     <p class="mb-1"><strong>Fecha y Hora de Solicitud:</strong> <fmt:formatDate value="${solicitud.fechaSolicitud}" pattern="dd/MM/yyyy HH:mm" /></p>
                                     <p class="mb-1"><strong>Estado actual:</strong> <span class="badge badge-warning px-2 py-1">Pendiente</span></p>
-                                </div>
-
-                                <div class="mb-4">
-                                    <h6 class="font-weight-bold text-dark">Propósito:</h6>
+                                    <p class="mb-1"><strong>Propósito:</strong></p>
                                     <div class="p-3 bg-light border rounded text-dark">
                                         <p>${solicitud.proposito}</p>
                                     </div>
+
                                 </div>
 
                                 <div class="card shadow mb-4">
@@ -226,7 +222,7 @@
                                                 <c:forEach var="detalle" items="${listaDetalles}">
                                                     <tr>
                                                         <td class="align-middle">${detalle.producto.siglaCategoria}-${detalle.producto.codigo}</td>
-                                                        <td class="align-middle text-left">${detalle.producto.nombre}</td>
+                                                        <td class="align-middle">${detalle.producto.nombre}</td>
                                                         <td class="align-middle">${detalle.producto.nombreCategoria}</td>
                                                         <td class="align-middle">${detalle.cantidad}</td>
                                                         <td class="align-middle">${detalle.producto.stockActual}</td>
