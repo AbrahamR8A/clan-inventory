@@ -377,4 +377,58 @@
     <!-- Custom scripts for all pages-->
     <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
 
-    <!-- Lógica 
+    <!-- Lógica del formulario de decisión -->
+    <script>
+        (function () {
+            var radios      = document.querySelectorAll('input[name="decisionRadio"]');
+            var textarea    = document.getElementById('motivoRechazo');
+            var btnTerminar = document.getElementById('btnTerminar');
+            var btnConfirmar = document.getElementById('btnConfirmarAccion');
+            var textoModal  = document.getElementById('textoConfirmacion');
+            var form        = document.getElementById('formAprobacion');
+
+            // Al seleccionar un radio: habilita el botón y gestiona el textarea
+            radios.forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    btnTerminar.disabled = false;
+
+                    if (this.value === 'rechazada') {
+                        textarea.disabled = false;
+                        textarea.required = true;
+                    } else {
+                        textarea.disabled = true;
+                        textarea.required = false;
+                        textarea.value = '';
+                    }
+                });
+            });
+
+            // Al pulsar TERMINAR: muestra el modal de confirmación
+            btnTerminar.addEventListener('click', function () {
+                var decision = document.querySelector('input[name="decisionRadio"]:checked');
+                if (!decision) return;
+
+                if (decision.value === 'rechazada' && textarea.value.trim() === '') {
+                    textarea.classList.add('is-invalid');
+                    textarea.focus();
+                    return;
+                }
+                textarea.classList.remove('is-invalid');
+
+                textoModal.textContent = decision.value === 'aprobada'
+                    ? '¿Confirma que desea APROBAR esta solicitud?'
+                    : '¿Confirma que desea RECHAZAR esta solicitud?';
+
+                $('#confirmacionModal').modal('show');
+            });
+
+            // Al confirmar en el modal: envía el formulario
+            btnConfirmar.addEventListener('click', function () {
+                $('#confirmacionModal').modal('hide');
+                form.submit();
+            });
+        })();
+    </script>
+
+</body>
+</html>

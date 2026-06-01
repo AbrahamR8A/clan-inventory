@@ -25,8 +25,6 @@ import java.util.Iterator;
             urlPatterns = {"/ProcesoSolicitudSolicitanteServlet"})
 public class ProcesoSolicitudSolicitanteServlet extends HttpServlet {
 
-    /** ID del solicitante de prueba (Roberto Flores). Cambiar por el de la sesión cuando haya login. */
-    private static final int ID_SOLICITANTE = 4;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -94,9 +92,12 @@ public class ProcesoSolicitudSolicitanteServlet extends HttpServlet {
                 item.setCantidad(cantidad);
             }
 
+            // Tomar el ID del usuario logueado desde la sesión
+            Integer idSolicitante = (Integer) request.getSession().getAttribute("idUsuario");
+
             // Crear la solicitud (estado 'pendiente') con sus detalles
             SolicitudesSolicitanteDao dao = new SolicitudesSolicitanteDao();
-            int idSolicitud = dao.crearSolicitud(motivo.trim(), ID_SOLICITANTE, cajita);
+            int idSolicitud = dao.crearSolicitud(motivo.trim(), idSolicitante, cajita);
 
             if (idSolicitud > 0) {
                 // Solicitud creada: se vacía la cajita y se vuelve al Inicio
