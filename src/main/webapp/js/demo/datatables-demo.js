@@ -3,10 +3,10 @@ let dataTable;
 const dataTableOptions = {
   pageLength: 6,
   destroy:true,
-
+    searching: false,
   //scrollX: "2000px",
 
-  lengthMenu:[3, 5, 7],
+  lengthMenu:[6, 8, 10],
 
   columnDefs: [
       {className:"centered",targets:[0, 1, 2, 3, 4] },

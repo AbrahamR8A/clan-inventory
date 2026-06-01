@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -43,11 +45,11 @@
         <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="Inicio_coordinador.jsp">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=inicio">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">CLAN INVETORY</div>
+                <div class="sidebar-brand-text mx-3">CLAN INVENTORY</div>
             </a>
 
             <!-- Divider -->
@@ -55,14 +57,14 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="Inicio_coordinador.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/InicioCoordinadorServlet">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>INICIO</span></a>
             </li>
 
             <!-- Nav Item - Historial de solicitudes -->
             <li class="nav-item">
-                <a class="nav-link" href="hist_soli.jsp"> <!-- FALTA LA REFERENCIA -->
+                <a class="nav-link" href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=historial">
                     <i class="fas fa-fw fa-table"></i>
                     <span>HISTORIAL DE SOLICITUDES</span></a>
             </li>
@@ -223,7 +225,7 @@
                                                     <div class="col mr-2">
                                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                             SOLICITUDES APROBADAS</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">25</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">${totalAprobadas != null ? totalAprobadas : 0}</div>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-check fa-2x text-gray-300"></i>
@@ -240,7 +242,7 @@
                                                     <div class="col mr-2">
                                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                             SOLICITUDES PENDIENTES</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">${totalPendientes != null ? totalPendientes : 0}</div>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -257,7 +259,7 @@
                                                     <div class="col mr-2">
                                                         <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             SOLICITUDES RECHAZADAS</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">320</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">${totalRechazadas != null ? totalRechazadas : 0}</div>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fa-solid fa-x fa-2x text-gray-300"></i>
@@ -275,31 +277,28 @@
 
                                         <div class="card-body">
 
-                                            <div class="row mb-3">
+                                            <form action="${pageContext.request.contextPath}/InicioCoordinadorServlet" method="GET" class="w-100 mb-4">
+                                                <input type="hidden" name="action" value="inicio">
 
-                                                <div class="col-md-3">
-                                                    <label class="small font-weight-bold text-dark">Por Solicitante:</label>
-                                                    <select id="filtroRol" class="form-control select2" style="width: 100%;">
-                                                        <option>Seleccionar...</option>
-                                                        <option>Nathan</option>
-                                                        <option>Luis</option>
-                                                        <option>Camila</option>
-                                                        <option>Abraham</option>
-                                                    </select>
-                                                </div>
+                                                <div class="row align-items-end mb-3">
+                                                    <div class="col-md-6">
+                                                        <input type="text" name="buscar" class="form-control" placeholder="Filtrar por nombre o ID de solicitud..." value="${param.buscar}">
+                                                    </div>
 
-                                                <div class="col-md-3">
-                                                    <label class="small font-weight-bold text-dark">Por Fecha:</label>
-                                                    <input type="date" class="form-control text-sm">
-                                                </div>
-                                                
-                                                <div class="col-md-auto mt-4">
-                                                    <button id="filtrar" type="button" class="btn btn-admin">
-                                                        <i class="fas fa-filter fa-sm mr-1"></i>Filtrar
-                                                    </button>
-                                                </div>
+                                                    <div class="col-md-3">
+                                                        <input type="date" name="fecha" class="form-control text-sm" value="${param.fecha}">
+                                                    </div>
 
-                                            </div>
+                                                    <div class="col-md-3 d-flex align-items-end">
+                                                        <button type="submit" class="btn btn-admin flex-grow-1 mr-2">
+                                                            <i class="fas fa-filter fa-sm mr-1"></i> Filtrar
+                                                        </button>
+                                                        <a href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=inicio" class="btn btn-light shadow-sm">
+                                                            <i class="fas fa-eraser text-secondary"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </form>
 
                                             <div class="table-responsive">
 
@@ -314,61 +313,32 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>#123456</td>
-                                                            <td>Nathan</td>
-                                                            <td>10/04/2026</td>
-                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
-                                                            <td>
-                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#789101</td>
-                                                            <td>Camila</td>
-                                                            <td>10/04/2026</td>
-                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
-                                                            <td>
-                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#112131</td>
-                                                            <td>Luis</td>
-                                                            <td>10/04/2026</td>
-                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
-                                                            <td>
-                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#415161</td>
-                                                            <td>Abraham</td>
-                                                            <td>10/04/2026</td>
-                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
-                                                            <td>
-                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#718192</td>
-                                                            <td>ariana</td>
-                                                            <td>10/04/2026</td>
-                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
-                                                            <td>
-                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#0212223</td>
-                                                            <td>Nathan</td>
-                                                            <td>10/04/2026</td>
-                                                            <td><span class="badge badge-warning px-2 py-1">Pendiente</span></td>
-                                                            <td>
-                                                                <a href="detalles_pendientes.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                            </td>
-                                                        </tr>
-
+                                                        <c:choose>
+                                                            <c:when test="${not empty listaPendientes}">
+                                                                <c:forEach var="solicitud" items="${listaPendientes}">
+                                                                    <tr>
+                                                                        <td class="align-middle" data-order="${solicitud.idSolicitudes}">#${solicitud.idSolicitudes}</td>
+                                                                        <td class="align-middle">${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</td>
+                                                                        <td class="align-middle">
+                                                                            <fmt:formatDate value="${solicitud.fechaSolicitud}" pattern="dd/MM/yyyy HH:mm" />
+                                                                        </td>
+                                                                        <td class="align-middle">
+                                                                            <span class="badge badge-warning px-2 py-1">Pendiente</span>
+                                                                        </td>
+                                                                        <td class="align-middle">
+                                                                            <a href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=verDetalle&id=${solicitud.idSolicitudes}" class="btn btn-sm shadow-sm btn-admin text-white">
+                                                                                <i class="fa-solid fa-eye"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </c:forEach>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <tr>
+                                                                    <td colspan="5" class="text-center py-4 text-muted">No hay solicitudes pendientes por revisar. ¡Estás al día!</td>
+                                                                </tr>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -519,7 +489,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/login.jsp">Logout</a>
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/LogoutServlet">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -541,35 +511,6 @@
 
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/js/demo/datatables-InicioCoord.js"></script>
-
-    <!-- Opciones de buscador y calendario -->
-    <script>
-    function cambiarFiltro() {
-        const tipo = document.getElementById('tipoFiltro').value;
-        const contenedor = document.getElementById('contenedorBusqueda');
-        const inputBusqueda = document.getElementById('inputBusqueda');
-        const inputFecha = document.getElementById('inputFecha');
-        const label = document.getElementById('labelBusqueda');
-
-        if (tipo === 'ninguno') {
-            contenedor.style.display = 'none';
-        } else {
-            contenedor.style.display = 'block';
-            
-            if (tipo === 'fecha') {
-                // Mostrar calendario
-                inputBusqueda.style.display = 'none';
-                inputFecha.style.display = 'block';
-                label.innerText = 'Seleccionar Fecha:';
-            } else {
-                // Mostrar buscador para Solicitante o Coordinador
-                inputBusqueda.style.display = 'block';
-                inputFecha.style.display = 'none';
-                label.innerText = (tipo === 'solicitante') ? 'Nombre del Solicitante:' : 'Nombre del Coordinador:';
-            }
-        }
-    }
-    </script>
 
     <script>
         window.onload = function() {

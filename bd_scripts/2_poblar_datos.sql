@@ -45,7 +45,9 @@ VALUES
 ('Roberto José', 'Flores', 'Ayala', 'solicitante', 'roberto.floresayala@quintaola.com', 'hash456', NULL, 1, 2),
 ('Giovanna Carla', 'Gauna', 'Loayza', 'solicitante', 'giovanna.gaunaloayza@quintaola.com', 'hash422', NULL, 1, 2),
 ('Fernando Enrique', 'Fernández', 'Del Río', 'coordinador', 'fernando.fernandezdelrio@quintaola.com', 'hash456', NULL, 1, 2),
-('Jorge Santiago', 'Cárdenas', 'Monte', 'coordinador', 'jorge.cardenasmonte@quintaola.com', 'hash156', NULL, 1, 2);
+('Jorge Santiago', 'Cárdenas', 'Monte', 'coordinador', 'jorge.cardenasmonte@quintaola.com', 'hash126', NULL, 1, 2),
+('Luisa María', 'Flores', 'Cárdenas', 'solicitante', 'luisa.florescardenas@quintaola.com', 'hash422', NULL, 1, 2),
+('Magdalena', 'Montoya', 'Ayala', 'solicitante', 'roberto.montoyaayala@quintaola.com', 'hash421', NULL, 1, 2);
 
 SELECT * FROM usuarios;
 
@@ -56,8 +58,8 @@ SELECT * FROM usuarios;
 INSERT INTO `clan_db`.`productos` 
 (`codigo`, `nombre`, `stock_actual`, `stock_bajo`,`stock_critico`, `imagen`, `activo`, `id_usuarios`, `id_categorias`) 
 VALUES 
-('0100', 'Monopolio', 50, 15, 5, NULL, 1, 2, 3),        	-- SKU: L-0100 (Estado: Verde)
-('0101', 'Jenga', 4, 10, 5, NULL, 1, 2, 3),             	-- SKU: L-0101 (Estado: Rojo)
+('0100', 'Monopolio', 500, 15, 5, NULL, 1, 2, 3),        	-- SKU: L-0100 (Estado: Verde)
+('0101', 'Jenga', 400, 10, 5, NULL, 1, 2, 3),             	-- SKU: L-0101 (Estado: Verde)
 ('0100', 'Papelotes', 40, 50, 20, NULL, 1, 2, 4),       	-- SKU: U-0100 (Estado: Amarillo)
 ('0101', 'Marcadores gruesos', 50, 20, 5, NULL, 1, 2, 4), 	-- SKU: U-0101 (Estado: Verde)
 ('0100', 'Gorras', 60, 30, 10, NULL, 1, 2, 1);          	-- SKU: M-0100 (Estado: Verde)
@@ -71,12 +73,16 @@ SELECT * FROM productos;
 INSERT INTO `clan_db`.`solicitudes` 
 (`proposito`, `estado`, `fecha_solicitud`, `comentario_rechazo`, `id_solicitante`, `id_coordinador`, `id_deposito`, `fecha_entrega`, `fecha_revision`) 
 VALUES 
-('Taller infantil de dibujo', 'pendiente', CURRENT_TIMESTAMP, NULL, 4, NULL, NULL, NULL, NULL),
+
+('Primer taller infantil de dibujo', 'pendiente', '2026-07-03 17:15:30', NULL, 9, NULL, NULL, NULL, NULL),
 ('Dinámica de integración', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 6, NULL, NULL, '2026-06-04 14:15:30'),
 ('Gorras para el evento del sábado', 'entregada', CURRENT_TIMESTAMP, NULL, 5, 6, 3, '2026-06-03 10:30:00', '2026-06-01 16:45:00'),
 ('Taller de cuentacuentos externo', 'aprobada', CURRENT_TIMESTAMP, NULL, 4, 7, NULL, NULL, '2026-06-05 09:00:00'),
 ('Capacitación de seguridad trimestral', 'aprobada', CURRENT_TIMESTAMP, NULL, 4, 6, NULL, NULL, '2026-06-05 10:30:00'),
-('Material para dinámica de bienvenida', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 7, NULL, NULL, '2026-06-05 11:45:00');
+('Material para dinámica de bienvenida', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 7, NULL, NULL, '2026-06-05 11:45:00'),
+('Taller de caligrafía', 'pendiente', '2026-05-03 12:15:30', NULL, 4, NULL, NULL, NULL, NULL),
+('Segundo taller infantil de dibujo', 'pendiente', '2026-05-03 10:15:30', NULL, 8, NULL, NULL, NULL, NULL),
+('Actividad de integración', 'pendiente', CURRENT_TIMESTAMP, NULL, 5, NULL, NULL, NULL, NULL);
 
 SELECT * FROM solicitudes;
 
@@ -108,7 +114,21 @@ VALUES
 
 -- Detalles para Solicitud 6 (Dinámica de bienvenida)
 (6, 1, 1),  -- 1 Monopolio 
-(6, 2, 3);  -- 3 Jengas
+(6, 2, 3),  -- 3 Jengas
+
+-- Detalles para Solicitud 7
+(7, 3, 30), -- 15 Papelotes 
+(7, 4, 30), -- 10 Marcadores gruesos 
+
+-- Detalles para Solicitud 8
+(8, 3, 30), -- 15 Papelotes 
+(8, 4, 30), -- 10 Marcadores gruesos 
+
+-- Detalles para Solicitud 9
+(9, 3, 30), -- 15 Papelotes 
+(9, 4, 30), -- 10 Marcadores gruesos 
+(9, 1, 1),  -- 1 Monopolio 
+(9, 2, 3);  -- 3 Jengas
 
 SELECT * FROM detalles;
 

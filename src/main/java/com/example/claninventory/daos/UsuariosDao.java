@@ -210,4 +210,44 @@ public class UsuariosDao extends BaseDao{
             return false;
         }
     }
+
+    // ─── 6. LOGIN: validar credenciales y devolver el usuario ───────────────
+    /**
+     * Valida el correo y la contraseña contra la tabla usuarios.
+     * Solo acepta usuarios con activo = 1.
+     *
+     * @return el Usuarios correspondiente si las credenciales son correctas,
+     *         o null si no coinciden o el usuario está inactivo.
+     */
+    public Usuarios validarLogin(String correo, String contrasenia) {
+        String sql = "SELECT id_usuarios, nombres, apellido_paterno, apellido_materno, " +
+                     "       rol, correo, activo " +
+                     "FROM clan_db.usuarios " +
+                     "WHERE correo = ? AND contrasenia = ? AND activo = 1 " +
+                     "LIMIT 1";
+
+        try (Connection conn = this.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, correo);
+            pstmt.setString(2, contrasenia);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Usuarios u = new Usuarios();
+                    u.setIdUsuarios(rs.getInt("id_usuarios"));
+                    u.setNombres(rs.getString("nombres"));
+                    u.setApellidoPaterno(rs.getString("apellido_paterno"));
+                    u.setApellidoMaterno(rs.getString("apellido_materno"));
+                    u.setRol(rs.getString("rol"));
+                    u.setCorreo(rs.getString("correo"));
+                    u.setActivo(rs.getInt("activo"));
+                    return u;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

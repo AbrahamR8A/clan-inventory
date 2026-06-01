@@ -12,7 +12,7 @@ public abstract class BaseDao {
             e.printStackTrace();
         }
         String user = "root";
-        String pass = "root";
+        String pass = "brenda22";
         String url = "jdbc:mysql://localhost:3306/clan_db?serverTimezone=America/Lima";
         return DriverManager.getConnection(url, user, pass);
     }
