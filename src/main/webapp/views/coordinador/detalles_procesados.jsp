@@ -39,21 +39,18 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">CLAN INVETORY</div>
+                <div class="sidebar-brand-text mx-3">CLAN INVENTORY</div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/InicioCoordinadorServlet?action=inicio">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>INICIO</span></a>
             </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
             <!-- Nav Item - Historial de solicitudes -->
             <li class="nav-item active">
