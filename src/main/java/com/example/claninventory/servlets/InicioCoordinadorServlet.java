@@ -47,8 +47,9 @@ public class InicioCoordinadorServlet extends HttpServlet {
                 // Carga el historial de solicitudes procesadas
                 String buscar = request.getParameter("buscar");
                 String fecha = request.getParameter("fecha");
+                String estado = request.getParameter("estado");
 
-                ArrayList<Solicitudes> historial = solicitudesCoordinadorDao.listarSolicitudesProcesadas(buscar, fecha);
+                ArrayList<Solicitudes> historial = solicitudesCoordinadorDao.listarSolicitudesProcesadas(buscar, fecha, estado);
                 request.setAttribute("listaHistorial", historial);
                 request.getRequestDispatcher("views/coordinador/hist_soli.jsp").forward(request, response);
                 break;
