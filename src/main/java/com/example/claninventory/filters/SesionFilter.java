@@ -26,7 +26,7 @@ import java.io.IOException;
  *
  *  Junto con el LogoutServlet, esto fuerza al usuario a volver a
  *  ingresar sus credenciales después de cerrar sesión.
- */
+
 @WebFilter(filterName = "SesionFilter", urlPatterns = {"/*"})
 public class SesionFilter implements Filter {
 
@@ -65,7 +65,7 @@ public class SesionFilter implements Filter {
     /**
      * Define qué rutas son públicas y no requieren sesión activa.
      * Cualquier ruta que no esté en esta lista exige login.
-     */
+
     private boolean esRutaPublica(String path) {
         if (path == null || path.isEmpty()) return true;
 
@@ -94,3 +94,4 @@ public class SesionFilter implements Filter {
         return false;
     }
 }
+ */

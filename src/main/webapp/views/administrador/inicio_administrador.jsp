@@ -300,15 +300,14 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
-                                                    <table class="table table-hover table-striped text-gray-800"
-                                                        width="100%" cellspacing="0">
+                                                    <table id="dataTable" class="table table-hover table-striped text-gray-800" >
                                                         <thead class="bg-light">
                                                             <tr>
-                                                                <th class="text-center">Usuario</th>
-                                                                <th class="text-center">Rol</th>
-                                                                <th class="text-center">Acción</th>
-                                                                <th class="text-center">Detalle</th>
-                                                                <th class="text-center">Fecha y Hora</th>
+                                                                <th class="text-center font-weight-bold">Usuario</th>
+                                                                <th class="text-center font-weight-bold">Rol</th>
+                                                                <th class="text-center font-weight-bold">Acción</th>
+                                                                <th class="text-center font-weight-bold">Detalle</th>
+                                                                <th class="text-center font-weight-bold">Fecha y Hora</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>

@@ -1,4 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -232,7 +235,7 @@
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                                     SOLICITUDES ENTREGADAS</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">25</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${totalEntregadas}</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fa-solid fa-truck fa-2x text-gray-300"></i>
@@ -249,7 +252,7 @@
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                     SOLICITUDES POR ENTREGAR</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${totalAprobadas}</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -266,7 +269,7 @@
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                     SOLICITUDES ATRASADAS</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">320</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">?</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fa-solid fa-hourglass-half fa-2x text-gray-300"></i>
@@ -284,88 +287,90 @@
                             <div class="card-body">
 
                                 <div class="row mb-3">
-                                    
-                                    <div class="col-md-2">
-                                        <label class="small font-weight-bold text-dark">Por Solicitante:</label>
-                                        <select id="filtroSolicitante" class="form-control select2" style="width: 100%;">
-                                            <option>Seleccionar...</option>
-                                            <option>Nathan</option>
-                                            <option>Luis</option>
-                                            <option>Camila</option>
-                                            <option>Abraham</option>
-                                        </select>
-                                    </div>
 
-                                    <div class="col-md-2">
-                                        <label class="small font-weight-bold text-dark">Por Coordinador:</label>
-                                        <select id="filtroRol" class="form-control select2" style="width: 100%;">
-                                            <option>Seleccionar...</option>
-                                            <option>Coordinador x</option>
-                                            <option>Coordinador y</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-md-2">
-                                        <label class="small font-weight-bold text-dark">Por Fecha:</label>
-                                        <input type="date" class="form-control text-sm">
-                                    </div>
+                                    <form action="${pageContext.request.contextPath}/InicioDepositoServlet" method="GET" class="w-100">
+                                        <div class="row mb-3">
 
-                                    <div class="col-md-1 mt-4">
-                                        <button id="filtrar" type="button" class="btn btn-admin">
-                                            <i class="fas fa-filter fa-sm mr-1"></i>Filtrar
-                                        </button>
-                                    </div>
+                                            <div class="col-md-3">
+                                                <select name="idSolicitante" id="filtroSolicitante" class="form-control select2" style="width: 100%;">
+                                                    <option value="">Filtrar por Solicitante...</option>
+                                                    <c:forEach var="solicitante" items="${listaSolicitantes}">
+                                                        <option value="${solicitante.idUsuarios}" ${paramSolicitante == solicitante.idUsuarios ? 'selected' : ''}>
+                                                                ${solicitante.nombres} ${solicitante.apellidoPaterno} ${solicitante.apellidoMaterno}
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <select name="idCoordinador" id="filtroRol" class="form-control select2" style="width: 100%;">
+                                                    <option value="">Filtrar por Coordinador...</option>
+                                                    <c:forEach var="coord" items="${listaCoordinadores}">
+                                                        <option value="${coord.idUsuarios}" ${paramCoordinador == coord.idUsuarios ? 'selected' : ''}>
+                                                                ${coord.nombres} ${coord.apellidoPaterno} ${coord.apellidoMaterno}
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <input type="date" name="fecha" class="form-control text-sm" value="${paramFecha}">
+                                            </div>
+
+                                            <div class="col-md-3 d-flex align-items-end">
+                                                <button type="submit" class="btn btn-admin flex-grow-1 mr-2">
+                                                    <i class="fas fa-filter fa-sm mr-1"></i>Filtrar
+                                                </button>
+                                                <a href="${pageContext.request.contextPath}/InicioDepositoServlet" class="btn btn-light shadow-sm">
+                                                    <i class="fas fa-eraser text-secondary"></i>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </form>
 
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table id="dataTable" class="table table-hover text-gray-800" >
+                                    <table id="dataTable" class="table table-hover table-striped text-gray-800" >
                                         <thead class="bg-white text-dark">
                                             <tr>
-                                                <th>ID de solicitud</th>
-                                                <th>Nombre del solicitante</th>
-                                                <th>Aprobador</th>
-                                                <th>Fecha</th>
-                                                <th>Acción</th>
+                                                <th class="centered font-weight-bold">Fila</th>
+                                                <th class="centered font-weight-bold">Solicitante</th>
+                                                <th class="centered font-weight-bold">Aprobador</th>
+                                                <th class="centered font-weight-bold">Fecha de aprobación</th>
+                                                <th class="centered font-weight-bold">Acción</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#1234567</td>
-                                                <td>Nathan</td>
-                                                <td>Coordinador x</td>
-                                                <td>10/04/2026</td>
-                                                <td>
-                                                    <a href="${pageContext.request.contextPath}/views/deposito/detalle_solicitud.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#8901234</td>
-                                                <td>Luis</td>
-                                                <td>Coordinador y</td>
-                                                <td>10/04/2026</td>
-                                                <td>
-                                                    <a href="${pageContext.request.contextPath}/views/deposito/detalle_solicitud.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#5678901</td>
-                                                <td>Camila</td>
-                                                <td>Coordinador x</td>
-                                                <td>10/04/2026</td>
-                                                <td>
-                                                    <a href="${pageContext.request.contextPath}/views/deposito/detalle_solicitud.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#5367501</td>
-                                                <td>Abraham</td>
-                                                <td>Coordinador x</td>
-                                                <td>10/04/2026</td>
-                                                <td>
-                                                    <a href="${pageContext.request.contextPath}/views/deposito/detalle_solicitud.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
+                                        <tbody class="text-sm">
+                                        <c:choose>
+                                            <c:when test="${not empty listaBandeja}">
+                                                <c:forEach var="solicitud" items="${listaBandeja}" varStatus="loop">
+                                                    <tr>
+                                                        <td class="align-middle">#${loop.count}</td>
+
+                                                        <td class="align-middle">${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</td>
+
+                                                        <td class="align-middle">${solicitud.coordinador.nombres} ${solicitud.coordinador.apellidoPaterno} ${solicitud.coordinador.apellidoMaterno}</td>
+
+                                                        <td class="align-middle">
+                                                            <fmt:formatDate value="${solicitud.fechaRevision}" pattern="dd/MM/yyyy HH:mm" />
+                                                        </td>
+
+                                                        <td class="align-middle">
+                                                            <button type="button" class="btn btn-sm btn-light shadow-sm text-secondary" onclick="enviarDetalle('${solicitud.idSolicitudes}')">
+                                                                <i class="fas fa-pen fa-sm"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <tr>
+                                                    <td colspan="5" class="text-center py-4 text-muted">No hay solicitudes pendientes de entrega en la bandeja.</td>
+                                                </tr>
+                                            </c:otherwise>
+                                        </c:choose>
                                         </tbody>
                                     </table>
                                 </div>
@@ -434,61 +439,20 @@
     <script src="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="${pageContext.request.contextPath}/js/demo/datatables-InicioDeposito.js"></script>
+    <script src="${pageContext.request.contextPath}/js/demo/datatables-demo.js"></script>
 
-    <!-- Script para el filtro -->
+    <!-- Formulario para los botones de 'Ver Detalle'-->
+    <form id="formVerDetalle" action="${pageContext.request.contextPath}/InicioDepositoServlet" method="POST">
+        <input type="hidden" name="action" value="verDetalle">
+        <input type="hidden" id="idSolicitudOculto" name="id" value="">
+    </form>
+
     <script>
-    $(document).ready(function() {
-        
-        // 1. Inicializar Select2 con el tema de Bootstrap 4
-        $('.select2').select2({
-            theme: 'bootstrap4', 
-            width: '100%'
-        });
-
-        // 2. Conectar los filtros a tu tabla
-
-        // Filtro de Usuario (Busca en la columna Categoria colum 2)
-        $('#filtroCategoria').on('change', function() {
-            dataTable.column(2).search(this.value).draw();
-        });
-
-        // Filtro de Estado (Busca en la columna: Estado colum 4)
-        $('#filtroEstado').on('change', function() {
-            dataTable.column(4).search(this.value).draw();
-        });
-
-
-    });
-    </script>
-
-
-    <!-- Opciones de buscador y calendario -->
-    <script>
-    function cambiarFiltro() {
-        const tipo = document.getElementById('tipoFiltro').value;
-        const contenedor = document.getElementById('contenedorBusqueda');
-        const inputBusqueda = document.getElementById('inputBusqueda');
-        const inputFecha = document.getElementById('inputFecha');
-        const label = document.getElementById('labelBusqueda');
-
-        if (tipo === 'ninguno') {
-            contenedor.style.display = 'none';
-        } else {
-            contenedor.style.display = 'block';
-            
-            if (tipo === 'fecha') {
-                // Mostrar calendario
-                inputBusqueda.style.display = 'none';
-                inputFecha.style.display = 'block';
-                label.innerText = 'Seleccionar Fecha:';
-            } else {
-                // Mostrar buscador para Solicitante o Coordinador
-                inputBusqueda.style.display = 'block';
-                inputFecha.style.display = 'none';
-                label.innerText = (tipo === 'solicitante') ? 'Nombre del Solicitante:' : 'Nombre del Coordinador:';
-            }
-        }
+    function enviarDetalle(id) {
+    // 1. Asignamos el ID al input oculto del formulario global
+    document.getElementById('idSolicitudOculto').value = id;
+    // 2. Enviamos el formulario
+    document.getElementById('formVerDetalle').submit();
     }
     </script>
 
