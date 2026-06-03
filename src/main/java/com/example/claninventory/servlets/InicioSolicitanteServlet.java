@@ -17,21 +17,18 @@ import java.io.IOException;
 @WebServlet(name = "InicioSolicitanteServlet", urlPatterns = {"/InicioSolicitanteServlet"})
 public class InicioSolicitanteServlet extends HttpServlet {
 
-    /**
-     * ID del solicitante de prueba (Roberto Flores, rol 'solicitante').
-     * Cuando el login esté listo, reemplazar por el id guardado en la sesión.
-     */
-    private static final int ID_SOLICITANTE = 4;
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // Tomar el ID del usuario logueado desde la sesión
+        Integer idSolicitante = (Integer) request.getSession().getAttribute("idUsuario");
+
         SolicitudesSolicitanteDao dao = new SolicitudesSolicitanteDao();
 
         // KPIs (tarjetas superiores) y solicitudes del solicitante
-        request.setAttribute("kpis", dao.obtenerKpis(ID_SOLICITANTE));
-        request.setAttribute("listaSolicitudes", dao.listarPorSolicitante(ID_SOLICITANTE));
+        request.setAttribute("kpis", dao.obtenerKpis(idSolicitante));
+        request.setAttribute("listaSolicitudes", dao.listarPorSolicitante(idSolicitante));
 
         request.getRequestDispatcher("/views/solicitante/Inicio_solicitante.jsp")
                .forward(request, response);
