@@ -75,7 +75,7 @@ INSERT INTO `clan_db`.`solicitudes`
 VALUES 
 
 ('Primer taller infantil de dibujo', 'pendiente', '2026-07-03 17:15:30', NULL, 9, NULL, NULL, NULL, NULL),
-('Dinámica de integración', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 6, NULL, NULL, '2026-06-04 14:15:30'),
+('Dinámica de integración', 'aprobada', '2026-05-29 12:00:30', NULL, 5, 6, NULL, NULL, '2026-06-01 14:15:30'),
 ('Gorras para el evento del sábado', 'entregada', CURRENT_TIMESTAMP, NULL, 5, 6, 3, '2026-06-03 10:30:00', '2026-06-01 16:45:00'),
 ('Taller de cuentacuentos externo', 'aprobada', CURRENT_TIMESTAMP, NULL, 4, 7, NULL, NULL, '2026-06-05 09:00:00'),
 ('Capacitación de seguridad trimestral', 'aprobada', CURRENT_TIMESTAMP, NULL, 4, 6, NULL, NULL, '2026-06-05 10:30:00'),
@@ -85,6 +85,7 @@ VALUES
 ('Actividad de integración', 'pendiente', CURRENT_TIMESTAMP, NULL, 5, NULL, NULL, NULL, NULL);
 
 SELECT * FROM solicitudes;
+SELECT * FROM movimientos;
 
 -- -----------------------------------------------------
 -- Tabla de detalles
