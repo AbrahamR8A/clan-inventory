@@ -67,7 +67,7 @@
 
             <!-- Nav Item - Registro de salida -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/registro_salida.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/historial_entregas.jsp">
                     <i class="fas fa-fw fa-table"></i>
                     <span>REGISTRO DE SALIDA</span></a>
             </li>

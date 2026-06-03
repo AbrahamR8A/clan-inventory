@@ -45,7 +45,7 @@
         <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center my-4 px-3" href="${pageContext.request.contextPath}/InicioDepositoServlet">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/InicioDepositoServlet">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -58,28 +58,15 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="${pageContext.request.contextPath}/InicioDepositoServlet">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-home"></i>
                     <span>INICIO</span></a>
             </li>
 
-
-            <!-- Heading
-            <div class="sidebar-heading">
-                Interface
-            </div> -->
-
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Historial de Entregas -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/entrada_producto.jsp">
-                    <i class="fas fa-fw fa-box-open"></i>
-                    <span>ENTRADA DE PRODUCTO</span></a>
-            </li>
-
-            <!-- Nav Item - Registro de salida -->
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/registro_salida.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/InicioDepositoServlet?action=historial">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>REGISTRO DE SALIDA</span></a>
+                    <span>HISTORIAL DE ENTREGAS</span></a>
             </li>
 
             <!-- Divider -->
@@ -337,7 +324,7 @@
                                             <tr>
                                                 <th class="centered font-weight-bold">Fila</th>
                                                 <th class="centered font-weight-bold">Solicitante</th>
-                                                <th class="centered font-weight-bold">Aprobador</th>
+                                                <th class="centered font-weight-bold">Coordinador</th>
                                                 <th class="centered font-weight-bold">Fecha de aprobación</th>
                                                 <th class="centered font-weight-bold">Acción</th>
                                             </tr>

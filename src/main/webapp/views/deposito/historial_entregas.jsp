@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -10,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Registro de Salidas-Coordinador</title>
+    <title>Historial de Entregas - Depósito</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -41,7 +44,7 @@
         <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center my-4 px-3" href="${pageContext.request.contextPath}/InicioDepositoServlet">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center href="${pageContext.request.contextPath}/InicioDepositoServlet">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -54,28 +57,15 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/InicioDepositoServlet">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-home"></i>
                     <span>INICIO</span></a>
             </li>
 
-
-            <!-- Heading
-            <div class="sidebar-heading">
-                Interface
-            </div> -->
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/entrada_producto.jsp">
-                    <i class="fas fa-fw fa-box-open"></i>
-                    <span>ENTRADA DE PRODUCTO</span></a>
-            </li>
-
-            <!-- Nav Item - Registro de salida -->
+            <!-- Nav Item - Historial de Entregas -->
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/registro_salida.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/InicioDepositoServlet?action=historial">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>SALIDA DE PRODUCTO</span></a>
+                    <span>HISTORIAL DE ENTREGAS</span></a>
             </li>
 
             <!-- Divider -->
@@ -102,7 +92,7 @@
                     
                     <!-- Section Title (Topbar) -->
                     <div class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100">
-                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">REGISTRO DE SALIDA</h1>
+                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">HISTORIAL DE ENTREGAS</h1>
                     </div>
 
                     <!-- Sidebar Toggle (Topbar) -->
@@ -221,35 +211,38 @@
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-admin">Solicitudes entregadas</h6>
+                                <h6 class="m-0 font-weight-bold text-admin">Tabla de solicitudes despachadas</h6>
                             </div>
                             <div class="card-body">
 
-                                <div class="row mb-3">
-                                    
-                                    <div class="col-md-2">
-                                        <label class="small font-weight-bold text-dark">Por Solicitante:</label>
-                                        <select id="filtroRol" class="form-control select2" style="width: 100%;">
-                                            <option>Seleccionar...</option>
-                                            <option>Nathan</option>
-                                            <option>Luis</option>
-                                            <option>Camila</option>
-                                            <option>Abraham</option>
-                                        </select>
+                                <form action="${pageContext.request.contextPath}/InicioDepositoServlet" method="GET" class="w-100 mb-4">
+                                    <input type="hidden" name="action" value="historial">
+                                    <div class="row align-items-end mb-3">
+                                        <div class="col-md-3">
+                                            <select name="idSolicitante" class="form-control">
+                                                <option value="">Filtrar por Solicitante...</option>
+                                                <c:forEach var="sol" items="${listaSolicitantes}">
+                                                    <option value="${sol.idUsuarios}" ${paramSolicitante == sol.idUsuarios ? 'selected' : ''}>${sol.nombres} ${sol.apellidoPaterno}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select name="idCoordinador" class="form-control">
+                                                <option value="">Filtrar por Coordinador...</option>
+                                                <c:forEach var="coord" items="${listaCoordinadores}">
+                                                    <option value="${coord.idUsuarios}" ${paramCoordinador == coord.idUsuarios ? 'selected' : ''}>${coord.nombres} ${coord.apellidoPaterno}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="date" name="fecha" class="form-control" value="${paramFecha}">
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-end">
+                                            <button type="submit" class="btn btn-admin flex-grow-1 mr-2"><i class="fas fa-filter"></i> Filtrar</button>
+                                            <a href="${pageContext.request.contextPath}/InicioDepositoServlet?action=historial" class="btn btn-light"><i class="fas fa-eraser"></i></a>
+                                        </div>
                                     </div>
-                                    
-                                    <div class="col-md-2">
-                                        <label class="small font-weight-bold text-dark">Por Fecha:</label>
-                                        <input type="date" class="form-control text-sm">
-                                    </div>
-
-                                    <div class="col-md-1 mt-4">
-                                        <button id="filtrar" type="button" class="btn btn-admin">
-                                            <i class="fas fa-filter fa-sm mr-1"></i>Filtrar
-                                        </button>
-                                    </div>
-
-                                </div>
+                                </form>
 
                                 <div class="row">
 
@@ -259,51 +252,28 @@
                                             <table id="dataTable" class="table table-hover table-striped text-gray-800">
                                                 <thead class="bg-light">
                                                     <tr>
-                                                        <th class="text-center font-weight-bold">ID Solicitud</th>
-                                                        <th class="text-center font-weight-bold">Solicitante</th>
-                                                        <th class="text-center font-weight-bold">Fecha Pedido</th>
-                                                        <th class="text-center font-weight-bold">Fecha Entrega</th>
-                                                        <th class="text-center font-weight-bold">Acción</th>
+                                                        <th class="centered font-weight-bold">Fila</th>
+                                                        <th class="centered font-weight-bold">Solicitante</th>
+                                                        <th class="centered font-weight-bold">Coordinador</th>
+                                                        <th class="centered font-weight-bold">Fecha de Entrega</th>
+                                                        <th class="centered font-weight-bold">Acción</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td class="text-center">#91843230</td>
-                                                        <td class="text-center">Camila</td>
-                                                        <td class="text-center">10/04/2026</td>
-                                                        <td class="text-center">14/04/2026</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-sm shadow-sm" title="Ver detalle de salida"><i class="fa-solid fa-eye"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">#91783830</td>
-                                                        <td class="text-center">Abraham</td>
-                                                        <td class="text-center">9/04/2026</td>
-                                                        <td class="text-center">14/04/2026</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-sm shadow-sm" title="Ver detalle de salida"><i class="fa-solid fa-eye"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">#91843823</td>
-                                                        <td class="text-center">Nathan</td>
-                                                        <td class="text-center">13/03/2026</td>
-                                                        <td class="text-center">20/03/2026</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-sm shadow-sm" title="Ver detalle de salida"><i class="fa-solid fa-eye"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">#91843830</td>
-                                                        <td class="text-center">Luis</td>
-                                                        <td class="text-center">01/03/2026</td>
-                                                        <td class="text-center">05/03/2026</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-sm shadow-sm" title="Ver detalle de salida"><i class="fa-solid fa-eye"></i></button>
-                                                        </td>
-                                                    </tr>
-                    
+                                                    <c:forEach var="solicitud" items="${listaHistorial}" varStatus="loop">
+                                                        <tr>
+                                                            <td class="align-middle">#${loop.count}</td>
+                                                            <td class="align-middle">${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</td>
+                                                            <td class="align-middle">${solicitud.coordinador.nombres} ${solicitud.coordinador.apellidoPaterno} ${solicitud.coordinador.apellidoMaterno}</td>
+                                                            <td class="align-middle"><fmt:formatDate value="${solicitud.fechaEntrega}" pattern="dd/MM/yyyy HH:mm" /></td>
+                                                            <td class="align-middle">
+                                                                <button type="button" class="btn btn-sm btn-admin shadow-sm text-white" onclick="enviarDetalle('${solicitud.idSolicitudes}')">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -345,6 +315,18 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <form id="formVerDetalle" action="${pageContext.request.contextPath}/InicioDepositoServlet" method="POST">
+        <input type="hidden" name="action" value="verDetalle">
+        <input type="hidden" id="idSolicitudOculto" name="id" value="">
+    </form>
+
+    <script>
+        function enviarDetalle(id) {
+            document.getElementById('idSolicitudOculto').value = id;
+            document.getElementById('formVerDetalle').submit();
+        }
+    </script>
+
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -380,7 +362,7 @@
     <script src="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="${pageContext.request.contextPath}/js/demo/datatables-SalidaProducto.js"></script>
+    <script src="${pageContext.request.contextPath}/js/demo/datatables-demo.js"></script>
 
     <!-- Script para el filtro -->
     <script>

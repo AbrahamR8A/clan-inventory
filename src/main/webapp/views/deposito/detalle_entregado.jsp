@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -9,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Detalle de Solicitud</title>
+    <title>Detalle de Solicitud - Depósito</title>
 
     <!-- Custom fonts for this template-->
     <link href="${pageContext.request.contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -28,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center my-4 px-3" href="${pageContext.request.contextPath}/InicioDepositoServlet">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/InicioDepositoServlet">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -44,6 +47,14 @@
                     <i class="fas fa-fw fa-home"></i>
                     <span>INICIO</span></a>
             </li>
+
+            <!-- Nav Item - Historial de Entregas -->
+            <li class="nav-item active">
+                <a class="nav-link" href="${pageContext.request.contextPath}/InicioDepositoServlet?action=historial">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>HISTORIAL DE ENTREGAS</span></a>
+            </li>
+
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
@@ -65,7 +76,7 @@
                     
                     <!-- Section Title (Topbar) -->
                     <div class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100">
-                        <h1 class="h4 mb-0 text-gray-800 font-weight-bold">DETALLES</h1>
+                        <h1 class="h4 mb-0 text-gray-800 font-weight-bold">DETALLE DE SOLICITUD - ENTREGADA</h1>
                     </div>
 
                     <!-- Sidebar Toggle (Topbar) -->
@@ -166,79 +177,74 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Solicitud #5678901</h1>
-                        <button type="button" class="btn btn-primary shadow-sm" data-toggle="modal" data-target="#confirmarEntregaModal">
-                            <i class="fas fa-check-double fa-sm text-white-50 mr-2"></i> Marcar como solicitud entregada
-                        </button>
+                    <div class="mb-4">
+                        <a href="${pageContext.request.contextPath}/InicioDepositoServlet?action=historial" class="btn btn-sm btn-light shadow-sm text-secondary">
+                            <i class="fas fa-arrow-left fa-sm mr-1"></i> Volver al historial
+                        </a>
                     </div>
 
-                    <!-- Confirmation Modal -->
-                    <div class="modal fade" id="confirmarEntregaModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content text-gray-800">
-                                <div class="modal-header bg-primary text-white">
-                                    <h5 class="modal-title" id="modalLabel">Confirmación de Acción</h5>
-                                    <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
+                    <div class="row">
+                        <div class="col-lg-8">
+
+                            <div class="mb-4 text-dark">
+<%--                                <h1 class="h3 mb-2 text-gray-800">Solicitud #${solicitud.idSolicitudes}</h1>--%>
+                                <p class="mb-1"><strong>Datos del Solicitante:</strong> ${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</p>
+                                <p class="mb-1"><strong>Datos del Coordinador:</strong> ${solicitud.coordinador.nombres} ${solicitud.coordinador.apellidoPaterno} ${solicitud.coordinador.apellidoMaterno}</p>
+                                <p class="mb-1"><strong>Datos del Encargado de Depósito:</strong> ${solicitud.deposito.nombres} ${solicitud.deposito.apellidoPaterno} ${solicitud.deposito.apellidoMaterno}</p>
+                                <p class="mb-1"><strong>Fecha y Hora de Aprobación:</strong> <fmt:formatDate value="${solicitud.fechaRevision}" pattern="dd/MM/yyyy HH:mm" /></p>
+                                <p class="mb-1"><strong>Fecha y Hora de Entrega:</strong> <fmt:formatDate value="${solicitud.fechaEntrega}" pattern="dd/MM/yyyy HH:mm" /></p>
+                                <p class="mb-1"><strong>Estado actual:</strong> <span class="badge badge-info px-2 py-1">Entregada</span></p>
+                                <p class="mb-1"><strong>Propósito:</strong></p>
+                                <div class="p-3 bg-light border rounded text-dark">
+                                    <p>${solicitud.proposito}</p>
                                 </div>
-                                <div class="modal-body py-4 text-center">
-                                    <p class="mb-0">¿Desea marcar la solicitud como entregada?</p>
+                            </div>
+
+
+                            <div class="card shadow mb-4">
+
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-admin">Materiales Despachados</h6>
                                 </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-outline-secondary" type="button" data-dismiss="modal">No</button>
-                                    <a class="btn btn-primary px-4" href="${pageContext.request.contextPath}/InicioDepositoServlet?delivery=success">Sí</a>
+
+                                <div class="table-responsive mb-4 shadow-sm">
+                                    <table class="table table-hover table-striped text-gray-800 text-center" width="100%" cellspacing="0">
+                                        <thead class="bg-light text-dark">
+                                        <tr>
+                                            <th>SKU</th>
+                                            <th>Producto</th>
+                                            <th>Categoría</th>
+                                            <th>Cantidad entregada</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach var="detalle" items="${listaDetalles}">
+                                            <tr>
+                                                <td class="align-middle">${detalle.producto.siglaCategoria}-${detalle.producto.codigo}</td>
+                                                <td class="align-middle">${detalle.producto.nombre}</td>
+                                                <td class="align-middle">${detalle.producto.nombreCategoria}</td>
+                                                <td class="align-middle">${detalle.cantidad}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-admin text-center">Información Adicional</h6>
+                                </div>
+                                <div class="card-body p-4 text-center">
+                                    <i class="fas fa-box-open fa-3x text-gray-300 mb-3"></i>
+                                    <p class="text-gray-800 mb-4">Registro histórico de solo lectura. Los materiales ya fueron descontados del inventario y el movimiento fue registrado.</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered bg-white" width="100%" cellspacing="0">
-                                    <tbody>
-                                        <tr>
-                                            <th class="bg-light text-dark w-25">Fecha de aprobación:</th>
-                                            <td>03/04/2026</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light text-dark">Solicitado por:</th>
-                                            <td>Camila</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light text-dark">Aprobado por:</th>
-                                            <td>Coordinador x</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light text-dark">Materiales:</th>
-                                            <td>
-                                                <ul class="list-unstyled mb-0">
-                                                    <li>3 Jenga: bloques de madera (SKU: L-0101)</li>
-                                                    <li>3 Ajedrez y Damas Clan juego de mesa (SKU: L-0102)</li>
-                                                    <li>5 Bloques de construcción Lego (SKU: L-0200)</li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light text-dark">Propósito:</th>
-                                            <td>Taller infantil: Aprendo jugando</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <div class="mt-4 text-right">
-                                <a href="${pageContext.request.contextPath}/InicioDepositoServlet" class="btn btn-secondary btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-arrow-left"></i>
-                                    </span>
-                                    <span class="text">Volver a la bandeja</span>
-                                </a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -284,6 +290,51 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalConfirmarEntrega" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-bottom-admin">
+                <div class="modal-body text-center p-5">
+                    <h4 class="text-dark font-weight-bold">Confirmación de entrega</h4>
+                    <div class="mb-4 text-left text-dark">
+                        <p class="mb-2">¿Estás seguro de que deseas marcar esta solicitud como ENTREGADA?</p>
+
+                        <p class="mb-2">
+                            - <strong>Solicitante:</strong> ${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}
+                        </p>
+
+                        <p class="mb-1">- <strong>Materiales a entregar:</strong></p>
+                        <ul class="small font-weight-bold mb-3 bg-light p-3 rounded" style="list-style-type: none;">
+                            <c:forEach var="detalle" items="${listaDetalles}">
+                                <li class="mb-1">
+                                    <i class="fas fa-box-open text-admin mr-2"></i>
+                                        ${detalle.cantidad}x ${detalle.producto.nombre}
+                                    <span class="text-muted">(${detalle.producto.siglaCategoria}-${detalle.producto.codigo})</span>
+                                </li>
+                            </c:forEach>
+                        </ul>
+
+                    </div>
+
+                    <button type="button" class="btn btn-secondary rounded-pill px-4 mr-2" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btnConfirmarAccionFinal" class="btn btn-admin px-4">Sí, confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Al confirmar dentro del modal, enviamos el formulario al Servlet
+            $('#btnConfirmarAccionFinal').on('click', function () {
+                // Cerramos el modal visualmente
+                $('#modalConfirmarEntrega').modal('hide');
+
+                // Disparamos el POST al servidor
+                document.getElementById("formProcesarEntrega").submit();
+            });
+        });
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
