@@ -83,8 +83,8 @@ public class InicioCoordinadorServlet extends HttpServlet {
         String action = request.getParameter("action");
         SolicitudesCoordinadorDao solicitudesCoordinadorDao = new SolicitudesCoordinadorDao();
 
-        // Hardcodeamos el id del coordinador en sesión (ID: 2)
-        int idCoordinadorLogueado = 2;
+        // Tomar el ID del coordinador logueado desde la sesión
+        Integer idCoordinadorLogueado = (Integer) request.getSession().getAttribute("idUsuario");
 
         if ("procesarSolicitud".equals(action)) {
             int idSolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
