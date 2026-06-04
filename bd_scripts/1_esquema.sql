@@ -199,6 +199,49 @@ CREATE TABLE IF NOT EXISTS `clan_db`.`notificaciones` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `clan_db`.`ordenes_ingreso`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `clan_db`.`ordenes_ingreso` (
+  `id_ordenes_ingreso` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `fecha_registro` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fecha_verificacion` DATETIME NULL,
+  `estado` ENUM('Pendiente de Recepcion', 'Verificada', 'Observada') NOT NULL DEFAULT 'Pendiente de Recepcion',
+  `observaciones` TEXT NULL,
+  `id_creador` INT UNSIGNED NOT NULL,
+  `id_verificador` INT UNSIGNED NULL,
+  PRIMARY KEY (`id_ordenes_ingreso`),
+  INDEX `fk_ordenes_creador_idx` (`id_creador` ASC) VISIBLE,
+  INDEX `fk_ordenes_verificador_idx` (`id_verificador` ASC) VISIBLE,
+  CONSTRAINT `fk_ordenes_creador`
+    FOREIGN KEY (`id_creador`) REFERENCES `clan_db`.`usuarios` (`id_usuarios`)
+    ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ordenes_verificador`
+    FOREIGN KEY (`id_verificador`) REFERENCES `clan_db`.`usuarios` (`id_usuarios`)
+    ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `clan_db`.`detalles_orden_ingreso`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `clan_db`.`detalles_orden_ingreso` (
+  `id_detalles_orden` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_ordenes_ingreso` INT UNSIGNED NOT NULL,
+  `id_productos` INT UNSIGNED NOT NULL,
+  `cantidad_esperada` INT UNSIGNED NOT NULL,
+  `cantidad_recibida` INT UNSIGNED NULL,
+  PRIMARY KEY (`id_detalles_orden`),
+  INDEX `fk_detalles_orden_idx` (`id_ordenes_ingreso` ASC) VISIBLE,
+  INDEX `fk_detalles_producto_idx` (`id_productos` ASC) VISIBLE,
+  CONSTRAINT `fk_detalles_orden`
+    FOREIGN KEY (`id_ordenes_ingreso`) REFERENCES `clan_db`.`ordenes_ingreso` (`id_ordenes_ingreso`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_detalles_producto`
+    FOREIGN KEY (`id_productos`) REFERENCES `clan_db`.`productos` (`id_productos`)
+    ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

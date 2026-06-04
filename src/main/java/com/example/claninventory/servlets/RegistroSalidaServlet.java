@@ -1,6 +1,5 @@
 package com.example.claninventory.servlets;
 
-import com.example.claninventory.beans.KpiDeposito;
 import com.example.claninventory.beans.Solicitudes;
 import com.example.claninventory.daos.SolicitudesDepositoDao;
 import jakarta.servlet.ServletException;
@@ -12,49 +11,33 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Servlet de la vista Inicio del Encargado de Depósito.
- *
- * Si no hay un usuario en la sesión (no inició sesión), se redirige al login.
- * Si hay sesión activa, se carga la vista de inicio del depósito.
- *
- * Cuando se implemente el backend completo del depósito (DAOs y datos
- * dinámicos), aquí se cargarán los KPIs y demás datos antes del forward.
- */
-@WebServlet(name = "InicioDepositoServlet", urlPatterns = {"/InicioDepositoServlet"})
-public class InicioDepositoServlet extends HttpServlet {
+@WebServlet(name = "RegistroSalidaServlet", urlPatterns = {"/RegistroSalidaServlet"})
+public class RegistroSalidaServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Verificar que el usuario haya iniciado sesión
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("usuario") == null) {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 
-        // Recuperar parámetros de filtro
         String solicitanteId = request.getParameter("solicitanteId");
         String fecha = request.getParameter("fecha");
 
-        // Instanciar el DAO y cargar datos
         SolicitudesDepositoDao depositoDao = new SolicitudesDepositoDao();
         
-        // Cargar KPIs
-        KpiDeposito kpis = depositoDao.obtenerKpisDeposito();
-        request.setAttribute("kpis", kpis);
-
-        // Cargar las solicitudes 'aprobada' (pendientes por entregar)
-        ArrayList<Solicitudes> listaAprobadas = depositoDao.listarSolicitudesPorEstado("aprobada", solicitanteId, fecha);
-        request.setAttribute("listaSolicitudesAprobadas", listaAprobadas);
+        // Cargar las solicitudes 'entregada'
+        ArrayList<Solicitudes> listaEntregadas = depositoDao.listarSolicitudesPorEstado("entregada", solicitanteId, fecha);
+        request.setAttribute("listaSolicitudesEntregadas", listaEntregadas);
 
         // Retener los valores de búsqueda en la vista
         request.setAttribute("filtroSolicitanteId", solicitanteId);
         request.setAttribute("filtroFecha", fecha);
 
-        request.getRequestDispatcher("/views/deposito/inicio_deposito.jsp")
+        request.getRequestDispatcher("/views/deposito/registro_salida.jsp")
                .forward(request, response);
     }
 

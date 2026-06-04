@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,22 +61,16 @@
                     <span>INICIO</span></a>
             </li>
 
-
-            <!-- Heading
-            <div class="sidebar-heading">
-                Interface
-            </div> -->
-
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Entradas pendientes -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/entrada_producto.jsp">
-                    <i class="fas fa-fw fa-box-open"></i>
-                    <span>ENTRADA DE PRODUCTO</span></a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/OrdenIngresoServlet?action=pendientes">
+                    <i class="fas fa-fw fa-clipboard-check"></i>
+                    <span>ENTRADAS PENDIENTES</span></a>
             </li>
 
             <!-- Nav Item - Registro de salida -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/registro_salida.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/RegistroSalidaServlet">
                     <i class="fas fa-fw fa-table"></i>
                     <span>REGISTRO DE SALIDA</span></a>
             </li>
@@ -176,7 +172,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.usuario.nombres}</span>
                                 <img class="img-profile rounded-circle"
                                     src="${pageContext.request.contextPath}/img/undraw_profile.svg">
                             </a>
@@ -232,7 +228,7 @@
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                                     SOLICITUDES ENTREGADAS</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">25</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${kpis.entregadas}</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fa-solid fa-truck fa-2x text-gray-300"></i>
@@ -249,7 +245,7 @@
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                     SOLICITUDES POR ENTREGAR</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${kpis.porEntregar}</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -266,7 +262,7 @@
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                     SOLICITUDES ATRASADAS</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">320</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${kpis.atrasadas}</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fa-solid fa-hourglass-half fa-2x text-gray-300"></i>
@@ -330,42 +326,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>#1234567</td>
-                                                <td>Nathan</td>
-                                                <td>Coordinador x</td>
-                                                <td>10/04/2026</td>
-                                                <td>
-                                                    <a href="${pageContext.request.contextPath}/views/deposito/detalle_solicitud.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#8901234</td>
-                                                <td>Luis</td>
-                                                <td>Coordinador y</td>
-                                                <td>10/04/2026</td>
-                                                <td>
-                                                    <a href="${pageContext.request.contextPath}/views/deposito/detalle_solicitud.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#5678901</td>
-                                                <td>Camila</td>
-                                                <td>Coordinador x</td>
-                                                <td>10/04/2026</td>
-                                                <td>
-                                                    <a href="${pageContext.request.contextPath}/views/deposito/detalle_solicitud.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#5367501</td>
-                                                <td>Abraham</td>
-                                                <td>Coordinador x</td>
-                                                <td>10/04/2026</td>
-                                                <td>
-                                                    <a href="${pageContext.request.contextPath}/views/deposito/detalle_solicitud.jsp" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
+                                            <c:forEach var="solicitud" items="${listaSolicitudesAprobadas}">
+                                                <tr>
+                                                    <td>#${solicitud.idSolicitudes}</td>
+                                                    <td>${solicitud.solicitante.nombres}</td>
+                                                    <td>${solicitud.coordinador.nombres}</td>
+                                                    <td><fmt:formatDate value="${solicitud.fechaSolicitud}" pattern="dd/MM/yyyy"/></td>
+                                                    <td>
+                                                        <a href="${pageContext.request.contextPath}/DetalleSolicitudDepositoServlet?id=${solicitud.idSolicitudes}" class="btn btn-sm shadow-sm"><i class="fa-solid fa-pencil"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>

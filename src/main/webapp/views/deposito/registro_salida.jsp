@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,22 +60,16 @@
                     <span>INICIO</span></a>
             </li>
 
-
-            <!-- Heading
-            <div class="sidebar-heading">
-                Interface
-            </div> -->
-
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Entradas pendientes -->
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/entrada_producto.jsp">
-                    <i class="fas fa-fw fa-box-open"></i>
-                    <span>ENTRADA DE PRODUCTO</span></a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/OrdenIngresoServlet?action=pendientes">
+                    <i class="fas fa-fw fa-clipboard-check"></i>
+                    <span>ENTRADAS PENDIENTES</span></a>
             </li>
 
             <!-- Nav Item - Registro de salida -->
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/registro_salida.jsp">
+                <a class="nav-link" href="${pageContext.request.contextPath}/RegistroSalidaServlet">
                     <i class="fas fa-fw fa-table"></i>
                     <span>SALIDA DE PRODUCTO</span></a>
             </li>
@@ -176,7 +172,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Abraham Ramirez</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.usuario.nombres}</span>
                                 <img class="img-profile rounded-circle"
                                     src="${pageContext.request.contextPath}/img/undraw_profile.svg">
                             </a>
@@ -267,43 +263,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td class="text-center">#91843230</td>
-                                                        <td class="text-center">Camila</td>
-                                                        <td class="text-center">10/04/2026</td>
-                                                        <td class="text-center">14/04/2026</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-sm shadow-sm" title="Ver detalle de salida"><i class="fa-solid fa-eye"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">#91783830</td>
-                                                        <td class="text-center">Abraham</td>
-                                                        <td class="text-center">9/04/2026</td>
-                                                        <td class="text-center">14/04/2026</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-sm shadow-sm" title="Ver detalle de salida"><i class="fa-solid fa-eye"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">#91843823</td>
-                                                        <td class="text-center">Nathan</td>
-                                                        <td class="text-center">13/03/2026</td>
-                                                        <td class="text-center">20/03/2026</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-sm shadow-sm" title="Ver detalle de salida"><i class="fa-solid fa-eye"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">#91843830</td>
-                                                        <td class="text-center">Luis</td>
-                                                        <td class="text-center">01/03/2026</td>
-                                                        <td class="text-center">05/03/2026</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-sm shadow-sm" title="Ver detalle de salida"><i class="fa-solid fa-eye"></i></button>
-                                                        </td>
-                                                    </tr>
-                    
+                                                    <c:forEach var="solicitud" items="${listaSolicitudesEntregadas}">
+                                                        <tr>
+                                                            <td class="text-center">#${solicitud.idSolicitudes}</td>
+                                                            <td class="text-center">${solicitud.solicitante.nombres}</td>
+                                                            <td class="text-center"><fmt:formatDate value="${solicitud.fechaSolicitud}" pattern="dd/MM/yyyy"/></td>
+                                                            <td class="text-center"><fmt:formatDate value="${solicitud.fechaEntrega}" pattern="dd/MM/yyyy"/></td>
+                                                            <td class="text-center">
+                                                                <a href="${pageContext.request.contextPath}/DetalleSolicitudDepositoServlet?id=${solicitud.idSolicitudes}" class="btn btn-sm shadow-sm" title="Ver detalle de salida"><i class="fa-solid fa-eye"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>

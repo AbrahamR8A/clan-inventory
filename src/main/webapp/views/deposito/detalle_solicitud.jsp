@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,9 +43,25 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/InicioDepositoServlet">
-                    <i class="fas fa-fw fa-home"></i>
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>INICIO</span></a>
             </li>
+
+            <!-- Nav Item - Entradas pendientes -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/OrdenIngresoServlet?action=pendientes">
+                    <i class="fas fa-fw fa-clipboard-check"></i>
+                    <span>ENTRADAS PENDIENTES</span></a>
+            </li>
+
+            <!-- Nav Item - Registro de salida -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/RegistroSalidaServlet">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REGISTRO DE SALIDA</span></a>
+            </li>
+
+            <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
@@ -138,7 +156,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.usuario.nombres}</span>
                                 <img class="img-profile rounded-circle"
                                     src="${pageContext.request.contextPath}/img/undraw_profile.svg">
                             </a>
@@ -164,13 +182,86 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid">                    <div class="row">
+                        <div class="col-lg-8">
+                            
+                            <div class="mb-4 text-dark">
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-2 text-gray-800">Solicitud #${solicitud.idSolicitudes}</h1>
+                                </div>
+                                <p class="mb-1"><strong>Solicitado por:</strong> ${solicitud.solicitante.nombres} ${solicitud.solicitante.apellidoPaterno} ${solicitud.solicitante.apellidoMaterno}</p>
+                                <p class="mb-1"><strong>Fecha de aprobación:</strong> 
+                                    <c:choose>
+                                        <c:when test="${not empty solicitud.fechaRevision}">
+                                            <fmt:formatDate value="${solicitud.fechaRevision}" pattern="dd/MM/yyyy HH:mm:ss" />
+                                        </c:when>
+                                        <c:otherwise><span class="text-muted font-italic">No disponible</span></c:otherwise>
+                                    </c:choose>
+                                </p>
+                                <p class="mb-1"><strong>Propósito:</strong></p>
+                                <div class="p-3 bg-light border rounded text-dark">
+                                    <p class="mb-0">${solicitud.proposito}</p>
+                                </div>
+                            </div>
 
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Solicitud #5678901</h1>
-                        <button type="button" class="btn btn-primary shadow-sm" data-toggle="modal" data-target="#confirmarEntregaModal">
-                            <i class="fas fa-check-double fa-sm text-white-50 mr-2"></i> Marcar como solicitud entregada
-                        </button>
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-admin">Materiales Solicitados</h6>
+                                </div>
+                                <div class="table-responsive mb-4 shadow-sm">
+                                    <table class="table table-hover table-striped text-gray-800 text-center" width="100%" cellspacing="0">
+                                        <thead class="bg-light text-dark">
+                                            <tr>
+                                                <th>SKU</th>
+                                                <th>Producto</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="det" items="${listaDetalles}">
+                                                <tr>
+                                                    <td class="align-middle">${det.producto.codigo}</td>
+                                                    <td class="align-middle">${det.producto.nombre}</td>
+                                                    <td class="align-middle">${det.cantidad}</td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+                            
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-admin">Acciones de Despacho</h6>
+                                </div>
+                                <div class="card-body text-center py-4">
+                                    <i class="fas fa-box-open fa-3x mb-3 text-gray-300"></i>
+                                    <c:choose>
+                                        <c:when test="${solicitud.estado == 'aprobada'}">
+                                            <p class="text-dark mb-4">Esta solicitud ya fue aprobada y está lista para ser despachada del inventario.</p>
+                                            <button type="button" class="btn btn-primary btn-block shadow-sm" data-toggle="modal" data-target="#confirmarEntregaModal">
+                                                <i class="fas fa-check-double mr-2"></i> Marcar como Entregada
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p class="text-dark mb-4">Esta solicitud ya ha sido procesada o entregada previamente.</p>
+                                            <span class="badge badge-success px-3 py-2 text-uppercase"><i class="fas fa-check-circle mr-1"></i> ${solicitud.estado}</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    
+                                    <div class="mt-4">
+                                        <a href="${pageContext.request.contextPath}/InicioDepositoServlet" class="btn btn-outline-secondary btn-block">
+                                            <i class="fas fa-arrow-left mr-2"></i>Volver a la bandeja
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
                     </div>
 
                     <!-- Confirmation Modal -->
@@ -183,60 +274,17 @@
                                         <span aria-hidden="true">×</span>
                                     </button>
                                 </div>
-                                <div class="modal-body py-4 text-center">
-                                    <p class="mb-0">¿Desea marcar la solicitud como entregada?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-outline-secondary" type="button" data-dismiss="modal">No</button>
-                                    <a class="btn btn-primary px-4" href="${pageContext.request.contextPath}/InicioDepositoServlet?delivery=success">Sí</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="card shadow mb-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered bg-white" width="100%" cellspacing="0">
-                                    <tbody>
-                                        <tr>
-                                            <th class="bg-light text-dark w-25">Fecha de aprobación:</th>
-                                            <td>03/04/2026</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light text-dark">Solicitado por:</th>
-                                            <td>Camila</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light text-dark">Aprobado por:</th>
-                                            <td>Coordinador x</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light text-dark">Materiales:</th>
-                                            <td>
-                                                <ul class="list-unstyled mb-0">
-                                                    <li>3 Jenga: bloques de madera (SKU: L-0101)</li>
-                                                    <li>3 Ajedrez y Damas Clan juego de mesa (SKU: L-0102)</li>
-                                                    <li>5 Bloques de construcción Lego (SKU: L-0200)</li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="bg-light text-dark">Propósito:</th>
-                                            <td>Taller infantil: Aprendo jugando</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <div class="mt-4 text-right">
-                                <a href="${pageContext.request.contextPath}/InicioDepositoServlet" class="btn btn-secondary btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-arrow-left"></i>
-                                    </span>
-                                    <span class="text">Volver a la bandeja</span>
-                                </a>
+                                <form action="${pageContext.request.contextPath}/DetalleSolicitudDepositoServlet" method="POST">
+                                    <div class="modal-body py-4 text-center">
+                                        <p class="mb-0">¿Desea marcar la solicitud #${solicitud.idSolicitudes} como entregada?</p>
+                                        <input type="hidden" name="action" value="entregar">
+                                        <input type="hidden" name="idSolicitud" value="${solicitud.idSolicitudes}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-outline-secondary" type="button" data-dismiss="modal">No</button>
+                                        <button type="submit" class="btn btn-primary px-4">Sí</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

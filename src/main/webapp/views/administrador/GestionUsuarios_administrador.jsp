@@ -83,7 +83,6 @@
                             <span>GESTION DE USUARIOS</span></a>
                     </li>
 
-
                     <!-- Nav Item - GESTION DE INVENTARIO -->
                     <li class="nav-item">
                         <a class="nav-link" href="${pageContext.request.contextPath}/ProductosServlet">
@@ -91,6 +90,12 @@
                             <span>GESTION DE INVENTARIO</span></a>
                     </li>
 
+                    <!-- Nav Item - Nueva orden de ingreso -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/OrdenIngresoServlet?action=nueva">
+                            <i class="fas fa-fw fa-dolly"></i>
+                            <span>NUEVA ORDEN DE INGRESO</span></a>
+                    </li>                    
 
                     <!-- Nav Item - REPORTES -->
                     <li class="nav-item">

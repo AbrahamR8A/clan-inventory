@@ -65,6 +65,12 @@
                     <span>HISTORIAL DE SOLICITUDES</span></a>
             </li>
 
+            <!-- Nav Item - Nueva orden de ingreso -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/OrdenIngresoServlet?action=nueva">
+                    <i class="fas fa-fw fa-dolly"></i>
+                    <span>NUEVA ORDEN DE INGRESO</span></a>
+            </li>            
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

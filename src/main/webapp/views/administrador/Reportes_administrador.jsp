@@ -84,6 +84,14 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/ProductosServlet">
                 <i class="fas fa-fw fa-boxes"></i><span>GESTION DE INVENTARIO</span></a>
         </li>
+
+        <!-- Nav Item - Nueva orden de ingreso -->
+        <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/OrdenIngresoServlet?action=nueva">
+                <i class="fas fa-fw fa-dolly"></i>
+                <span>NUEVA ORDEN DE INGRESO</span></a>
+        </li>
+
         <li class="nav-item active">
             <a class="nav-link" href="${pageContext.request.contextPath}/ReportesServlet">
                 <i class="fas fa-fw fa-chart-bar"></i><span>REPORTES</span></a>
@@ -364,10 +372,11 @@
 <script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>
 <script>
     // Datos enviados por ReportesServlet (ya vienen en formato JSON)
-    const barLabels   = ${empty barLabels   ? '[]' : barLabels};
-    const barData     = ${empty barData     ? '[]' : barData};
-    const donutLabels = ${empty donutLabels ? '[]' : donutLabels};
-    const donutData   = ${empty donutData   ? '[]' : donutData};
+    // Se usa JSON.parse sobre un string para evitar que VS Code marque el ${} como error de ES6.
+    const barLabels   = JSON.parse('${empty barLabels ? "[]" : barLabels}');
+    const barData     = JSON.parse('${empty barData ? "[]" : barData}');
+    const donutLabels = JSON.parse('${empty donutLabels ? "[]" : donutLabels}');
+    const donutData   = JSON.parse('${empty donutData ? "[]" : donutData}');
 
     // Muestra un mensaje cuando un gráfico no tiene datos para el periodo
     function reportesSinDatos(idCanvas, mensaje) {
