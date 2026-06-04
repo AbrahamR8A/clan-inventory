@@ -205,8 +205,10 @@
                                 </div>
                                 <p class="mb-1"><strong>Registrado por:</strong> <c:out value="${ordenIngreso.creador.nombres} ${ordenIngreso.creador.apellidoPaterno}" default="-" /></p>
                                 <p class="mb-1"><strong>Fecha de orden:</strong> <c:out value="${ordenIngreso.fechaRegistro}" default="-" /></p>
+                                <p class="mb-1"><strong>Fecha esperada:</strong> <c:out value="${ordenIngreso.fechaEsperada}" default="-" /></p>
+                                <p class="mb-1"><strong>Proveedor:</strong> <c:out value="${ordenIngreso.proveedor}" default="-" /></p>
                                 <p class="mb-1"><strong>Estado:</strong> <span class="badge badge-warning text-dark px-2 py-1"><c:out value="${ordenIngreso.estado}" default="Pendiente de Recepción" /></span></p>
-                                <p class="mb-1"><strong>Observaciones Originales:</strong></p>
+                                <p class="mb-1 mt-2"><strong>Observaciones Originales:</strong></p>
                                 <div class="p-3 bg-light border rounded text-dark">
                                     <p class="mb-0"><c:out value="${ordenIngreso.observaciones}" default="Sin observaciones." /></p>
                                 </div>
@@ -356,6 +358,26 @@
         </div>
     </div>
 
+    <!-- Modal Error Validacion -->
+    <div class="modal fade" id="modalErrorValidacion" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-left-danger shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger"><i class="fas fa-exclamation-triangle mr-2"></i>Error de Validación</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-dark">
+                    Todas las cantidades recibidas deben ser mayores o iguales a cero.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Confirmar Recepción -->
     <div class="modal fade" id="modalConfirmarRecepcion" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -433,6 +455,9 @@
 
             // Si se edita la cantidad recibida, se actualiza el check según la coincidencia
             $(document).on('input', '.cantidad-recibida', function() {
+                if (this.value < 0) {
+                    this.value = Math.abs(this.value);
+                }
                 var fila = $(this).closest('tr');
                 var esperada = parseInt(fila.find('.cantidad-esperada-text').text().trim());
                 var recibida = parseInt($(this).val());
@@ -452,7 +477,7 @@
                 });
 
                 if (!cantidadesValidas) {
-                    alert('Todas las cantidades recibidas deben ser mayores o iguales a cero.');
+                    $('#modalErrorValidacion').modal('show');
                     return;
                 }
 

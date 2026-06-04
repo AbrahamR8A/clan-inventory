@@ -410,6 +410,13 @@
             });
 
             $('.select2').select2({ theme: 'bootstrap4', width: '100%' });
+
+            // Desaparecer alerta de éxito después de 4.5 segundos
+            setTimeout(function() {
+                $('.alert-success').fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove(); 
+                });
+            }, 4500);
         });
     </script>
 

@@ -2,6 +2,7 @@ package com.example.claninventory.servlets;
 
 import com.example.claninventory.beans.Usuarios;
 import com.example.claninventory.daos.UsuariosDao;
+import com.example.claninventory.utils.HashUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -40,14 +41,15 @@ public class LoginServlet extends HttpServlet {
 
         // Validación rápida de campos vacíos
         if (correo == null || correo.trim().isEmpty()
-                || contrasenia == null || contrasenia.isEmpty()) {
+                || contrasenia == null || contrasenia.trim().isEmpty()) {
             response.sendRedirect(request.getContextPath() + "/login.jsp?error=campos");
             return;
         }
 
-        // Validar credenciales en la base de datos
+        // Validar credenciales en la base de datos (con trim para evitar errores por espacios accidentales)
         UsuariosDao dao = new UsuariosDao();
-        Usuarios usuario = dao.validarLogin(correo.trim(), contrasenia);
+        String hashedPass = HashUtil.hashSHA256(contrasenia.trim());
+        Usuarios usuario = dao.validarLogin(correo.trim(), hashedPass);
 
         if (usuario == null) {
             // Credenciales incorrectas o usuario inactivo
@@ -55,7 +57,13 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        // Crear sesión y guardar los datos del usuario logueado
+        // Invalidar sesión anterior para prevenir ataques de "Session Fixation"
+        HttpSession oldSession = request.getSession(false);
+        if (oldSession != null) {
+            oldSession.invalidate();
+        }
+
+        // Crear sesión nueva y guardar los datos del usuario logueado
         HttpSession session = request.getSession(true);
         session.setAttribute("usuario", usuario);
         session.setAttribute("idUsuario", usuario.getIdUsuarios());

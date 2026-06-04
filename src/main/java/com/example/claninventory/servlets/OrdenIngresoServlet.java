@@ -106,8 +106,19 @@ public class OrdenIngresoServlet extends HttpServlet {
                 String[] productosSeleccionados = request.getParameterValues("productosSeleccionados");
                 
                 if (productosSeleccionados != null && productosSeleccionados.length > 0) {
+                    String fechaEsperadaStr = request.getParameter("fechaEsperada");
+                    String proveedor = request.getParameter("proveedor");
+                    String observaciones = request.getParameter("observaciones");
+
                     OrdenIngreso orden = new OrdenIngreso();
                     orden.setCreador(userLogueado);
+                    orden.setProveedor(proveedor);
+                    orden.setObservaciones(observaciones);
+                    try {
+                        if (fechaEsperadaStr != null && !fechaEsperadaStr.isEmpty()) {
+                            orden.setFechaEsperada(java.sql.Date.valueOf(fechaEsperadaStr));
+                        }
+                    } catch (IllegalArgumentException ignored) {}
                     
                     List<DetalleOrdenIngreso> detalles = new ArrayList<>();
                     for (String idProdStr : productosSeleccionados) {

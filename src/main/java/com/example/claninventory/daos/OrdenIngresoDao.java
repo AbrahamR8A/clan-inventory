@@ -31,7 +31,7 @@ public class OrdenIngresoDao extends BaseDao {
     }
 
     public boolean registrarOrdenIngreso(OrdenIngreso orden, List<DetalleOrdenIngreso> detalles) {
-        String sqlOrden = "INSERT INTO ordenes_ingreso (id_creador, estado) VALUES (?, 'Pendiente de Recepcion')";
+        String sqlOrden = "INSERT INTO ordenes_ingreso (id_creador, estado, observaciones, fecha_esperada, proveedor) VALUES (?, 'Pendiente de Recepcion', ?, ?, ?)";
         String sqlDetalle = "INSERT INTO detalles_orden_ingreso (id_ordenes_ingreso, id_productos, cantidad_esperada) VALUES (?, ?, ?)";
         String sqlNotif = "INSERT INTO notificaciones (mensaje, id_usuarios) SELECT ?, id_usuarios FROM usuarios WHERE rol = 'encargado_deposito' AND activo = 1";
         
@@ -43,6 +43,9 @@ public class OrdenIngresoDao extends BaseDao {
             int idOrdenGenerado = 0;
             try (PreparedStatement stmtOrden = conn.prepareStatement(sqlOrden, Statement.RETURN_GENERATED_KEYS)) {
                 stmtOrden.setInt(1, orden.getCreador().getIdUsuarios());
+                stmtOrden.setString(2, orden.getObservaciones());
+                stmtOrden.setDate(3, orden.getFechaEsperada());
+                stmtOrden.setString(4, orden.getProveedor());
                 stmtOrden.executeUpdate();
                 try (ResultSet rsKeys = stmtOrden.getGeneratedKeys()) {
                     if (rsKeys.next()) {
@@ -92,7 +95,7 @@ public class OrdenIngresoDao extends BaseDao {
 
     public List<OrdenIngreso> listarOrdenesPendientes() {
         List<OrdenIngreso> lista = new ArrayList<>();
-        String sql = "SELECT o.id_ordenes_ingreso, o.fecha_registro, o.estado, u.nombres, u.apellido_paterno " +
+        String sql = "SELECT o.id_ordenes_ingreso, o.fecha_registro, o.fecha_esperada, o.proveedor, o.estado, u.nombres, u.apellido_paterno " +
                      "FROM ordenes_ingreso o " +
                      "JOIN usuarios u ON o.id_creador = u.id_usuarios " +
                      "WHERE o.estado = 'Pendiente de Recepcion' " +
@@ -106,6 +109,8 @@ public class OrdenIngresoDao extends BaseDao {
                 OrdenIngreso o = new OrdenIngreso();
                 o.setIdOrdenesIngreso(rs.getInt("id_ordenes_ingreso"));
                 o.setFechaRegistro(rs.getTimestamp("fecha_registro"));
+                o.setFechaEsperada(rs.getDate("fecha_esperada"));
+                o.setProveedor(rs.getString("proveedor"));
                 o.setEstado(rs.getString("estado"));
                 
                 Usuarios creador = new Usuarios();
@@ -133,6 +138,8 @@ public class OrdenIngresoDao extends BaseDao {
                     o = new OrdenIngreso();
                     o.setIdOrdenesIngreso(rs.getInt("id_ordenes_ingreso"));
                     o.setFechaRegistro(rs.getTimestamp("fecha_registro"));
+                    o.setFechaEsperada(rs.getDate("fecha_esperada"));
+                    o.setProveedor(rs.getString("proveedor"));
                     o.setEstado(rs.getString("estado"));
                     o.setObservaciones(rs.getString("observaciones"));
                     

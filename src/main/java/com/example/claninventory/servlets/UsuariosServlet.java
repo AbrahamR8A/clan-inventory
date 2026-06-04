@@ -2,6 +2,7 @@ package com.example.claninventory.servlets;
 
 import com.example.claninventory.beans.Usuarios;
 import com.example.claninventory.daos.UsuariosDao;
+import com.example.claninventory.utils.HashUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -55,13 +56,13 @@ public class UsuariosServlet extends HttpServlet {
             usuariosDao.activarUsuario(id);
             response.sendRedirect(request.getContextPath() + "/UsuariosServlet?msg=activate_success");
         } else {
-            // Registro de nuevo usuario
-            String nombres = request.getParameter("nombres");
-            String apellidoPaterno = request.getParameter("apellido_paterno");
-            String apellidoMaterno = request.getParameter("apellido_materno");
-            String correo = request.getParameter("correo_electronico");
-            String contrasenia = request.getParameter("password");
-            String rol = request.getParameter("rol");
+            // Registro de nuevo usuario (aplicamos trim() para limpiar espacios invisibles al inicio y final)
+            String nombres = request.getParameter("nombres").trim();
+            String apellidoPaterno = request.getParameter("apellido_paterno").trim();
+            String apellidoMaterno = request.getParameter("apellido_materno").trim();
+            String correo = request.getParameter("correo_electronico").trim();
+            String contrasenia = request.getParameter("password").trim();
+            String rol = request.getParameter("rol").trim();
 
             // 2. Llenar el objeto usando los nombres de métodos correctos
             Usuarios nuevoUsuario = new Usuarios();
@@ -69,7 +70,7 @@ public class UsuariosServlet extends HttpServlet {
             nuevoUsuario.setApellidoPaterno(apellidoPaterno);
             nuevoUsuario.setApellidoMaterno(apellidoMaterno);
             nuevoUsuario.setCorreo(correo);
-            nuevoUsuario.setContrasenia(contrasenia);
+            nuevoUsuario.setContrasenia(HashUtil.hashSHA256(contrasenia)); // Hashear la contraseña
             nuevoUsuario.setRol(rol);
             nuevoUsuario.setActivo(1); // setActivo(2) para usuario 'pendiente' es un deseable
 

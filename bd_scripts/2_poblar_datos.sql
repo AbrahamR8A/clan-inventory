@@ -39,15 +39,11 @@ SELECT * FROM categorias;
 INSERT INTO `clan_db`.`usuarios` 
 (`nombres`, `apellido_paterno`, `apellido_materno`, `rol`, `correo`, `contrasenia`, `foto_perfil`, `activo`, `id_creador`) 
 VALUES 
-('Super', 'Admin', '', 'superadmin', 'superadmin@clan.com', 'hash_password_seguro', NULL, 1, NULL),
-('Carlos André', 'Sánchez', 'Silva', 'administrador', 'carlos.sanchezsilva@quintaola.com', 'hash456', NULL, 1, 1),
-('Ana Lucía', 'Incio', 'Bocchio', 'encargado_deposito', 'ana.inciobocchio@quintaola.com', 'hash789', NULL, 1, 2),
-('Roberto José', 'Flores', 'Ayala', 'solicitante', 'roberto.floresayala@quintaola.com', 'hash456', NULL, 1, 2),
-('Giovanna Carla', 'Gauna', 'Loayza', 'solicitante', 'giovanna.gaunaloayza@quintaola.com', 'hash422', NULL, 1, 2),
-('Fernando Enrique', 'Fernández', 'Del Río', 'coordinador', 'fernando.fernandezdelrio@quintaola.com', 'hash456', NULL, 1, 2),
-('Jorge Santiago', 'Cárdenas', 'Monte', 'coordinador', 'jorge.cardenasmonte@quintaola.com', 'hash126', NULL, 1, 2),
-('Luisa María', 'Flores', 'Cárdenas', 'solicitante', 'luisa.florescardenas@quintaola.com', 'hash422', NULL, 1, 2),
-('Magdalena', 'Montoya', 'Ayala', 'solicitante', 'roberto.montoyaayala@quintaola.com', 'hash421', NULL, 1, 2);
+('Super', 'Admin', '', 'superadmin', 'superadmin@clan.com', 'c797bd812e10e4ba5c25c916946a7a6a36306cf1831c20ccaf082b1de2912ddd', NULL, 1, NULL),
+('Nathan', 'Castillo', '', 'administrador', 'NathanCastillo@gmail.com', '52e302428e6db29686bc5f69df2e28bf6f283f2ef3f75d563e99dd5e1b225469', NULL, 1, 1),
+('Camila', 'Altamirano', '', 'encargado_deposito', 'CamilaAltamirano@gmail.com', 'd1e24bcd98e0db74448a1341c7147029bff49c0345448f7bc9e3b7eeda861b92', NULL, 1, 2),
+('Abraham', 'Ramirez', '', 'coordinador', 'AbrahamRamirez@gmail.com', 'abbe9820f1f072a706f38e3054f0f2ce0f67ffbcd217b1cf9d45fad57ccd4964', NULL, 1, 2),
+('Luis', 'Quillas', 'León', 'solicitante', 'LuisQuillas@gmail.com', '491f1416064741057c7763d4a4bc3ccfa1edb9efa2778d90d2567cd3b4178dda', NULL, 1, 2);
 
 SELECT * FROM usuarios;
 
@@ -74,14 +70,14 @@ INSERT INTO `clan_db`.`solicitudes`
 (`proposito`, `estado`, `fecha_solicitud`, `comentario_rechazo`, `id_solicitante`, `id_coordinador`, `id_deposito`, `fecha_entrega`, `fecha_revision`) 
 VALUES 
 
-('Primer taller infantil de dibujo', 'pendiente', '2026-07-03 17:15:30', NULL, 9, NULL, NULL, NULL, NULL),
-('Dinámica de integración', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 6, NULL, NULL, '2026-06-04 14:15:30'),
-('Gorras para el evento del sábado', 'entregada', CURRENT_TIMESTAMP, NULL, 5, 6, 3, '2026-06-03 10:30:00', '2026-06-01 16:45:00'),
-('Taller de cuentacuentos externo', 'aprobada', CURRENT_TIMESTAMP, NULL, 4, 7, NULL, NULL, '2026-06-05 09:00:00'),
-('Capacitación de seguridad trimestral', 'aprobada', CURRENT_TIMESTAMP, NULL, 4, 6, NULL, NULL, '2026-06-05 10:30:00'),
-('Material para dinámica de bienvenida', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 7, NULL, NULL, '2026-06-05 11:45:00'),
-('Taller de caligrafía', 'pendiente', '2026-05-03 12:15:30', NULL, 4, NULL, NULL, NULL, NULL),
-('Segundo taller infantil de dibujo', 'pendiente', '2026-05-03 10:15:30', NULL, 8, NULL, NULL, NULL, NULL),
+('Primer taller infantil de dibujo', 'pendiente', '2026-07-03 17:15:30', NULL, 5, NULL, NULL, NULL, NULL),
+('Dinámica de integración', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 4, NULL, NULL, '2026-06-04 14:15:30'),
+('Gorras para el evento del sábado', 'entregada', CURRENT_TIMESTAMP, NULL, 5, 4, 3, '2026-06-03 10:30:00', '2026-06-01 16:45:00'),
+('Taller de cuentacuentos externo', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 4, NULL, NULL, '2026-06-05 09:00:00'),
+('Capacitación de seguridad trimestral', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 4, NULL, NULL, '2026-06-05 10:30:00'),
+('Material para dinámica de bienvenida', 'aprobada', CURRENT_TIMESTAMP, NULL, 5, 4, NULL, NULL, '2026-06-05 11:45:00'),
+('Taller de caligrafía', 'pendiente', '2026-05-03 12:15:30', NULL, 5, NULL, NULL, NULL, NULL),
+('Segundo taller infantil de dibujo', 'pendiente', '2026-05-03 10:15:30', NULL, 5, NULL, NULL, NULL, NULL),
 ('Actividad de integración', 'pendiente', CURRENT_TIMESTAMP, NULL, 5, NULL, NULL, NULL, NULL);
 
 SELECT * FROM solicitudes;

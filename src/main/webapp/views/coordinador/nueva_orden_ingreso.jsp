@@ -307,7 +307,7 @@
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
                                         <label class="font-weight-bold text-dark">Fecha esperada de recepción:</label>
-                                        <input type="date" class="form-control" name="fecha_esperada" required>
+                                        <input type="date" class="form-control" name="fechaEsperada" required>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label class="font-weight-bold text-dark">Proveedor o donante:</label>
@@ -430,6 +430,26 @@
         </div>
     </div>
 
+    <!-- Modal Error Validacion -->
+    <div class="modal fade" id="modalErrorValidacion" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-left-danger shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger"><i class="fas fa-exclamation-triangle mr-2"></i>Error de Validación</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body text-dark">
+                    Seleccione al menos un producto y registre una cantidad esperada válida (mayor a 0).
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Confirmar Registro -->
     <div class="modal fade" id="modalConfirmarOrden" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -520,7 +540,7 @@
                 });
 
                 if (seleccionados === 0 || !cantidadesValidas) {
-                    alert('Seleccione al menos un producto y registre una cantidad esperada válida.');
+                    $('#modalErrorValidacion').modal('show');
                     return;
                 }
 
@@ -530,6 +550,20 @@
             $('#btnConfirmarOrden').on('click', function() {
                 $('#formOrdenIngreso').submit();
             });
+
+            // Evitar ingreso de números negativos
+            $(document).on('input', '.cantidad-esperada', function() {
+                if (this.value < 0) {
+                    this.value = Math.abs(this.value);
+                }
+            });
+
+            // Desaparecer alerta de éxito después de 4.5 segundos
+            setTimeout(function() {
+                $('.alert-success').fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove(); 
+                });
+            }, 4500);
         });
     </script>
 

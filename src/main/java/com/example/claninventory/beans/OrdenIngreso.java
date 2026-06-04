@@ -10,6 +10,8 @@ public class OrdenIngreso {
     private String observaciones;
     private Usuarios creador;
     private Usuarios verificador;
+    private java.sql.Date fechaEsperada;
+    private String proveedor;
 
     // Getters and Setters
     public int getIdOrdenesIngreso() {
@@ -66,5 +68,21 @@ public class OrdenIngreso {
 
     public void setVerificador(Usuarios verificador) {
         this.verificador = verificador;
+    }
+
+    public java.sql.Date getFechaEsperada() {
+        return fechaEsperada;
+    }
+
+    public void setFechaEsperada(java.sql.Date fechaEsperada) {
+        this.fechaEsperada = fechaEsperada;
+    }
+
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(String proveedor) {
+        this.proveedor = proveedor;
     }
 }
