@@ -38,7 +38,7 @@ public class NotificacionesDao extends BaseDao {
                     notif.setIdNotificacion(rs.getInt("id_notificaciones"));
                     notif.setMensaje(rs.getString("mensaje"));
                     notif.setLeido(rs.getBoolean("leido"));
-                    notif.setTipo(rs.getString("tipo"));
+                    notif.setTipo("primary"); // Default tipo as it's not in DB
                     notif.setFechaCreacion(rs.getTimestamp("fecha_creacion"));
                     notif.setIdUsuario(rs.getInt("id_usuarios"));
                     lista.add(notif);

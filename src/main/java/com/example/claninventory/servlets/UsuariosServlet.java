@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 @MultipartConfig(maxFileSize = 5 * 1024 * 1024) // máximo 5 MB por foto
-@WebServlet(name = "UsuariosServlet", urlPatterns = {"/UsuariosServlet"})
+@WebServlet(name = "UsuariosServlet", urlPatterns = { "/UsuariosServlet" })
 public class UsuariosServlet extends HttpServlet {
 
     @Override
@@ -56,7 +56,8 @@ public class UsuariosServlet extends HttpServlet {
             usuariosDao.activarUsuario(id);
             response.sendRedirect(request.getContextPath() + "/UsuariosServlet?msg=activate_success");
         } else {
-            // Registro de nuevo usuario (aplicamos trim() para limpiar espacios invisibles al inicio y final)
+            // Registro de nuevo usuario (aplicamos trim() para limpiar espacios invisibles
+            // al inicio y final)
             String nombres = request.getParameter("nombres").trim();
             String apellidoPaterno = request.getParameter("apellido_paterno").trim();
             String apellidoMaterno = request.getParameter("apellido_materno").trim();
@@ -93,7 +94,8 @@ public class UsuariosServlet extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        // Endpoint para servir la foto de un usuario directamente (usada en <img src="...">)
+        // Endpoint para servir la foto de un usuario directamente (usada en <img
+        // src="...">)
         if ("foto".equals(action)) {
             UsuariosDao usuariosDao = new UsuariosDao();
             int id = Integer.parseInt(request.getParameter("id"));
@@ -121,17 +123,21 @@ public class UsuariosServlet extends HttpServlet {
         request.setAttribute("listaCompletaUsuarios", usuariosDao.listarUsuarios());
 
         // 2. Lista FILTRADA para mostrar en la tabla HTML
-        java.util.ArrayList<Usuarios> listaFiltrada = usuariosDao.listarUsuariosFiltrados(filtroUsuarioId, buscar, filtroRol, filtroEstado);
+        java.util.ArrayList<Usuarios> listaFiltrada = usuariosDao.listarUsuariosFiltrados(filtroUsuarioId, buscar,
+                filtroRol, filtroEstado);
         request.setAttribute("listaUsuarios", listaFiltrada);
 
-        // 3. Devolvemos los valores ingresados para que el formulario no se borre al recargar
+        // 3. Devolvemos los valores ingresados para que el formulario no se borre al
+        // recargar
         request.setAttribute("usuarioActual", filtroUsuarioId);
         request.setAttribute("busquedaActual", buscar);
         request.setAttribute("rolActual", filtroRol);
         request.setAttribute("estadoActual", filtroEstado);
 
-        request.getRequestDispatcher("/views/administrador/GestionUsuarios_administrador.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/administrador/GestionUsuarios_administrador.jsp").forward(request,
+                response);
     }
+
     /**
      * Lee todos los bytes de un InputStream.
      * Equivalente a InputStream.readAllBytes() de Java 9+, compatible con Java 8.

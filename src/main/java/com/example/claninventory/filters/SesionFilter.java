@@ -10,6 +10,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
+
+import com.example.claninventory.beans.Notificaciones;
+import com.example.claninventory.daos.NotificacionesDao;
 
 /**
  * Filtro de sesión y caché para CLAN INVENTORY.
@@ -57,6 +61,17 @@ public class SesionFilter implements Filter {
         if (session == null || session.getAttribute("usuario") == null) {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
+        }
+
+        // ── 3.5. Obtener notificaciones del usuario y guardar en request ─────
+        Integer idUsuario = (Integer) session.getAttribute("idUsuario");
+        if (idUsuario != null) {
+            NotificacionesDao notificacionesDao = new NotificacionesDao();
+            List<Notificaciones> listaNotificaciones = notificacionesDao.obtenerUltimasNotificaciones(idUsuario);
+            int notificacionesNoLeidas = notificacionesDao.obtenerCantidadNoLeidas(idUsuario);
+            
+            request.setAttribute("listaNotificaciones", listaNotificaciones);
+            request.setAttribute("notificacionesNoLeidas", notificacionesNoLeidas);
         }
 
         // ── 4. Verificar permisos (Control de Acceso por Roles) ──────────────

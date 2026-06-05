@@ -15,20 +15,20 @@ import java.io.IOException;
 /**
  * Servlet de autenticación de CLAN INVENTORY.
  *
- *  - POST  : recibe correo + contrasenia del formulario de login.jsp.
- *            Si las credenciales son válidas, guarda el usuario en la
- *            sesión y redirige al Inicio correspondiente al rol.
- *  - GET   : si no hay sesión muestra el login; si ya hay sesión activa
- *            redirige directo al Inicio del rol del usuario logueado.
+ * - POST : recibe correo + contrasenia del formulario de login.jsp.
+ * Si las credenciales son válidas, guarda el usuario en la
+ * sesión y redirige al Inicio correspondiente al rol.
+ * - GET : si no hay sesión muestra el login; si ya hay sesión activa
+ * redirige directo al Inicio del rol del usuario logueado.
  *
  * Roles soportados:
- *   administrador        ->  /InicioAdminServlet
- *   coordinador          ->  /InicioCoordinadorServlet
- *   solicitante          ->  /InicioSolicitanteServlet
- *   encargado_deposito   ->  /InicioDepositoServlet
- *   superadmin           ->  /InicioAdminServlet
+ * administrador -> /InicioAdminServlet
+ * coordinador -> /InicioCoordinadorServlet
+ * solicitante -> /InicioSolicitanteServlet
+ * encargado_deposito -> /InicioDepositoServlet
+ * superadmin -> /InicioAdminServlet
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+@WebServlet(name = "LoginServlet", urlPatterns = { "/LoginServlet" })
 public class LoginServlet extends HttpServlet {
 
     @Override
@@ -46,7 +46,8 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        // Validar credenciales en la base de datos (con trim para evitar errores por espacios accidentales)
+        // Validar credenciales en la base de datos (con trim para evitar errores por
+        // espacios accidentales)
         UsuariosDao dao = new UsuariosDao();
         Usuarios usuario = dao.validarLogin(correo.trim(), contrasenia.trim());
 
@@ -94,14 +95,21 @@ public class LoginServlet extends HttpServlet {
      * Si el rol no es reconocido, manda de vuelta al login.
      */
     private String destinoPorRol(String rol) {
-        if (rol == null) return "/login.jsp";
+        if (rol == null)
+            return "/login.jsp";
         switch (rol) {
-            case "administrador":      return "/InicioAdminServlet";
-            case "coordinador":        return "/InicioCoordinadorServlet";
-            case "solicitante":        return "/InicioSolicitanteServlet";
-            case "encargado_deposito": return "/InicioDepositoServlet";
-            case "superadmin":         return "/InicioAdminServlet";
-            default:                   return "/login.jsp";
+            case "administrador":
+                return "/InicioAdminServlet";
+            case "coordinador":
+                return "/InicioCoordinadorServlet";
+            case "solicitante":
+                return "/InicioSolicitanteServlet";
+            case "encargado_deposito":
+                return "/InicioDepositoServlet";
+            case "superadmin":
+                return "/InicioAdminServlet";
+            default:
+                return "/login.jsp";
         }
     }
 }

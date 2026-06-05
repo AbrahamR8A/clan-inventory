@@ -13,8 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-@WebServlet(name = "InicioDepositoServlet", urlPatterns = {"/InicioDepositoServlet"})
+@WebServlet(name = "InicioDepositoServlet", urlPatterns = { "/InicioDepositoServlet" })
 public class InicioDepositoServlet extends HttpServlet {
 
     @Override
@@ -22,19 +21,17 @@ public class InicioDepositoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Verificar que el usuario haya iniciado sesión
-//        HttpSession session = request.getSession(false);
-//        if (session == null || session.getAttribute("usuario") == null) {
-//            response.sendRedirect(request.getContextPath() + "/login.jsp");
-//            return;
-//        }
-
+        // HttpSession session = request.getSession(false);
+        // if (session == null || session.getAttribute("usuario") == null) {
+        // response.sendRedirect(request.getContextPath() + "/login.jsp");
+        // return;
+        // }
 
         String action = request.getParameter("action") == null ? "inicio" : request.getParameter("action");
         SolicitudesDepositoDao depositoDao = new SolicitudesDepositoDao();
 
-
         switch (action) {
-            case "inicio":{
+            case "inicio": {
                 // 1. Cargar datos para los KPIs
                 int aprobadas = depositoDao.contarSolicitudesAprobadas();
                 int entregadas = depositoDao.contarSolicitudesEntregadas();
@@ -58,18 +55,21 @@ public class InicioDepositoServlet extends HttpServlet {
                 request.setAttribute("paramFecha", fecha);
 
                 // 4. Cargar la bandeja principal
-                request.setAttribute("listaBandeja", depositoDao.listarBandejaDeposito(idSolicitante, idCoordinador, fecha));
+                request.setAttribute("listaBandeja",
+                        depositoDao.listarBandejaDeposito(idSolicitante, idCoordinador, fecha));
 
                 request.getRequestDispatcher("/views/deposito/inicio_deposito.jsp").forward(request, response);
-                break;}
+                break;
+            }
 
-            case "historial":{
+            case "historial": {
                 // 1. Capturar los parámetros de los filtros desde la URL (GET)
                 String idSolicitante = request.getParameter("idSolicitante");
                 String idCoordinador = request.getParameter("idCoordinador");
                 String fechaEntrega = request.getParameter("fecha");
 
-                // Normalizamos los valores (si vienen null de la primera carga, los volvemos vacíos)
+                // Normalizamos los valores (si vienen null de la primera carga, los volvemos
+                // vacíos)
                 idSolicitante = (idSolicitante == null) ? "" : idSolicitante.trim();
                 idCoordinador = (idCoordinador == null) ? "" : idCoordinador.trim();
                 fechaEntrega = (fechaEntrega == null) ? "" : fechaEntrega.trim();
@@ -79,17 +79,20 @@ public class InicioDepositoServlet extends HttpServlet {
                 request.setAttribute("paramCoordinador", idCoordinador);
                 request.setAttribute("paramFecha", fechaEntrega);
 
-                // 3. Cargar las listas exclusivas de los dropdowns (solo usuarios con entregas realizadas)
+                // 3. Cargar las listas exclusivas de los dropdowns (solo usuarios con entregas
+                // realizadas)
                 request.setAttribute("listaSolicitantes", depositoDao.listarSolicitantesEntregados());
                 request.setAttribute("listaCoordinadores", depositoDao.listarCoordinadoresEntregados());
 
                 // 4. Llamamos al DAO y mandamos la lista al JSP
-                ArrayList<Solicitudes> historialDepo = depositoDao.listarHistorialEntregadas(idSolicitante, idCoordinador, fechaEntrega);
+                ArrayList<Solicitudes> historialDepo = depositoDao.listarHistorialEntregadas(idSolicitante,
+                        idCoordinador, fechaEntrega);
                 request.setAttribute("listaHistorial", historialDepo);
 
                 // 5. Redireccionar a la vista del historial del depósito
                 request.getRequestDispatcher("/views/deposito/historial_entregas.jsp").forward(request, response);
-                break;}
+                break;
+            }
 
             case "vistaDetalle":
                 HttpSession sesionActual = request.getSession();
@@ -104,18 +107,17 @@ public class InicioDepositoServlet extends HttpServlet {
 
                     // REDIRECCIÓN DINÁMICA:
                     if ("entregada".equals(solicitudTemporal.getEstado())) {
-                        request.getRequestDispatcher("/views/deposito/detalle_entregado.jsp").forward(request, response);
+                        request.getRequestDispatcher("/views/deposito/detalle_entregado.jsp").forward(request,
+                                response);
                     } else {
-                        request.getRequestDispatcher("/views/deposito/solicitud_por_entregar.jsp").forward(request, response);
+                        request.getRequestDispatcher("/views/deposito/solicitud_por_entregar.jsp").forward(request,
+                                response);
                     }
                 } else {
                     response.sendRedirect("InicioDepositoServlet?action=inicio");
                 }
                 break;
         }
-
-
-
 
     }
 
@@ -149,7 +151,8 @@ public class InicioDepositoServlet extends HttpServlet {
 
             // Hardcodeamos el id del encargado de depósito en sesión (ej: ID = 3)
             // Cuando la sesión esté activa, sería:
-            // int idEncargadoLogueado = ((Usuarios) request.getSession().getAttribute("usuario")).getIdUsuarios();
+            // int idEncargadoLogueado = ((Usuarios)
+            // request.getSession().getAttribute("usuario")).getIdUsuarios();
             int idEncargadoLogueado = 3;
 
             // Ejecutamos la transacción
@@ -159,7 +162,8 @@ public class InicioDepositoServlet extends HttpServlet {
                 // Redirige al inicio enviando parámetro de éxito para mostrar el Toast verde
                 response.sendRedirect("InicioDepositoServlet?action=inicio&delivery=success");
             } else {
-                // Si algo falló a nivel de base de datos, mostramos un error genérico o no mostramos el toast
+                // Si algo falló a nivel de base de datos, mostramos un error genérico o no
+                // mostramos el toast
                 response.sendRedirect("InicioDepositoServlet?action=inicio&error=true");
             }
         }
