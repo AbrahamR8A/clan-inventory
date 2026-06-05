@@ -1,6 +1,7 @@
 package com.example.claninventory.daos;
 
 import com.example.claninventory.beans.Usuarios;
+import com.example.claninventory.utils.HashUtil;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -8,8 +9,8 @@ public class UsuariosDao extends BaseDao{
 
     // 1. CREATE: Registrar Nuevo Usuario
     public boolean registrarUsuario(Usuarios usuario) {
-        String sql = "INSERT INTO usuarios (nombres, apellido_paterno, apellido_materno, rol, correo, contrasenia, activo, id_creador, foto_perfil) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (nombres, apellido_paterno, apellido_materno, rol, correo, contrasenia, salt, activo, id_creador, foto_perfil) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -19,21 +20,27 @@ public class UsuariosDao extends BaseDao{
             pstmt.setString(3, usuario.getApellidoMaterno());
             pstmt.setString(4, usuario.getRol());
             pstmt.setString(5, usuario.getCorreo());
-            pstmt.setString(6, usuario.getContrasenia()); // debe venir hasheado desde el Servlet
-            pstmt.setInt(7, usuario.getActivo());
+            
+            // Generar salt y aplicar hash
+            String salt = HashUtil.generarSalt();
+            String hashedPass = HashUtil.hashConSalt(usuario.getContrasenia(), salt);
+            
+            pstmt.setString(6, hashedPass);
+            pstmt.setString(7, salt);
+            pstmt.setInt(8, usuario.getActivo());
             
             // Manejamos idCreador como Integer para permitir NULL
             if (usuario.getIdCreador() != null) {
-                pstmt.setInt(8, usuario.getIdCreador());
+                pstmt.setInt(9, usuario.getIdCreador());
             } else {
-                pstmt.setNull(8, Types.INTEGER);
+                pstmt.setNull(9, Types.INTEGER);
             }
 
             // Guardamos la foto como BLOB; si no viene foto, guardamos NULL
             if (usuario.getFotoPerfil() != null && usuario.getFotoPerfil().length > 0) {
-                pstmt.setBytes(9, usuario.getFotoPerfil());
+                pstmt.setBytes(10, usuario.getFotoPerfil());
             } else {
-                pstmt.setNull(9, Types.BLOB);
+                pstmt.setNull(10, Types.BLOB);
             }
 
             return pstmt.executeUpdate() > 0;
@@ -219,30 +226,37 @@ public class UsuariosDao extends BaseDao{
      * @return el Usuarios correspondiente si las credenciales son correctas,
      *         o null si no coinciden o el usuario está inactivo.
      */
-    public Usuarios validarLogin(String correo, String contrasenia) {
+    public Usuarios validarLogin(String correo, String contraseniaPlana) {
         String sql = "SELECT id_usuarios, nombres, apellido_paterno, apellido_materno, " +
-                     "       rol, correo, activo " +
+                     "       rol, correo, activo, contrasenia, salt " +
                      "FROM clan_db.usuarios " +
-                     "WHERE correo = ? AND contrasenia = ? AND activo = 1 " +
+                     "WHERE correo = ? AND activo = 1 " +
                      "LIMIT 1";
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, correo);
-            pstmt.setString(2, contrasenia);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    Usuarios u = new Usuarios();
-                    u.setIdUsuarios(rs.getInt("id_usuarios"));
-                    u.setNombres(rs.getString("nombres"));
-                    u.setApellidoPaterno(rs.getString("apellido_paterno"));
-                    u.setApellidoMaterno(rs.getString("apellido_materno"));
-                    u.setRol(rs.getString("rol"));
-                    u.setCorreo(rs.getString("correo"));
-                    u.setActivo(rs.getInt("activo"));
-                    return u;
+                    String storedHash = rs.getString("contrasenia");
+                    String storedSalt = rs.getString("salt");
+
+                    // Validar usando el salt recuperado
+                    String hashCalculado = HashUtil.hashConSalt(contraseniaPlana, storedSalt);
+                    
+                    if (storedHash != null && storedHash.equals(hashCalculado)) {
+                        Usuarios u = new Usuarios();
+                        u.setIdUsuarios(rs.getInt("id_usuarios"));
+                        u.setNombres(rs.getString("nombres"));
+                        u.setApellidoPaterno(rs.getString("apellido_paterno"));
+                        u.setApellidoMaterno(rs.getString("apellido_materno"));
+                        u.setRol(rs.getString("rol"));
+                        u.setCorreo(rs.getString("correo"));
+                        u.setActivo(rs.getInt("activo"));
+                        return u;
+                    }
                 }
             }
         } catch (SQLException e) {

@@ -70,7 +70,7 @@ public class UsuariosServlet extends HttpServlet {
             nuevoUsuario.setApellidoPaterno(apellidoPaterno);
             nuevoUsuario.setApellidoMaterno(apellidoMaterno);
             nuevoUsuario.setCorreo(correo);
-            nuevoUsuario.setContrasenia(HashUtil.hashSHA256(contrasenia)); // Hashear la contraseña
+            nuevoUsuario.setContrasenia(contrasenia); // Se envía plana, el DAO le pone el salt y el hash
             nuevoUsuario.setRol(rol);
             nuevoUsuario.setActivo(1); // setActivo(2) para usuario 'pendiente' es un deseable
 

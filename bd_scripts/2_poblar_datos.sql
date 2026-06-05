@@ -12,6 +12,8 @@ TRUNCATE TABLE detalles;
 TRUNCATE TABLE movimientos;
 TRUNCATE TABLE notificaciones;
 TRUNCATE TABLE solicitudes;
+TRUNCATE TABLE detalles_orden_ingreso;
+TRUNCATE TABLE ordenes_ingreso;
 TRUNCATE TABLE productos;
 TRUNCATE TABLE usuarios;
 TRUNCATE TABLE categorias;
@@ -37,13 +39,13 @@ SELECT * FROM categorias;
 -- Populamos tabla de usuarios (Actualizado para Apellido Paterno y Apellido Materno)
 -- -----------------------------------------------------
 INSERT INTO `clan_db`.`usuarios` 
-(`nombres`, `apellido_paterno`, `apellido_materno`, `rol`, `correo`, `contrasenia`, `foto_perfil`, `activo`, `id_creador`) 
+(`nombres`, `apellido_paterno`, `apellido_materno`, `rol`, `correo`, `contrasenia`, `salt`, `foto_perfil`, `activo`, `id_creador`) 
 VALUES 
-('Super', 'Admin', '', 'superadmin', 'superadmin@clan.com', 'c797bd812e10e4ba5c25c916946a7a6a36306cf1831c20ccaf082b1de2912ddd', NULL, 1, NULL),
-('Nathan', 'Castillo', '', 'administrador', 'NathanCastillo@gmail.com', '52e302428e6db29686bc5f69df2e28bf6f283f2ef3f75d563e99dd5e1b225469', NULL, 1, 1),
-('Camila', 'Altamirano', '', 'encargado_deposito', 'CamilaAltamirano@gmail.com', 'd1e24bcd98e0db74448a1341c7147029bff49c0345448f7bc9e3b7eeda861b92', NULL, 1, 2),
-('Abraham', 'Ramirez', '', 'coordinador', 'AbrahamRamirez@gmail.com', 'abbe9820f1f072a706f38e3054f0f2ce0f67ffbcd217b1cf9d45fad57ccd4964', NULL, 1, 2),
-('Luis', 'Quillas', 'León', 'solicitante', 'LuisQuillas@gmail.com', '491f1416064741057c7763d4a4bc3ccfa1edb9efa2778d90d2567cd3b4178dda', NULL, 1, 2);
+('Super', 'Admin', '', 'superadmin', 'superadmin@clan.com', '067a8d040082947089a5a80407c91a6be3338048c744f70f390dffda5b7fa43c', 'r7iUWNwzpVZLfP10VPJZKw==', NULL, 1, NULL),
+('Nathan', 'Castillo', '', 'administrador', 'NathanCastillo@gmail.com', 'c391380b2411e715659f4b0954cc7fc313e2463f0d21fd01b1f3384dad363dd6', '9fnvmsDPZHdaJGRf2DCH/A==', NULL, 1, 1),
+('Camila', 'Altamirano', '', 'encargado_deposito', 'CamilaAltamirano@gmail.com', '04d341e186c91b025e4e45b35c91c52b47bdc6251039e74aeaf1d195a65e1c13', 'mAeA0Vg6uCyzL7AWYoreHw==', NULL, 1, 2),
+('Abraham', 'Ramirez', '', 'coordinador', 'AbrahamRamirez@gmail.com', 'a8fe74f9c06ad5c1c8f500378b6a658e4dd2ae29934a424d2d2a423d8b552e74', 'eNrcTRnpwwAJThsuze2ZZg==', NULL, 1, 2),
+('Luis', 'Quillas', 'León', 'solicitante', 'LuisQuillas@gmail.com', '5704a269617b7a3dfb526378548728f61a401f301a0bcec15242268cc16dfe0b', 'Qr0mWhwSSfksLvYhB/869A==', NULL, 1, 2);
 
 SELECT * FROM usuarios;
 
@@ -163,4 +165,20 @@ VALUES
 
 SELECT * FROM notificaciones;
 
+-- -----------------------------------------------------
+-- Órdenes de Ingreso (Para que el Encargado tenga datos)
+-- -----------------------------------------------------
 
+INSERT INTO `clan_db`.`ordenes_ingreso` 
+(`fecha_registro`, `fecha_verificacion`, `fecha_esperada`, `proveedor`, `estado`, `observaciones`, `id_creador`, `id_verificador`) 
+VALUES 
+(CURRENT_TIMESTAMP, NULL, '2026-06-15', 'Librería Central', 'Pendiente de Recepcion', 'Cajas frágiles', 4, NULL);
+
+-- Detalles de la orden de ingreso
+INSERT INTO `clan_db`.`detalles_orden_ingreso` 
+(`id_ordenes_ingreso`, `id_productos`, `cantidad_esperada`, `cantidad_recibida`) 
+VALUES 
+(1, 3, 50, NULL),  -- 50 Papelotes
+(1, 4, 100, NULL); -- 100 Marcadores
+
+SELECT * FROM ordenes_ingreso;

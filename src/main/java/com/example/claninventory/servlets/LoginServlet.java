@@ -48,8 +48,7 @@ public class LoginServlet extends HttpServlet {
 
         // Validar credenciales en la base de datos (con trim para evitar errores por espacios accidentales)
         UsuariosDao dao = new UsuariosDao();
-        String hashedPass = HashUtil.hashSHA256(contrasenia.trim());
-        Usuarios usuario = dao.validarLogin(correo.trim(), hashedPass);
+        Usuarios usuario = dao.validarLogin(correo.trim(), contrasenia.trim());
 
         if (usuario == null) {
             // Credenciales incorrectas o usuario inactivo
