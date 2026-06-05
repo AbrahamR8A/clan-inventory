@@ -1,6 +1,5 @@
 package com.example.claninventory.servlets;
 
-import com.example.claninventory.beans.KpiDeposito;
 import com.example.claninventory.beans.Solicitudes;
 import com.example.claninventory.beans.Detalles;
 import com.example.claninventory.daos.SolicitudesDepositoDao;
@@ -147,10 +146,8 @@ public class InicioDepositoServlet extends HttpServlet {
         else if ("procesarEntrega".equals(action)) {
             int idSolicitud = Integer.parseInt(request.getParameter("idSolicitud"));
 
-            // Hardcodeamos el id del encargado de depósito en sesión (ej: ID = 3)
-            // Cuando la sesión esté activa, sería:
-            // int idEncargadoLogueado = ((Usuarios) request.getSession().getAttribute("usuario")).getIdUsuarios();
-            int idEncargadoLogueado = 3;
+            // Obtenemos el ID del encargado de depósito logueado desde la sesión
+            int idEncargadoLogueado = (Integer) request.getSession().getAttribute("idUsuario");
 
             // Ejecutamos la transacción
             boolean resultado = depositoDao.marcarComoEntregada(idSolicitud, idEncargadoLogueado);

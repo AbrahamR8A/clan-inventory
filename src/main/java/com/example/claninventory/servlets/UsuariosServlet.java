@@ -2,7 +2,6 @@ package com.example.claninventory.servlets;
 
 import com.example.claninventory.beans.Usuarios;
 import com.example.claninventory.daos.UsuariosDao;
-import com.example.claninventory.utils.HashUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;

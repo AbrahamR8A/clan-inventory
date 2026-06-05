@@ -22,9 +22,8 @@ public class InicioAdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // En un caso real, el ID vendría de la sesión (ej. usuario logueado)
-        // Por ahora, como definimos en los scripts, asumimos el Admin con ID 2 (Carlos Sánchez)
-        int idAdminActual = 2;
+        // Obtenemos el ID del usuario logueado desde la sesión
+        int idAdminActual = (Integer) request.getSession().getAttribute("idUsuario");
 
         DashboardAdminDao dashboardDao = new DashboardAdminDao();
         NotificacionesDao notificacionesDao = new NotificacionesDao();
