@@ -109,6 +109,9 @@ public class SesionFilter implements Filter {
      * Verifica si el rol actual tiene permiso para acceder a la ruta solicitada.
      */
     private boolean tienePermiso(String rol, String path) {
+        // 0. Vistas globales para todos los roles
+        if (path.equals("/PerfilServlet") || path.equals("/perfil.jsp")) return true;
+
         // 1. Bloqueo de carpetas de vistas exclusivas (por si intentan entrar directo al JSP)
         if (path.startsWith("/views/administrador/") && !(rol.equals("administrador") || rol.equals("superadmin"))) return false;
         if (path.startsWith("/views/coordinador/") && !rol.equals("coordinador")) return false;

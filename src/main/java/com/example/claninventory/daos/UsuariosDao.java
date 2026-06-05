@@ -264,4 +264,49 @@ public class UsuariosDao extends BaseDao{
         }
         return null;
     }
+
+    // 7. PERFIL: Validar la contraseña actual antes de un cambio
+    public boolean validarContraseniaActual(int idUsuario, String contraseniaPlana) {
+        String sql = "SELECT contrasenia, salt FROM clan_db.usuarios WHERE id_usuarios = ? AND activo = 1 LIMIT 1";
+
+        try (Connection conn = this.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idUsuario);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String storedHash = rs.getString("contrasenia");
+                    String storedSalt = rs.getString("salt");
+
+                    String hashCalculado = HashUtil.hashConSalt(contraseniaPlana, storedSalt);
+                    return storedHash != null && storedHash.equals(hashCalculado);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // 8. PERFIL: Actualizar la contraseña generando una nueva sal
+    public boolean actualizarContrasenia(int idUsuario, String nuevaContraseniaPlana) {
+        String sql = "UPDATE clan_db.usuarios SET contrasenia = ?, salt = ? WHERE id_usuarios = ?";
+
+        try (Connection conn = this.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            String nuevoSalt = HashUtil.generarSalt();
+            String nuevoHash = HashUtil.hashConSalt(nuevaContraseniaPlana, nuevoSalt);
+
+            pstmt.setString(1, nuevoHash);
+            pstmt.setString(2, nuevoSalt);
+            pstmt.setInt(3, idUsuario);
+
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
