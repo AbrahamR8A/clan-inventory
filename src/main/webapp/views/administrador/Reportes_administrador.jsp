@@ -171,43 +171,51 @@
                             <div class="card-body">
 
                                 <!-- ============ FORMULARIO DE FILTRO ========= -->
-                                <form method="get" action="${pageContext.request.contextPath}/ReportesServlet"
-                                      class="form-row align-items-end mb-4">
-                                    <div class="form-group col-md-4 mb-2">
-                                        <label class="small font-weight-bold text-gray-700">Selecciona un mes</label>
-                                        <select name="mes" class="form-control form-control-sm">
-                                            <c:forEach var="m" begin="1" end="12">
-                                                <option value="${m}" ${m == mesActual ? 'selected' : ''}>
-                                                    <c:choose>
-                                                        <c:when test="${m == 1}">Enero</c:when>
-                                                        <c:when test="${m == 2}">Febrero</c:when>
-                                                        <c:when test="${m == 3}">Marzo</c:when>
-                                                        <c:when test="${m == 4}">Abril</c:when>
-                                                        <c:when test="${m == 5}">Mayo</c:when>
-                                                        <c:when test="${m == 6}">Junio</c:when>
-                                                        <c:when test="${m == 7}">Julio</c:when>
-                                                        <c:when test="${m == 8}">Agosto</c:when>
-                                                        <c:when test="${m == 9}">Septiembre</c:when>
-                                                        <c:when test="${m == 10}">Octubre</c:when>
-                                                        <c:when test="${m == 11}">Noviembre</c:when>
-                                                        <c:otherwise>Diciembre</c:otherwise>
-                                                    </c:choose>
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-4 mb-2">
-                                        <label class="small font-weight-bold text-gray-700">Selecciona un año</label>
-                                        <select name="anio" class="form-control form-control-sm">
-                                            <c:forEach var="y" begin="${anioActual - 5}" end="${anioActual + 1}">
-                                                <option value="${y}" ${y == anioActual ? 'selected' : ''}>${y}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-4 mb-2">
-                                        <button type="submit" class="btn btn-sm btn-admin">
-                                            <i class="fas fa-filter fa-sm"></i> Filtrar
-                                        </button>
+                                <form method="get" action="${pageContext.request.contextPath}/ReportesServlet" class="mb-4">
+
+                                    <div class="row align-items-center filtros-reportes-admin">
+
+                                        <div class="col-md-5 mb-2">
+                                            <select name="mes" class="form-control filtro-control">
+                                                <option value="">Filtrar por Mes...</option>
+
+                                                <option value="Enero" ${param.mes == 'Enero' ? 'selected' : ''}>Enero</option>
+                                                <option value="Febrero" ${param.mes == 'Febrero' ? 'selected' : ''}>Febrero</option>
+                                                <option value="Marzo" ${param.mes == 'Marzo' ? 'selected' : ''}>Marzo</option>
+                                                <option value="Abril" ${param.mes == 'Abril' ? 'selected' : ''}>Abril</option>
+                                                <option value="Mayo" ${param.mes == 'Mayo' ? 'selected' : ''}>Mayo</option>
+                                                <option value="Junio" ${param.mes == 'Junio' ? 'selected' : ''}>Junio</option>
+                                                <option value="Julio" ${param.mes == 'Julio' ? 'selected' : ''}>Julio</option>
+                                                <option value="Agosto" ${param.mes == 'Agosto' ? 'selected' : ''}>Agosto</option>
+                                                <option value="Septiembre" ${param.mes == 'Septiembre' ? 'selected' : ''}>Septiembre</option>
+                                                <option value="Octubre" ${param.mes == 'Octubre' ? 'selected' : ''}>Octubre</option>
+                                                <option value="Noviembre" ${param.mes == 'Noviembre' ? 'selected' : ''}>Noviembre</option>
+                                                <option value="Diciembre" ${param.mes == 'Diciembre' ? 'selected' : ''}>Diciembre</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-5 mb-2">
+                                            <select name="anio" class="form-control filtro-control">
+                                                <option value="">Filtrar por Año...</option>
+
+                                                <option value="2026" ${param.anio == '2026' ? 'selected' : ''}>2026</option>
+                                                <option value="2025" ${param.anio == '2025' ? 'selected' : ''}>2025</option>
+                                                <option value="2024" ${param.anio == '2024' ? 'selected' : ''}>2024</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-1 mb-2">
+                                            <button type="submit" class="btn btn-admin btn-block btn-filtro-reportes">
+                                                <i class="fas fa-filter"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="col-md-1 mb-2">
+                                            <a href="${pageContext.request.contextPath}/ReportesServlet"
+                                               class="btn btn-light btn-block btn-limpiar-reportes">
+                                                <i class="fas fa-eraser"></i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </form>
 
@@ -270,28 +278,39 @@
                                 <!-- ============ TABLA DE CONSUMO ============= -->
                                 <!-- Mismo estilo que la tabla de Gestión de Inventario -->
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Código</th>
-                                                <th>Producto</th>
-                                                <th>Categoría</th>
-                                                <th>Stock inicial</th>
-                                                <th>Entrada del mes</th>
-                                                <th>Salida del mes</th>
-                                            </tr>
+                                    <table id="dataTable" class="table table-hover text-gray-800">
+                                        <thead class="bg-light">
+                                        <tr>
+                                            <th class="centered font-weight-bold">Código</th>
+                                            <th class="centered font-weight-bold">Producto</th>
+                                            <th class="centered font-weight-bold">Categoría</th>
+                                            <th class="centered font-weight-bold">Stock inicial</th>
+                                            <th class="centered font-weight-bold">Entrada del mes</th>
+                                            <th class="centered font-weight-bold">Salida del mes</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="r" items="${listaConsumo}">
+                                        <c:choose>
+                                            <c:when test="${not empty listaConsumo}">
+                                                <c:forEach var="r" items="${listaConsumo}">
+                                                    <tr>
+                                                        <td class="text-center">${r.codigo}</td>
+                                                        <td class="text-center">${r.producto}</td>
+                                                        <td class="text-center">${r.categoria}</td>
+                                                        <td class="text-center">${r.stockInicial}</td>
+                                                        <td class="text-center text-success font-weight-bold">${r.entradaMes}</td>
+                                                        <td class="text-center text-danger font-weight-bold">${r.salidaMes}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
                                                 <tr>
-                                                    <td class="text-center">${r.codigo}</td>
-                                                    <td>${r.producto}</td>
-                                                    <td>${r.categoria}</td>
-                                                    <td class="text-center">${r.stockInicial}</td>
-                                                    <td class="text-center text-success font-weight-bold">${r.entradaMes}</td>
-                                                    <td class="text-center text-danger font-weight-bold">${r.salidaMes}</td>
+                                                    <td colspan="6" class="text-center">
+                                                        No se encontraron registros.
+                                                    </td>
                                                 </tr>
-                                            </c:forEach>
+                                            </c:otherwise>
+                                        </c:choose>
                                         </tbody>
                                     </table>
                                 </div>
