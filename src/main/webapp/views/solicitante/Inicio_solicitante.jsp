@@ -27,7 +27,7 @@
     <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/InicioSolicitanteServlet">
             <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-            <div class="sidebar-brand-text mx-3">CLAN INVETORY</div>
+            <div class="sidebar-brand-text mx-3">CLAN INVENTORY</div>
         </a>
         <hr class="sidebar-divider my-0">
         <li class="nav-item active">
@@ -94,7 +94,7 @@
                 <c:if test="${param.msg == 'creada'}">
                     <div class="alert alert-success alert-dismissible fade show shadow mb-4" role="alert">
                         <i class="fas fa-check-circle mr-2"></i>
-                        <strong>¡Éxito!</strong> La solicitud #${param.id} fue creada correctamente y está pendiente de revisión.
+                        <strong>¡Éxito!</strong> La solicitud fue creada correctamente y está pendiente de revisión.
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -184,51 +184,68 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table id="dataTable" class="table table-hover text-gray-800" width="100%">
+                                <table id="dataTable" class="table table-hover text-center text-gray-800" width="100%">
                                     <thead class="bg-white text-dark text-center">
                                         <tr>
-                                            <th>ID de solicitud</th>
-                                            <th>Fecha</th>
-                                            <th>Categorias solicitadas</th>
-                                            <th>Estado</th>
-                                            <th>Acción</th>
+<%--                                            <th>ID de solicitud</th>--%>
+                                            <th class="font-weight-bold">Fila</th>
+                                            <th class="font-weight-bold">Fecha</th>
+                                            <th class="font-weight-bold">Categorías Solicitadas</th>
+                                            <th class="font-weight-bold">Estado</th>
+                                            <th class="font-weight-bold">Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="s" items="${listaSolicitudes}">
+                                    <c:choose>
+                                        <c:when test="${not empty listaSolicitudes}">
+                                            <c:forEach var="s" items="${listaSolicitudes}" varStatus="status">
+                                                <tr>
+                                                    <td class="text-center align-middle">${status.count}</td>
+
+<%--                                                    <td class="text-center align-middle">#${s.idSolicitudes}</td>--%>
+                                                    <td class="text-center align-middle">${s.fechaSolicitud}</td>
+                                                    <td class="align-middle">
+                                                            ${s.categoriaPrincipal}
+                                                        <c:if test="${s.categoriasExtra > 0}">
+                                                            <span class="badge badge-secondary ml-1" title="${s.categoriasTexto}">+${s.categoriasExtra}</span>
+                                                        </c:if>
+                                                    </td>
+                                                    <td class="text-center align-middle">
+                                                        <c:choose>
+                                                            <c:when test="${s.estado == 'pendiente'}">
+                                                                <span class="badge badge-warning px-2 py-1">Pendiente</span>
+                                                            </c:when>
+                                                            <c:when test="${s.estado == 'aprobada'}">
+                                                                <span class="badge badge-success px-2 py-1">Aprobada</span>
+                                                            </c:when>
+                                                            <c:when test="${s.estado == 'rechazada'}">
+                                                                <span class="badge badge-danger px-2 py-1">Rechazada</span>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <span class="badge badge-info px-2 py-1">Entregada</span>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                    <td class="text-center align-middle">
+                                                        <a href="${pageContext.request.contextPath}/DetalleSolicitudSolicitanteServlet?id=${s.idSolicitudes}"
+                                                           class="btn btn-sm shadow-sm" title="Ver detalle">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:when>
+
+                                        <%-- Control de cuando la lista está vacía --%>
+                                        <c:otherwise>
                                             <tr>
-                                                <td class="text-center align-middle">#${s.idSolicitudes}</td>
-                                                <td class="text-center align-middle">${s.fechaSolicitud}</td>
-                                                <td class="align-middle">
-                                                    ${s.categoriaPrincipal}
-                                                    <c:if test="${s.categoriasExtra > 0}">
-                                                        <span class="badge badge-secondary ml-1" title="${s.categoriasTexto}">+${s.categoriasExtra}</span>
-                                                    </c:if>
-                                                </td>
-                                                <td class="text-center align-middle">
-                                                    <c:choose>
-                                                        <c:when test="${s.estado == 'pendiente'}">
-                                                            <span class="badge badge-warning px-2 py-1">Pendiente</span>
-                                                        </c:when>
-                                                        <c:when test="${s.estado == 'aprobada'}">
-                                                            <span class="badge badge-success px-2 py-1">Aprobada</span>
-                                                        </c:when>
-                                                        <c:when test="${s.estado == 'rechazada'}">
-                                                            <span class="badge badge-danger px-2 py-1">Rechazada</span>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <span class="badge badge-info px-2 py-1">Entregada</span>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </td>
-                                                <td class="text-center align-middle">
-                                                    <a href="${pageContext.request.contextPath}/DetalleSolicitudSolicitanteServlet?id=${s.idSolicitudes}"
-                                                       class="btn btn-sm shadow-sm" title="Ver detalle">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
+                                                <td colspan="6" class="text-center text-muted py-4">
+                                                    <i class="fas fa-inbox fa-2x mb-2"></i><br>
+                                                    No se encontraron solicitudes.
                                                 </td>
                                             </tr>
-                                        </c:forEach>
+                                        </c:otherwise>
+                                    </c:choose>
                                     </tbody>
                                 </table>
                             </div>
@@ -279,7 +296,7 @@
 <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
 <script src="${pageContext.request.contextPath}/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/datatables-InicioSolicitante.js"></script>
+<script src="${pageContext.request.contextPath}/js/demo/datatables-demo.js"></script>
 
 <script>
     // Filtro por estado: busca en la columna "Estado" (índice 3) de la tabla
