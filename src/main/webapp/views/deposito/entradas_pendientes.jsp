@@ -278,7 +278,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="dataTable" class="table table-hover text-gray-800" width="100%" cellspacing="0">
+                                <table id="dataTable" class="table table-hover text-gray-800 text-center" width="100%" cellspacing="0">
                                     <thead class="bg-light">
                                         <tr>
                                             <th class="centered font-weight-bold">Fila</th>
@@ -294,12 +294,14 @@
                                                 <c:forEach var="orden" items="${listaOrdenesPendientes}" varStatus="status">
                                                     <tr>
                                                             <%-- Para enumerar filas. --%>
-                                                        <td><b>${status.count}</b></td>
-                                                        <td>#${orden.idOrdenesIngreso}</td>
-                                                        <td>${orden.creador.nombres} ${orden.creador.apellidoPaterno}</td>
-                                                        <td>${orden.fechaRegistro}</td>
-                                                        <td><span class="badge badge-warning text-dark">${orden.estado}</span></td>
-                                                        <td>
+                                                        <td class="align-middle">${status.count}</td>
+<%--                                                        <td>#${orden.idOrdenesIngreso}</td>--%>
+                                                        <td class="align-middle">${orden.creador.nombres} ${orden.creador.apellidoPaterno}</td>
+                                                        <td class="align-middle">
+                                                            <fmt:formatDate value="${orden.fechaRegistro}" pattern="dd/MM/yyyy HH:mm" />
+                                                        </td>
+                                                        <td class="align-middle"><span class="badge badge-warning text-dark">${orden.estado}</span></td>
+                                                        <td class="align-middle">
                                                             <a href="${pageContext.request.contextPath}/OrdenIngresoServlet?action=verificar&id=${orden.idOrdenesIngreso}" class="btn btn-sm btn-admin shadow-sm">
                                                                 <i class="fas fa-clipboard-check mr-1"></i> Verificar
                                                             </a>
@@ -309,7 +311,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <tr>
-                                                    <td colspan="7" class="text-center text-muted py-4">
+                                                    <td colspan="5" class="text-center text-muted py-4">
                                                         <i class="fas fa-inbox fa-2x mb-2"></i><br>
                                                         No hay órdenes pendientes de recepción.
                                                     </td>
