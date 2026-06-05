@@ -215,8 +215,8 @@
 <%--                                    <h1 class="h3 mb-2 text-gray-800">Orden #<c:out value="${ordenIngreso.idOrdenesIngreso}" default="" /></h1>--%>
 <%--                                </div>--%>
                                 <p class="mb-1"><strong>Registrado por:</strong> <c:out value="${ordenIngreso.creador.nombres} ${ordenIngreso.creador.apellidoPaterno}" default="-" /></p>
-                                <p class="mb-1"><strong>Fecha de orden:</strong> <c:out value="${ordenIngreso.fechaRegistro}" default="-" /></p>
-                                <p class="mb-1"><strong>Fecha esperada:</strong> <c:out value="${ordenIngreso.fechaEsperada}" default="-" /></p>
+                                <p class="mb-1"><strong>Fecha de orden:</strong> <fmt:formatDate value="${ordenIngreso.fechaRegistro}" pattern="dd/MM/yyyy HH:mm" /></p>
+                                <p class="mb-1"><strong>Fecha esperada:</strong> <fmt:formatDate value="${ordenIngreso.fechaEsperada}" pattern="dd/MM/yyyy HH:mm" /></p>
                                 <p class="mb-1"><strong>Proveedor:</strong> <c:out value="${ordenIngreso.proveedor}" default="-" /></p>
                                 <p class="mb-1"><strong>Estado:</strong> <span class="badge badge-warning text-dark px-2 py-1"><c:out value="${ordenIngreso.estado}" default="Pendiente de Recepción" /></span></p>
                                 <p class="mb-1 mt-2"><strong>Observaciones Originales:</strong></p>
