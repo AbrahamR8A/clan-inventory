@@ -238,7 +238,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><c:out value="${sessionScope.usuario.nombres}" default="Usuario" /></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionScope.nombreCompleto}</span>
                                 <img class="img-profile rounded-circle"
                                     src="${pageContext.request.contextPath}/img/undraw_profile.svg">
                             </a>
@@ -316,7 +316,7 @@
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label class="font-weight-bold text-dark">Responsable:</label>
-                                        <input type="text" class="form-control" value="${sessionScope.usuario.nombres}" readonly>
+                                        <input type="text" class="form-control" value="${sessionScope.nombreCompleto}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group mb-0">
