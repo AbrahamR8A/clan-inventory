@@ -12762,3 +12762,52 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+/* =======================================================
+   TABLAS CLAN INVENTORY - FORMATO UNIFICADO
+   Usado en Inicio, Usuarios, Inventario y Reportes
+   ======================================================= */
+
+.tabla-clan {
+  width: 100% !important;
+  margin-bottom: 1rem !important;
+  color: #5a5c69 !important;
+  border-collapse: collapse !important;
+  background-color: #ffffff !important;
+}
+
+.tabla-clan thead th {
+  background-color: #f8f9fc !important;
+  color: #3a3b45 !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  border-top: 1px solid #e3e6f0 !important;
+  border-bottom: 2px solid #e3e6f0 !important;
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.95rem 0.75rem !important;
+}
+
+.tabla-clan tbody td {
+  color: #5a5c69 !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  border-top: 1px solid #e3e6f0 !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.85rem 0.75rem !important;
+  background-color: #ffffff !important;
+}
+
+.tabla-clan tbody tr:hover td {
+  background-color: #f8f9fc !important;
+}
+
+.tabla-clan,
+.tabla-clan th,
+.tabla-clan td {
+  border-left: none !important;
+  border-right: none !important;
+}
