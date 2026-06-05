@@ -95,7 +95,7 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    
+
                     <!-- Section Title (Topbar) -->
                     <div class="d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100">
                         <h1 class="h3 mb-0 text-gray-800 font-weight-bold">REGISTRO DE SALIDA</h1>
@@ -109,7 +109,7 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                
+
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
@@ -123,7 +123,7 @@
                                 <h6 class="dropdown-header bg-admin text-white border-0">
                                     Centro de Alertas
                                 </h6>
-                                
+
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-success">
@@ -147,7 +147,7 @@
                                         <span class="font-weight-bold">Aprobaste la solicitud 91843829.</span>
                                     </div>
                                 </a>
-                                        
+
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-warning">
@@ -159,12 +159,12 @@
                                         Nueva solicitud 91843700 pendiente de aprobación.
                                     </div>
                                 </a>
-                                    
+
                                 <a class="dropdown-item text-center small text-gray-500" href="notificaciones.html">Mostrar todas las notificaciones</a>
                             </div>
                         </li>
 
-            
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -176,7 +176,7 @@
                                 <img class="img-profile rounded-circle"
                                     src="${pageContext.request.contextPath}/img/undraw_profile.svg">
                             </a>
-                            
+
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                         aria-labelledby="userDropdown">
@@ -223,7 +223,7 @@
                             <div class="card-body">
 
                                 <div class="row mb-3">
-                                    
+
                                     <div class="col-md-2">
                                         <label class="small font-weight-bold text-dark">Por Solicitante:</label>
                                         <select id="filtroRol" class="form-control select2" style="width: 100%;">
@@ -234,7 +234,7 @@
                                             <option>Abraham</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="col-md-2">
                                         <label class="small font-weight-bold text-dark">Por Fecha:</label>
                                         <input type="date" class="form-control text-sm">
@@ -356,10 +356,10 @@
     <!-- Script para el filtro -->
     <script>
     $(document).ready(function() {
-        
+
         // 1. Inicializar Select2 con el tema de Bootstrap 4
         $('.select2').select2({
-            theme: 'bootstrap4', 
+            theme: 'bootstrap4',
             width: '100%'
         });
 
@@ -393,7 +393,7 @@
             contenedor.style.display = 'none';
         } else {
             contenedor.style.display = 'block';
-            
+
             if (tipo === 'fecha') {
                 // Mostrar calendario
                 inputBusqueda.style.display = 'none';
@@ -420,7 +420,7 @@
             const toast = document.getElementById('actionToast');
             const toastMessage = document.getElementById('toastMessage');
 
-            toastMessage.innerText = 'El producto se ha añadido correctamente.'; 
+            toastMessage.innerText = 'El producto se ha añadido correctamente.';
             toast.classList.add('alert-success');
 
             // Mostramos la alerta
@@ -430,7 +430,7 @@
             setTimeout(() => {
                 $(toast).alert('close'); // Asegúrate de que tu toast soporte esta función de Bootstrap
             }, 5000);
-            
+
             // Opcional: Limpiar la URL para que si recarga la página no vuelva a salir la alerta
             window.history.replaceState(null, null, window.location.pathname);
             }

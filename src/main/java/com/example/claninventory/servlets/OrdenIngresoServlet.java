@@ -24,17 +24,19 @@ public class OrdenIngresoServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) action = "pendientes";
 
-        HttpSession session = request.getSession();
-        Usuarios userLogueado = (Usuarios) session.getAttribute("usuario");
-        if (userLogueado == null) {
-            response.sendRedirect("index.jsp");
-            return;
-        }
 
         RequestDispatcher dispatcher;
 
         switch (action) {
             case "nueva":
+
+                HttpSession session = request.getSession();
+                Usuarios userLogueado = (Usuarios) session.getAttribute("usuario");
+                if (userLogueado == null) {
+                    response.sendRedirect("index.jsp");
+                    return;
+                }
+
                 // Solo admin y coordinador pueden crear ordenes
                 if (userLogueado.getRol().equals("administrador") || userLogueado.getRol().equals("coordinador")) {
                     List<Productos> listaProductos = ordenDao.listarProductosActivos();

@@ -14,6 +14,7 @@ public class Solicitudes {
     // Relaciones
     private Usuarios solicitante; // Para saber quién hizo el pedido
     private Usuarios coordinador; // Para saber quién la aprobó/rechazó
+    private Usuarios deposito;    // Para saber quién entregó los materiales
 
     // Getters y Setters
     public int getIdSolicitudes() { return idSolicitudes; }
@@ -42,4 +43,12 @@ public class Solicitudes {
 
     public Usuarios getCoordinador() { return coordinador; }
     public void setCoordinador(Usuarios coordinador) { this.coordinador = coordinador; }
+
+    public Usuarios getDeposito() {
+        return deposito;
+    }
+
+    public void setDeposito(Usuarios deposito) {
+        this.deposito = deposito;
+    }
 }
