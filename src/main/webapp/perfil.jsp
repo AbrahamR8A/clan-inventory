@@ -180,18 +180,11 @@
                             <span>ENTRADAS PENDIENTES</span></a>
                     </li>
 
-                    <!-- Nav Item - Entrada de producto -->
+                    <!-- Nav Item - Historial de Entregas -->
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/entrada_producto.jsp">
-                            <i class="fas fa-fw fa-box-open"></i>
-                            <span>ENTRADA DE PRODUCTO</span></a>
-                    </li>
-
-                    <!-- Nav Item - Registro de salida -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/views/deposito/registro_salida.jsp">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/InicioDepositoServlet?action=historial">
                             <i class="fas fa-fw fa-table"></i>
-                            <span>REGISTRO DE SALIDA</span></a>
+                            <span>HISTORIAL DE ENTREGAS</span></a>
                     </li>
 
                     <!-- Divider -->

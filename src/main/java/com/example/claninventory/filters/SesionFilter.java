@@ -114,8 +114,20 @@ public class SesionFilter implements Filter {
 
         // 1. Bloqueo de carpetas de vistas exclusivas (por si intentan entrar directo al JSP)
         if (path.startsWith("/views/administrador/") && !(rol.equals("administrador") || rol.equals("superadmin"))) return false;
-        if (path.startsWith("/views/coordinador/") && !rol.equals("coordinador")) return false;
-        if (path.startsWith("/views/deposito/") && !rol.equals("encargado_deposito")) return false;
+        if (path.startsWith("/views/coordinador/")) {
+            if (path.equals("/views/coordinador/nueva_orden_ingreso.jsp")) {
+                if (!(rol.equals("coordinador") || rol.equals("administrador") || rol.equals("superadmin"))) return false;
+            } else {
+                if (!rol.equals("coordinador")) return false;
+            }
+        }
+        if (path.startsWith("/views/deposito/")) {
+            if (path.equals("/views/deposito/entradas_pendientes.jsp") || path.equals("/views/deposito/verificacion_ingreso.jsp")) {
+                if (!(rol.equals("encargado_deposito") || rol.equals("administrador") || rol.equals("superadmin"))) return false;
+            } else {
+                if (!rol.equals("encargado_deposito")) return false;
+            }
+        }
         if (path.startsWith("/views/solicitante/") && !rol.equals("solicitante")) return false;
 
         // 2. Bloqueo estricto de Servlets por rol
