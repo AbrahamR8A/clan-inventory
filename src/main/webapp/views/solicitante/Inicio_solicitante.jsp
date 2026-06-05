@@ -27,7 +27,7 @@
     <ul class="navbar-nav bg-gradient-admin sidebar sidebar-dark accordion" id="accordionSidebar">
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/InicioSolicitanteServlet">
             <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-            <div class="sidebar-brand-text mx-3">CLAN INVETORY</div>
+            <div class="sidebar-brand-text mx-3">CLAN INVENTORY</div>
         </a>
         <hr class="sidebar-divider my-0">
         <li class="nav-item active">
@@ -296,7 +296,7 @@
 <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
 <script src="${pageContext.request.contextPath}/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/datatables-demo.js"></script>
+<script src="${pageContext.request.contextPath}/js/demo/datatables-demo.js"></script>
 
 <script>
     // Filtro por estado: busca en la columna "Estado" (índice 3) de la tabla
