@@ -283,4 +283,126 @@ public class OrdenIngresoDao extends BaseDao {
             }
         }
     }
+
+    // ───── Métodos para historial de recepciones ────────────────
+
+    public List<OrdenIngreso> listarHistorialRecepciones(String proveedor, String estado, String fecha, String idVerificador) {
+        List<OrdenIngreso> lista = new ArrayList<>();
+
+        String sql = "SELECT o.id_ordenes_ingreso, o.fecha_registro, o.fecha_verificacion, o.proveedor, o.estado, " +
+                "uc.nombres AS creador_nombres, uc.apellido_paterno AS creador_paterno, uc.apellido_materno AS creador_materno, " +
+                "uv.nombres AS verificador_nombres, uv.apellido_paterno AS verificador_paterno, uv.apellido_materno AS verificador_materno " +
+                "FROM ordenes_ingreso o " +
+                "JOIN usuarios uc ON o.id_creador = uc.id_usuarios " +
+                "LEFT JOIN usuarios uv ON o.id_verificador = uv.id_usuarios " +
+                "WHERE o.estado IN ('Verificada', 'Observada') " +
+                "AND (? IS NULL OR o.proveedor = ?) " +
+                "AND (? IS NULL OR o.estado = ?) " +
+                "AND (? IS NULL OR DATE(o.fecha_verificacion) = ?) " +
+                "AND (? IS NULL OR o.id_verificador = ?) " +
+                "ORDER BY o.fecha_verificacion DESC";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Normalización de los parámetros dinámicos a null si vienen vacíos
+            String pProveedor = (proveedor == null || proveedor.isEmpty()) ? null : proveedor;
+            String pEstado = (estado == null || estado.isEmpty()) ? null : estado;
+            String pFecha = (fecha == null || fecha.isEmpty()) ? null : fecha;
+            String pVerificador = (idVerificador == null || idVerificador.isEmpty()) ? null : idVerificador;
+
+            // Seteo secuencial doble para cumplir la lógica (? IS NULL OR columna = ?)
+            // 1. Filtro de Proveedor
+            pstmt.setString(1, pProveedor);
+            pstmt.setString(2, pProveedor);
+
+            // 2. Filtro de Estado
+            pstmt.setString(3, pEstado);
+            pstmt.setString(4, pEstado);
+
+            // 3. Filtro de Fecha de Verificación
+            pstmt.setString(5, pFecha);
+            pstmt.setString(6, pFecha);
+
+            // 4. Filtro de Verificador (Encargado de Depósito)
+            pstmt.setString(7, pVerificador);
+            pstmt.setString(8, pVerificador);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    OrdenIngreso o = new OrdenIngreso();
+                    o.setIdOrdenesIngreso(rs.getInt("id_ordenes_ingreso"));
+                    o.setFechaRegistro(rs.getTimestamp("fecha_registro"));
+                    o.setFechaVerificacion(rs.getTimestamp("fecha_verificacion"));
+                    o.setProveedor(rs.getString("proveedor"));
+                    o.setEstado(rs.getString("estado"));
+
+                    // Mapear los datos completos del creador (Administrador / Coordinador)
+                    Usuarios creador = new Usuarios();
+                    creador.setNombres(rs.getString("creador_nombres"));
+                    creador.setApellidoPaterno(rs.getString("creador_paterno"));
+                    creador.setApellidoMaterno(rs.getString("creador_materno"));
+                    o.setCreador(creador);
+
+                    // Mapear los datos completos del verificador (Encargado de Depósito)
+                    Usuarios verificador = new Usuarios();
+                    verificador.setNombres(rs.getString("verificador_nombres"));
+                    verificador.setApellidoPaterno(rs.getString("verificador_paterno"));
+                    verificador.setApellidoMaterno(rs.getString("verificador_materno"));
+                    o.setVerificador(verificador);
+
+                    lista.add(o);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+    public ArrayList<String> listarProveedoresRecepcionados() {
+        ArrayList<String> proveedores = new ArrayList<>();
+        String sql = "SELECT DISTINCT proveedor FROM ordenes_ingreso WHERE estado IN ('Verificada', 'Observada') AND proveedor IS NOT NULL ORDER BY proveedor ASC";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                proveedores.add(rs.getString("proveedor"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return proveedores;
+    }
+
+    public ArrayList<Usuarios> listarVerificadoresRecepcionados() {
+        ArrayList<Usuarios> verificadores = new ArrayList<>();
+
+        // Usamos DISTINCT en el ID para que no salgan verificadores repetidos
+        // y hacemos JOIN con usuarios para traer sus nombres y apellidos
+        String sql = "SELECT DISTINCT u.id_usuarios, u.nombres, u.apellido_paterno, u.apellido_materno " +
+                "FROM ordenes_ingreso o " +
+                "JOIN usuarios u ON o.id_verificador = u.id_usuarios " +
+                "WHERE o.estado IN ('Verificada', 'Observada') " +
+                "ORDER BY u.nombres ASC";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Usuarios u = new Usuarios();
+                u.setIdUsuarios(rs.getInt("id_usuarios"));
+                u.setNombres(rs.getString("nombres"));
+                u.setApellidoPaterno(rs.getString("apellido_paterno"));
+                u.setApellidoMaterno(rs.getString("apellido_materno"));
+
+                verificadores.add(u);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return verificadores;
+    }
+
 }

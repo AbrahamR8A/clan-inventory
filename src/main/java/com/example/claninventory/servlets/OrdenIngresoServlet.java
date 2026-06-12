@@ -81,6 +81,37 @@ public class OrdenIngresoServlet extends HttpServlet {
                 }
                 break;
 
+            case "historialRecepciones":
+                // Capturar parámetros de búsqueda
+                String filtroProveedor = request.getParameter("proveedor");
+                String filtroVerificador = request.getParameter("verificador");
+                String filtroEstado = request.getParameter("estado");
+                String filtroFecha = request.getParameter("fecha");
+
+                // Normalizar a "" si es null para que los inputs del JSP mantengan el valor buscado
+                request.setAttribute("paramProveedor", filtroProveedor == null ? "" : filtroProveedor);
+                request.setAttribute("paramVerificador", filtroVerificador == null ? "" : filtroVerificador);
+                request.setAttribute("paramEstado", filtroEstado == null ? "" : filtroEstado);
+                request.setAttribute("paramFecha", filtroFecha == null ? "" : filtroFecha);
+
+                // Llenar listas para los desplegables (filtros)
+
+                // Lista de proveedores
+                List<String> listaProveedores = ordenDao.listarProveedoresRecepcionados();
+                request.setAttribute("listaProveedores", listaProveedores);
+
+                // Lista de verificadores
+                List<Usuarios> listaVerificadores = ordenDao.listarVerificadoresRecepcionados();
+                request.setAttribute("listaVerificadores", listaVerificadores);
+
+                // Llenar la tabla del historial
+                List<OrdenIngreso> historial = ordenDao.listarHistorialRecepciones(filtroProveedor, filtroEstado, filtroFecha, filtroVerificador);
+                request.setAttribute("listaHistorial", historial);
+
+                dispatcher = request.getRequestDispatcher("views/deposito/historial_recepciones.jsp");
+                dispatcher.forward(request, response);
+                break;
+
             default:
                 response.sendRedirect("OrdenIngresoServlet?action=pendientes");
                 break;
